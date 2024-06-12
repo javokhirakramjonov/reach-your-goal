@@ -6,6 +6,8 @@ import dao.TaskDao
 import database.TaskDatabase
 import org.koin.dsl.module
 import screen.home.HomeScreenViewModel
+import screen.task.TaskScreenViewModel
+import screen.task.mvi.state.ScreenUiState
 
 fun sharedModules() = listOf(
     databaseModule,
@@ -32,4 +34,5 @@ private val daoModule = module {
 
 private val viewModelModule = module {
     factory { HomeScreenViewModel(get()) }
+    factory { (uiState: ScreenUiState) -> TaskScreenViewModel(get(), uiState) }
 }

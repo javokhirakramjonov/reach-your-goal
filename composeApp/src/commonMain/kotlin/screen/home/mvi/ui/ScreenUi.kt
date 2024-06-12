@@ -1,14 +1,18 @@
 package screen.home.mvi.ui
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import dialog.addTask.AddTaskDialog
 import screen.home.mvi.event.ScreenEvent
 import screen.home.mvi.state.ScreenUiState
 
@@ -18,23 +22,34 @@ fun ScreenUi(
     uiState: ScreenUiState,
     action: (ScreenEvent.Input) -> Unit,
 ) {
-    var number by remember { mutableStateOf(0) }
+    var showAddTaskDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        content = {
-            TaskList(
-                modifier = Modifier.fillMaxSize(),
-                tasks = uiState.tasks
-            ) {
-                TODO()
-            }
+        topBar = {
+            CenterAlignedTopAppBar(title = { Text(text = "HomeScreen") })
         },
         floatingActionButton = {
             AddTaskButton {
-                action(ScreenEvent.Input.AddTask(number.toString()))
-                number ++
+                showAddTaskDialog = true
             }
         }
-    )
+    ) {
+        TaskList(
+            modifier = Modifier.padding(it),
+            columns = 1,
+            tasks = uiState.tasks
+        ) {
+            action(ScreenEvent.Input.OpenTask(it))
+        }
+    }
+
+    if(showAddTaskDialog) {
+        AddTaskDialog(
+            onDismissRequest = { showAddTaskDialog = false },
+            onCreateClicked = { name, description ->
+                action(ScreenEvent.Input.AddTask(name, description))
+            }
+        )
+    }
 }

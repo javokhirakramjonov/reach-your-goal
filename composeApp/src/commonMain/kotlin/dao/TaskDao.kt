@@ -3,6 +3,7 @@ package dao
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query
+import androidx.room.Update
 import androidx.room.Upsert
 import domain.Task
 import kotlinx.coroutines.flow.Flow
@@ -12,6 +13,9 @@ interface TaskDao {
 
     @Upsert
     suspend fun upsert(task: Task)
+
+    @Update
+    suspend fun update(task: Task)
 
     @Delete
     suspend fun delete(task: Task)
