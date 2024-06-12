@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import domain.Task
 
@@ -29,8 +30,9 @@ fun TaskItem(
                 .fillMaxWidth()
                 .padding(8.dp),
             text = task.name,
-            style = MaterialTheme.typography.displayLarge,
-            textAlign = TextAlign.Center
+            style = MaterialTheme.typography.displayMedium,
+            textAlign = TextAlign.Center,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }

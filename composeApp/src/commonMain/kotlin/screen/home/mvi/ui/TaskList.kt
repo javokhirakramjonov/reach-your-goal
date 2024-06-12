@@ -1,6 +1,8 @@
 package screen.home.mvi.ui
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -14,21 +16,25 @@ import androidx.compose.ui.unit.dp
 import domain.Task
 import kotlinx.collections.immutable.ImmutableList
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TaskList(
     modifier: Modifier = Modifier,
+    columns: Int = 2,
     tasks: ImmutableList<Task>,
-    onTaskClick: (Task) -> Unit
+    onTaskClick: (Task) -> Unit,
 ) {
     LazyVerticalGrid(
         modifier = modifier,
-        columns = GridCells.Fixed(2)
+        columns = GridCells.Fixed(columns),
+        contentPadding = PaddingValues(8.dp),
     ) {
         items(tasks) { task ->
             TaskItem(
                 modifier = Modifier
+                    .animateItemPlacement()
                     .fillMaxWidth()
-                    .height(200.dp)
+                    .height(100.dp * columns)
                     .padding(8.dp)
                     .background(Color.DarkGray),
                 task = task
