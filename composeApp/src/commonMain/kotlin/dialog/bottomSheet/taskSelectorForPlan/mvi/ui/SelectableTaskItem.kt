@@ -1,4 +1,4 @@
-package dialog.taskSelectorForPlan.mvi.ui
+package dialog.bottomSheet.taskSelectorForPlan.mvi.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row

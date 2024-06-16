@@ -4,7 +4,7 @@ import domain.Plan
 
 sealed interface ScreenEvent {
     sealed interface Input : ScreenEvent {
-        data class AddPlan(val name: String, val description: String?) : Input
+        data class AddAndOpenPlan(val name: String, val description: String?) : Input
         data class DeletePlan(val id: Int) : Input
         data class OpenPlan(val plan: Plan) : Input
     }

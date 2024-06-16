@@ -40,16 +40,18 @@ class PlansScreenViewModel(
     fun action(event: ScreenEvent.Input) {
         _uiState.update {
             when (event) {
-                is ScreenEvent.Input.AddPlan -> onPlanAdded(it, event)
+                is ScreenEvent.Input.AddAndOpenPlan -> onPlanAdded(it, event)
                 is ScreenEvent.Input.DeletePlan -> TODO()
                 else -> doCommand(it, event)
             }
         }
     }
 
-    private fun onPlanAdded(state: ScreenUiState, event: ScreenEvent.Input.AddPlan): ScreenUiState {
+    private fun onPlanAdded(state: ScreenUiState, event: ScreenEvent.Input.AddAndOpenPlan): ScreenUiState {
         screenModelScope.launch(Dispatchers.IO) {
-            planDao.insert(Plan(name = event.name, description = event.description))
+            val planId = planDao.insert(Plan(name = event.name, description = event.description)).toInt()
+
+            _commands.emit(ScreenEvent.Command.OpenPlan(Plan(id = planId, name = event.name, description = event.description)))
         }
         return state
     }

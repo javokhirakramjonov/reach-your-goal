@@ -12,7 +12,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import dialog.addTask.AddTaskDialog
+import dialog.addPlan.PlanCreatorDialog
 import screen.plans.mvi.event.ScreenEvent
 import screen.plans.mvi.state.ScreenUiState
 
@@ -22,7 +22,7 @@ fun ScreenUi(
     uiState: ScreenUiState,
     action: (ScreenEvent.Input) -> Unit,
 ) {
-    var showAddPlanDialog by remember { mutableStateOf(false) }
+    var showPlanCreatorDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -31,7 +31,7 @@ fun ScreenUi(
         },
         floatingActionButton = {
             AddTaskButton {
-                showAddPlanDialog = true
+                showPlanCreatorDialog = true
             }
         }
     ) {
@@ -44,11 +44,11 @@ fun ScreenUi(
         }
     }
 
-    if(showAddPlanDialog) {
-        AddTaskDialog(
-            onDismissRequest = { showAddPlanDialog = false },
+    if(showPlanCreatorDialog) {
+        PlanCreatorDialog(
+            onDismissRequest = { showPlanCreatorDialog = false },
             onCreateClicked = { name, description ->
-                action(ScreenEvent.Input.AddPlan(name, description))
+                action(ScreenEvent.Input.AddAndOpenPlan(name, description))
             }
         )
     }

@@ -1,11 +1,11 @@
-package dialog.taskSelectorForPlan
+package dialog.bottomSheet.taskSelectorForPlan
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import dao.TaskAndPlanDao
 import dao.TaskDao
-import dialog.taskSelectorForPlan.mvi.event.ScreenEvent
-import dialog.taskSelectorForPlan.mvi.state.ScreenUiState
+import dialog.bottomSheet.taskSelectorForPlan.mvi.event.ScreenEvent
+import dialog.bottomSheet.taskSelectorForPlan.mvi.state.ScreenUiState
 import domain.SelectableTask
 import domain.TaskAndPlan
 import kotlinx.collections.immutable.toImmutableList
@@ -54,19 +54,36 @@ class TaskSelectorForPlanViewModel(
         _uiState.update {
             when (event) {
                 is ScreenEvent.Input.TaskSelectionChanged -> onTaskSelectionChanged(it, event)
+                ScreenEvent.Input.TasksChanged -> onTasksChanged(it)
             }
         }
     }
 
-    private fun onTaskSelectionChanged(uiState: ScreenUiState, event: ScreenEvent.Input.TaskSelectionChanged): ScreenUiState {
+    private fun onTaskSelectionChanged(
+        uiState: ScreenUiState,
+        event: ScreenEvent.Input.TaskSelectionChanged
+    ): ScreenUiState {
+        return uiState
+            .copy(
+                selectableTasks = uiState.selectableTasks
+                    .map {
+                        if (it.task.id == event.taskId) it.copy(isSelected = event.isSelected)
+                        else it
+                    }
+                    .toImmutableList()
+            )
+    }
+
+    private fun onTasksChanged(uiState: ScreenUiState): ScreenUiState {
         screenModelScope.launch(Dispatchers.IO) {
-            if (event.isSelected) {
-                taskAndPlanDao.insert(TaskAndPlan(event.taskId, uiState.planId, 0))
-            } else {
-                taskAndPlanDao.delete(uiState.planId, event.taskId)
+            uiState.selectableTasks.forEach {
+                if (it.isSelected) {
+                    taskAndPlanDao.insert(TaskAndPlan(it.task.id, uiState.planId, 0))
+                } else {
+                    taskAndPlanDao.delete(uiState.planId, it.task.id)
+                }
             }
         }
-
         return uiState
     }
 

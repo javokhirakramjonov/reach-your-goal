@@ -26,4 +26,8 @@ interface TaskDao {
 
     @Query("SELECT * FROM tasks WHERE id = :taskId")
     suspend fun getById(taskId: Int): Task
+
+    @Query("SELECT COUNT(*) FROM tasks")
+    suspend fun count(): Int
+
 }

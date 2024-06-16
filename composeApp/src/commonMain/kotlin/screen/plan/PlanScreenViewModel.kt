@@ -52,15 +52,42 @@ class PlanScreenViewModel(
         _uiState.update {
             when (event) {
                 ScreenEvent.Input.UpdateTasksClicked -> onUpdateTasksClicked(it)
+                ScreenEvent.Input.DeletePlan -> onPlanDeleteClicked(it)
+                is ScreenEvent.Input.PlanChanged -> onPlanChanged(it, event)
             }
         }
     }
 
     private fun onUpdateTasksClicked(uiState: ScreenUiState): ScreenUiState {
         screenModelScope.launch {
-            _commands.emit(ScreenEvent.Command.ShowTaskSelector)
+            if(taskDao.count() == 0) {
+                _commands.emit(ScreenEvent.Command.ShowErrorSnackbar("No tasks available"))
+            } else {
+                _commands.emit(ScreenEvent.Command.ShowTaskSelector)
+            }
         }
         return uiState
+    }
+
+    private fun onPlanDeleteClicked(uiState: ScreenUiState): ScreenUiState {
+        screenModelScope.launch {
+            planDao.delete(uiState.plan)
+            _commands.emit(ScreenEvent.Command.Exit)
+        }
+        return uiState
+    }
+
+    private fun onPlanChanged(uiState: ScreenUiState, event: ScreenEvent.Input.PlanChanged): ScreenUiState {
+        val updatedPlan = uiState.plan.copy(
+            name = event.name,
+            description = event.description
+        )
+
+        screenModelScope.launch(Dispatchers.IO) {
+            planDao.update(updatedPlan)
+        }
+
+        return uiState.copy(plan = updatedPlan)
     }
 
 }

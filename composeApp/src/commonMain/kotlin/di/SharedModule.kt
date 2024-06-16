@@ -7,7 +7,7 @@ import dao.TaskAndPlanDao
 import dao.TaskDao
 import database.ReachYourGoalDatabase
 import datastore.SettingsDatastore
-import dialog.taskSelectorForPlan.TaskSelectorForPlanViewModel
+import dialog.bottomSheet.taskSelectorForPlan.TaskSelectorForPlanViewModel
 import org.koin.dsl.module
 import screen.plan.PlanScreenViewModel
 import screen.plans.PlansScreenViewModel
@@ -16,7 +16,7 @@ import screen.tasks.TasksScreenViewModel
 
 typealias TaskScreenUiState = screen.task.mvi.state.ScreenUiState
 typealias PlanScreenUiState = screen.plan.mvi.state.ScreenUiState
-typealias TaskSelectorForPlanUiState = dialog.taskSelectorForPlan.mvi.state.ScreenUiState
+typealias TaskSelectorForPlanUiState = dialog.bottomSheet.taskSelectorForPlan.mvi.state.ScreenUiState
 
 fun sharedModules() = listOf(
     databaseModule,

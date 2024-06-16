@@ -1,4 +1,4 @@
-package dialog.addTask
+package dialog.addPlan
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 
 @Composable
-fun AddTaskDialog(
+fun PlanCreatorDialog(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
     onCreateClicked: (name: String, description: String?) -> Unit
@@ -35,17 +35,17 @@ fun AddTaskDialog(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text(text = "Create a new task")
+                Text(text = "Create a new plan")
                 TextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text(text = "Task name") },
+                    label = { Text(text = "Plan name") },
                     maxLines = 2
                 )
                 TextField(
                     value = description,
                     onValueChange = { description = it },
-                    label = { Text(text = "Task description") },
+                    label = { Text(text = "Plan description") },
                     maxLines = 4
                 )
                 Button(

@@ -1,4 +1,4 @@
-package dialog.taskSelectorForPlan
+package dialog.bottomSheet.taskSelectorForPlan
 
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -10,8 +10,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
-import dialog.taskSelectorForPlan.mvi.state.ScreenUiState
-import dialog.taskSelectorForPlan.mvi.ui.ScreenUi
+import dialog.bottomSheet.taskSelectorForPlan.mvi.state.ScreenUiState
+import dialog.bottomSheet.taskSelectorForPlan.mvi.ui.ScreenUi
 import org.koin.core.parameter.parametersOf
 
 class TaskSelectorForPlan(
