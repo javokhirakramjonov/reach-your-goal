@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import cafe.adriel.voyager.transitions.SlideTransition
-import screen.tasks.TasksScreen
+import screen.dashboard.DashboardScreen
 import theme.MainAppTheme
 import theme.ThemeType
 
@@ -14,7 +14,7 @@ fun App() {
         BottomSheetNavigator(
             sheetBackgroundColor = Color.Transparent
         ) {
-            Navigator(TasksScreen()) {
+            Navigator(DashboardScreen()) {
                 SlideTransition(it)
             }
         }
