@@ -48,6 +48,7 @@ kotlin {
             // voyager
             implementation(libs.voyager.navigator)
             implementation(libs.voyager.navigator.bottomSheet)
+            implementation(libs.voyager.navigator.tab)
             implementation(libs.voyager.screenModel)
             implementation(libs.voyager.transitions)
             implementation(libs.voyager.koin)
@@ -64,6 +65,8 @@ kotlin {
             // datastore
             implementation(libs.datastore.preferences.core)
             implementation(libs.datastore.core)
+            // compose navigation
+            implementation(libs.navigation.compose)
         }
 
         iosMain.dependencies {
