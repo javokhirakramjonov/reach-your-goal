@@ -47,6 +47,7 @@ kotlin {
 
             // voyager
             implementation(libs.voyager.navigator)
+            implementation(libs.voyager.navigator.bottomSheet)
             implementation(libs.voyager.screenModel)
             implementation(libs.voyager.transitions)
             implementation(libs.voyager.koin)
@@ -60,6 +61,9 @@ kotlin {
             implementation(libs.kotlin.coroutines)
             // kotlin immutable
             implementation(libs.kotlin.immutable.collection)
+            // datastore
+            implementation(libs.datastore.preferences.core)
+            implementation(libs.datastore.core)
         }
 
         iosMain.dependencies {

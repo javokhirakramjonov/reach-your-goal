@@ -1,5 +1,5 @@
 [versions]
-agp = "8.2.0"
+agp = "8.2.2"
 android-compileSdk = "34"
 android-minSdk = "24"
 android-targetSdk = "34"
@@ -10,17 +10,18 @@ androidx-core-ktx = "1.13.1"
 androidx-espresso-core = "3.5.1"
 androidx-material = "1.12.0"
 androidx-test-junit = "1.1.5"
-compose = "1.6.7"
+compose = "1.6.8"
 compose-plugin = "1.6.10"
 junit = "4.13.2"
 kotlin = "2.0.0"
-room = "2.7.0-alpha03"
+room = "2.7.0-alpha04"
 ksp = "2.0.0-1.0.22"
 sqlite = "2.5.0-SNAPSHOT"
 voyager = "1.1.0-beta02"
 koin = "3.5.6"
 kotlin-coroutine = "1.9.0-RC"
 kotlin-immutable-collection = "0.3.7"
+datastore = "1.1.1"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -46,6 +47,7 @@ voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.
 voyager-screenModel = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
 voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
 voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
+voyager-navigator-bottomSheet = { module = "cafe.adriel.voyager:voyager-bottom-sheet-navigator", version.ref = "voyager" }
 #koin
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
@@ -53,6 +55,9 @@ koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutine" }
 #kotlin immutable collection
 kotlin-immutable-collection = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlin-immutable-collection" }
+#datastore
+datastore-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastore" }
+datastore-core = { module = "androidx.datastore:datastore-core", version.ref = "datastore" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
