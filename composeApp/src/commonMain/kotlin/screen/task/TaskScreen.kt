@@ -8,7 +8,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import domain.Task
+import domain.entity.Task
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.core.parameter.parametersOf
 import screen.task.mvi.event.ScreenEvent

@@ -3,7 +3,7 @@ package screen.tasks
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import dao.TaskDao
-import domain.Task
+import domain.entity.Task
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO

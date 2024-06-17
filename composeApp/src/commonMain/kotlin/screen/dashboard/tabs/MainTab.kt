@@ -1,13 +1,14 @@
 package screen.dashboard.tabs
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import org.jetbrains.compose.resources.painterResource
 import reach_your_goal.composeapp.generated.resources.Res
 import reach_your_goal.composeapp.generated.resources.ic_status
+import screen.main.MainScreen
 
 object MainTab : Tab {
 
@@ -28,7 +29,7 @@ object MainTab : Tab {
 
     @Composable
     override fun Content() {
-        Text("Main")
+        Navigator(MainScreen())
     }
 
 

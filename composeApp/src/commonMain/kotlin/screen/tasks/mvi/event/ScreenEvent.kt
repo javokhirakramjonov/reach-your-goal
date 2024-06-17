@@ -1,6 +1,6 @@
 package screen.tasks.mvi.event
 
-import domain.Task
+import domain.entity.Task
 
 sealed interface ScreenEvent {
     sealed interface Input : ScreenEvent {

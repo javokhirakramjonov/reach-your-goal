@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import domain.TaskAndPlan
+import domain.entity.TaskAndPlan
 import kotlinx.coroutines.flow.Flow
 
 @Dao

@@ -6,9 +6,11 @@ import dao.PlanDao
 import dao.TaskAndPlanDao
 import dao.TaskDao
 import database.ReachYourGoalDatabase
+import datastore.AppDatastore
 import datastore.SettingsDatastore
 import dialog.bottomSheet.taskSelectorForPlan.TaskSelectorForPlanViewModel
 import org.koin.dsl.module
+import screen.main.MainScreenViewModel
 import screen.plan.PlanScreenViewModel
 import screen.plans.PlansScreenViewModel
 import screen.task.TaskScreenViewModel
@@ -53,6 +55,7 @@ private val daoModule = module {
 }
 
 private val viewModelModule = module {
+    factory { MainScreenViewModel(get(), get()) }
     factory { TasksScreenViewModel(get()) }
     factory { PlansScreenViewModel(get()) }
     factory { (uiState: TaskScreenUiState) -> TaskScreenViewModel(get(), uiState) }
@@ -62,4 +65,5 @@ private val viewModelModule = module {
 
 private val dataStoreModule = module {
     single<SettingsDatastore> { SettingsDatastore(get()) }
+    single<AppDatastore> { AppDatastore(get()) }
 }

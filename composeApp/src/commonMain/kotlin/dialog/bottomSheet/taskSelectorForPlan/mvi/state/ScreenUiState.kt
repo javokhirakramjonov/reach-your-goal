@@ -1,6 +1,6 @@
 package dialog.bottomSheet.taskSelectorForPlan.mvi.state
 
-import domain.SelectableTask
+import domain.model.SelectableTask
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 

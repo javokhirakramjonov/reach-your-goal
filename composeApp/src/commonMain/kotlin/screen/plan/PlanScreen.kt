@@ -13,7 +13,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dialog.bottomSheet.taskSelectorForPlan.TaskSelectorForPlan
-import domain.Plan
+import domain.entity.Plan
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf

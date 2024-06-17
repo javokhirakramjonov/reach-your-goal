@@ -3,7 +3,7 @@ package screen.plans
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import dao.PlanDao
-import domain.Plan
+import domain.entity.Plan
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO

@@ -6,8 +6,8 @@ import dao.TaskAndPlanDao
 import dao.TaskDao
 import dialog.bottomSheet.taskSelectorForPlan.mvi.event.ScreenEvent
 import dialog.bottomSheet.taskSelectorForPlan.mvi.state.ScreenUiState
-import domain.SelectableTask
-import domain.TaskAndPlan
+import domain.model.SelectableTask
+import domain.entity.TaskAndPlan
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO

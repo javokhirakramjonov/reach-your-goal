@@ -1,7 +1,7 @@
 package screen.plan.mvi.state
 
-import domain.Plan
-import domain.Task
+import domain.entity.Plan
+import domain.entity.Task
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
