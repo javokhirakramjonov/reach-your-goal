@@ -1,6 +1,6 @@
 package screen.tasks.mvi.state
 
-import domain.Task
+import domain.entity.Task
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 

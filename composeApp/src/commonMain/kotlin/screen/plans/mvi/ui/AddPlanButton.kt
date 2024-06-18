@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun AddTaskButton(
+fun AddPlanButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
@@ -18,7 +18,7 @@ fun AddTaskButton(
     ) {
         Icon(
             imageVector = Icons.Default.Add,
-            contentDescription = "Add Plan"
+            contentDescription = null
         )
     }
 }

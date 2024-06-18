@@ -2,8 +2,7 @@ package screen.plans
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import dao.PlanDao
-import domain.Plan
+import domain.entity.Plan
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -15,12 +14,13 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import repository.PlanRepository
 import screen.plans.mvi.event.ScreenEvent
 import screen.plans.mvi.state.ScreenUiState
 import utils.letCoroutine
 
 class PlansScreenViewModel(
-    private val planDao: PlanDao
+    private val planRepository: PlanRepository
 ) : ScreenModel {
 
     private val _uiState = MutableStateFlow(ScreenUiState())
@@ -31,7 +31,7 @@ class PlansScreenViewModel(
 
     init {
         screenModelScope.launch(Dispatchers.IO) {
-            planDao.getAll().collect { plans ->
+            planRepository.getAll().collect { plans ->
                 _uiState.update { it.copy(plans = plans.toImmutableList()) }
             }
         }
@@ -49,7 +49,7 @@ class PlansScreenViewModel(
 
     private fun onPlanAdded(state: ScreenUiState, event: ScreenEvent.Input.AddAndOpenPlan): ScreenUiState {
         screenModelScope.launch(Dispatchers.IO) {
-            val planId = planDao.insert(Plan(name = event.name, description = event.description)).toInt()
+            val planId = planRepository.insert(Plan(name = event.name, description = event.description)).toInt()
 
             _commands.emit(ScreenEvent.Command.OpenPlan(Plan(id = planId, name = event.name, description = event.description)))
         }

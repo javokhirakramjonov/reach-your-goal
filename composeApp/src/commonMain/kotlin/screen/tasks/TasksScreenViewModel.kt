@@ -2,8 +2,7 @@ package screen.tasks
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import dao.TaskDao
-import domain.Task
+import domain.entity.Task
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -15,12 +14,13 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import repository.TaskRepository
 import screen.tasks.mvi.event.ScreenEvent
 import screen.tasks.mvi.state.ScreenUiState
 import utils.letCoroutine
 
 class TasksScreenViewModel(
-    private val taskDao: TaskDao
+    private val taskRepository: TaskRepository
 ) : ScreenModel {
 
     private val _uiState = MutableStateFlow(ScreenUiState())
@@ -31,7 +31,7 @@ class TasksScreenViewModel(
 
     init {
         screenModelScope.launch(Dispatchers.IO) {
-            taskDao.getAll().collect { tasks ->
+            taskRepository.getAll().collect { tasks ->
                 _uiState.update { it.copy(tasks = tasks.toImmutableList()) }
             }
         }
@@ -49,7 +49,7 @@ class TasksScreenViewModel(
 
     private fun onTaskAdded(state: ScreenUiState, event: ScreenEvent.Input.AddTask): ScreenUiState {
         screenModelScope.launch(Dispatchers.IO) {
-            taskDao.insert(Task(name = event.name, description = event.description))
+            taskRepository.insert(Task(name = event.name, description = event.description))
         }
         return state
     }

@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import domain.Plan
+import domain.entity.Plan
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -23,4 +23,7 @@ interface PlanDao {
 
     @Query("SELECT * FROM plans")
     fun getAll(): Flow<List<Plan>>
+
+    @Query("SELECT * FROM plans WHERE id = :id")
+    fun getById(id: Int): Flow<Plan?>
 }

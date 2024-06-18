@@ -16,6 +16,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import org.jetbrains.compose.resources.stringResource
+import reach_your_goal.composeapp.generated.resources.Res
+import reach_your_goal.composeapp.generated.resources.create_plan_dialog_description
+import reach_your_goal.composeapp.generated.resources.create_plan_dialog_name
+import reach_your_goal.composeapp.generated.resources.create_plan_dialog_positive_button
+import reach_your_goal.composeapp.generated.resources.create_plan_dialog_title
 
 @Composable
 fun PlanCreatorDialog(
@@ -35,17 +41,17 @@ fun PlanCreatorDialog(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text(text = "Create a new plan")
+                Text(text = stringResource(Res.string.create_plan_dialog_title))
                 TextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text(text = "Plan name") },
+                    label = { Text(text = stringResource(Res.string.create_plan_dialog_name)) },
                     maxLines = 2
                 )
                 TextField(
                     value = description,
                     onValueChange = { description = it },
-                    label = { Text(text = "Plan description") },
+                    label = { Text(text = stringResource(Res.string.create_plan_dialog_description)) },
                     maxLines = 4
                 )
                 Button(
@@ -54,7 +60,7 @@ fun PlanCreatorDialog(
                         onDismissRequest()
                     }
                 ) {
-                    Text(text = "Create")
+                    Text(text = stringResource(Res.string.create_plan_dialog_positive_button))
                 }
             }
         }

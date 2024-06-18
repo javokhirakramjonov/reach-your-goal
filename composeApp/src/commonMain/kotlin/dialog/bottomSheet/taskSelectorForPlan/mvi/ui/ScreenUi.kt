@@ -14,6 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dialog.bottomSheet.taskSelectorForPlan.mvi.event.ScreenEvent
 import dialog.bottomSheet.taskSelectorForPlan.mvi.state.ScreenUiState
+import org.jetbrains.compose.resources.stringResource
+import reach_your_goal.composeapp.generated.resources.Res
+import reach_your_goal.composeapp.generated.resources.save
 
 @Composable
 fun ScreenUi(
@@ -29,7 +32,7 @@ fun ScreenUi(
                     .padding(16.dp),
                 onClick = { action(ScreenEvent.Input.TasksChanged) }
             ) {
-                Text("Save")
+                Text(text = stringResource(Res.string.save))
             }
 
             LazyColumn(modifier = Modifier.weight(1f)) {

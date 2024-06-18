@@ -1,6 +1,6 @@
 package screen.plans.mvi.event
 
-import domain.Plan
+import domain.entity.Plan
 
 sealed interface ScreenEvent {
     sealed interface Input : ScreenEvent {

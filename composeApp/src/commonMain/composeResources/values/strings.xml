@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--  app  -->
+    <string name="main_tab">Main</string>
+    <string name="plan_tab">Plan</string>
+    <string name="task_tab">Task</string>
+    <string name="current_plan">Current plan</string>
+    <string name="save">Save</string>
+    <string name="select_plan">Select plan</string>
+
+    <!-- week days -->
+    <string name="monday">Mon</string>
+    <string name="tuesday">Tue</string>
+    <string name="wednesday">Wed</string>
+    <string name="thursday">Thu</string>
+    <string name="friday">Fri</string>
+    <string name="saturday">Sat</string>
+    <string name="sunday">Sun</string>
+
+    <!-- task status -->
+    <string name="task_status_not_started">Not Started</string>
+    <string name="task_status_not_mandatory">Not Mandatory</string>
+    <string name="task_status_done">Done</string>
+    <string name="task_status_not_completed">Not Completed</string>
+
+    <!--  main screen  -->
+    <string name="main_screen_task_name">Task name</string>
+
+    <!--  plan screen  -->
+    <string name="plan_screen_plan_name">Name</string>
+    <string name="plan_screen_plan_description">Description</string>
+    <string name="plan_screen_update_plan">Update plan</string>
+    <string name="plan_screen_update_tasks">Update tasks</string>
+
+    <!--  create plan dialog  -->
+    <string name="create_plan_dialog_title">Create a New Plan</string>
+    <string name="create_plan_dialog_name">Plan Name</string>
+    <string name="create_plan_dialog_description">Plan Description</string>
+    <string name="create_plan_dialog_positive_button">Create</string>
+
+    <!--  task screen  -->
+    <string name="task_screen_task_name">Name</string>
+    <string name="task_screen_task_description">Description</string>
+    <string name="task_screen_update_task">Update task</string>
+
+    <!--  create task dialog  -->
+    <string name="create_task_dialog_title">Create a New Task</string>
+    <string name="create_task_dialog_name">Task Name</string>
+    <string name="create_task_dialog_description">Task Description</string>
+    <string name="create_task_dialog_positive_button">Create</string>
+
+    <!-- errors  -->
+    <string name="error_no_tasks_available">No tasks available</string>
+</resources>

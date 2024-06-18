@@ -2,7 +2,6 @@ package screen.task
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import dao.TaskDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -13,11 +12,12 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import repository.TaskRepository
 import screen.task.mvi.event.ScreenEvent
 import screen.task.mvi.state.ScreenUiState
 
 class TaskScreenViewModel(
-    private val taskDao: TaskDao,
+    private val taskRepository: TaskRepository,
     uiState: ScreenUiState
 ) : ScreenModel {
 
@@ -43,7 +43,7 @@ class TaskScreenViewModel(
         )
 
         screenModelScope.launch(Dispatchers.IO) {
-            taskDao.update(updatedTask)
+            taskRepository.update(updatedTask)
         }
 
         return state.copy(task = updatedTask)
@@ -51,7 +51,7 @@ class TaskScreenViewModel(
 
     private fun onTaskDeleted(state: ScreenUiState): ScreenUiState {
         screenModelScope.launch(Dispatchers.IO) {
-            taskDao.delete(state.task)
+            taskRepository.delete(state.task)
             _commands.emit(ScreenEvent.Command.Exit)
         }
 

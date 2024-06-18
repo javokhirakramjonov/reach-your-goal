@@ -1,5 +1,7 @@
 package screen.plan.mvi.event
 
+import screen.plan.domain.ScreenError
+
 sealed interface ScreenEvent {
     sealed interface Input : ScreenEvent {
         data object UpdateTasksClicked : Input
@@ -11,6 +13,6 @@ sealed interface ScreenEvent {
         data object ShowTaskSelector : Command
         data object Exit : Command
 
-        data class ShowErrorSnackbar(val message: String) : Command
+        data class ShowErrorSnackbar(val error: ScreenError) : Command
     }
 }

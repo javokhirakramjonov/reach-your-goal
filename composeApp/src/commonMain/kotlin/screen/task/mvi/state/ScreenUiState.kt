@@ -1,6 +1,6 @@
 package screen.task.mvi.state
 
-import domain.Task
+import domain.entity.Task
 
 data class ScreenUiState(
     val task: Task
