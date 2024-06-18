@@ -3,6 +3,7 @@ package utils
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -29,7 +30,7 @@ fun TaskStatus.icon(
 
 
     val backgroundColor = when (this) {
-        TaskStatus.NOT_STARTED -> positiveBackgroundColor
+        TaskStatus.NOT_STARTED -> Color.White
         TaskStatus.NOT_MANDATORY -> positiveBackgroundColor
         TaskStatus.DONE -> positiveBackgroundColor
         TaskStatus.NOT_COMPLETED -> negativeBackgroundColor
@@ -46,6 +47,7 @@ fun TaskStatus.icon(
         .clip(CircleShape)
         .border(1.dp, tintColor, CircleShape)
         .background(backgroundColor)
+        .padding(4.dp)
 
     val imageVector = when (this) {
         TaskStatus.NOT_STARTED -> null
@@ -64,3 +66,4 @@ fun TaskStatus.icon(
         }
     }
 }
+

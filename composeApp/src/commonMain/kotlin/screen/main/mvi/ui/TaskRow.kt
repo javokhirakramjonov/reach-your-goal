@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,7 +30,7 @@ fun TaskRow(
     modifier: Modifier = Modifier,
     task: Task,
     statuses: ImmutableList<TaskStatus>,
-    onScheduleChanged: (day: Int, status: TaskStatus) -> Unit,
+    onStatusChanged: (day: Int, status: TaskStatus) -> Unit,
 ) {
     val density = LocalDensity.current
 
@@ -47,7 +48,8 @@ fun TaskRow(
                     maxHeight = max(maxHeight, height)
                 }
                 .weight(1f)
-                .heightIn(min = maxHeight),
+                .heightIn(min = maxHeight)
+                .padding(4.dp),
             contentAlignment = Alignment.CenterStart
         ) {
             Text(text = task.name)
@@ -72,7 +74,7 @@ fun TaskRow(
             ) {
                 StatusSelector(
                     status = status,
-                    onStatusChanged = { onScheduleChanged(day, it) }
+                    onStatusChanged = { onStatusChanged(day, it) }
                 )
             }
         }

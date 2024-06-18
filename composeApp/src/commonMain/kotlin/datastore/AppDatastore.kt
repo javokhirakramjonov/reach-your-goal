@@ -4,6 +4,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 
@@ -15,13 +16,12 @@ class AppDatastore(
         private val CURRENT_SCHEDULE_ID : (Int) -> Preferences.Key<Int> = {intPreferencesKey("current_schedule_id/$it") }
     }
 
-    suspend fun getCurrentPlan(): Int? {
+    fun getCurrentPlan(): Flow<Int?> {
         return dataStore
             .data
             .map { preferences ->
                 preferences[CURRENT_PLAN_ID]
             }
-            .firstOrNull()
     }
 
     suspend fun setCurrentPlan(planId: Int) {

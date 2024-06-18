@@ -2,31 +2,29 @@ package screen.main
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import dao.PlanDao
-import dao.TaskAndPlanDao
-import dao.TaskAndStatusDao
-import dao.TaskDao
 import datastore.AppDatastore
-import domain.entity.Plan
-import domain.entity.TaskAndStatus
+import domain.entity.Task
+import domain.entity.TaskAndPlan
 import domain.enums.TaskStatus
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import repository.PlanRepository
+import repository.TaskAndPlanRepository
+import repository.TaskRepository
 import screen.main.mvi.event.ScreenEvent
 import screen.main.mvi.state.ScreenUiState
 
 class MainScreenViewModel(
-    private val planDao: PlanDao,
-    private val taskDao: TaskDao,
-    private val taskAndPlanDao: TaskAndPlanDao,
-    private val taskAndStatusDao: TaskAndStatusDao,
+    private val planRepository: PlanRepository,
+    private val taskRepository: TaskRepository,
+    private val taskAndPlanRepository: TaskAndPlanRepository,
     private val appDatastore: AppDatastore
 ) : ScreenModel {
 
@@ -35,93 +33,63 @@ class MainScreenViewModel(
 
     init {
         screenModelScope.launch(Dispatchers.IO) {
-            launch {
-                planDao
-                    .getAll()
-                    .collect { plans ->
-                        _uiState.update { it.copy(plans = plans.toImmutableList()) }
-                    }
-            }
+            launch { loadPlans() }
 
-            launch {
-                val currentPlanId = appDatastore.getCurrentPlan()
-                if (currentPlanId != null) {
-                    planDao
-                        .getById(currentPlanId)
-                        .collect { plan ->
-                            _uiState.update { it.copy(currentPlan = plan) }
-
-                            if (plan != null) loadTasksForPlan(plan)
+            appDatastore
+                .getCurrentPlan()
+                .collect {currentPlanId ->
+                    if(currentPlanId == null) {
+                        _uiState.update {
+                            it.copy(
+                                currentPlan = null,
+                                scheduledTasks = emptyList<Pair<Task, ImmutableList<TaskStatus>>>().toImmutableList()
+                            )
                         }
+                    } else {
+                        launch { loadCurrentPlan(currentPlanId) }
+                        launch { loadTasksForPlan(currentPlanId) }
+                    }
                 }
-            }
         }
     }
 
-    private suspend fun loadTasksForPlan(plan: Plan) {
-        //TODO
-        val scheduleId = appDatastore.getCurrentScheduleId(plan.id)
-
-        if (scheduleId == null) {
-            taskAndPlanDao
-                .getAllByPlanId(plan.id)
-                .map {
-                    it.map { taskAndPlan -> taskDao.getById(taskAndPlan.taskId) }
-                }
-                .map {
-                    it.map {
-                        TaskAndStatus(taskId = it.id, statuses = weeklyStatusTemplate())
-                    }
-                }
-                .collect {
-                    it.forEach { taskAndStatus ->
-                        taskAndStatusDao.insert(taskAndStatus)
-                    }
-                }
-        }
-
-        taskAndPlanDao
-            .getAllByPlanId(plan.id)
-            .map {
-                it.map { taskAndPlan -> taskDao.getById(taskAndPlan.taskId) }
-            }
-            .map {
-                it.map { task -> task to taskAndStatusDao.getAllByIdAndTaskId(scheduleId, task.id) }
-            }
-            .collect { taskAndStatuses ->
-                taskAndStatuses.forEach { taskAndStatusPair ->
-                    taskAndStatusPair.second.collect { taskAndStatus ->
-                        _uiState.update { state ->
-                            if (state.scheduledTasks.any { it.first.id == taskAndStatus.taskId }) {
-                                state.copy(
-                                    scheduledTasks = state.scheduledTasks.map { (task, statuses) ->
-                                        if (task.id == taskAndStatus.taskId) {
-                                            task to taskAndStatus.statuses.toImmutableList()
-                                        } else {
-                                            task to statuses
-                                        }
-                                    }.toImmutableList()
-                                )
-                            } else {
-                                state.copy(
-                                    scheduledTasks = (state.scheduledTasks + (taskAndStatusPair.first to taskAndStatus.statuses.toImmutableList())).toImmutableList()
-                                )
-                            }
-                        }
-                    }
-                }
+    private suspend fun loadPlans() {
+        planRepository
+            .getAll()
+            .collect { plans ->
+                _uiState.update { it.copy(plans = plans.toImmutableList()) }
             }
     }
 
-    private fun weeklyStatusTemplate(): List<TaskStatus> {
-        return List(7) { TaskStatus.NOT_STARTED }
+    private suspend fun loadCurrentPlan(planId: Int) {
+        planRepository
+            .getById(planId)
+            .collect { plan ->
+                _uiState.update { it.copy(currentPlan = plan) }
+            }
+    }
+
+    private suspend fun loadTasksForPlan(planId: Int) {
+        taskAndPlanRepository
+            .getAllByPlanId(planId)
+            .collect { tasks ->
+                val scheduledTasks = tasks
+                    .map {
+                        val task = taskRepository.getById(it.taskId)
+
+                        task to it.statuses.toImmutableList()
+                    }
+                    .toImmutableList()
+
+                _uiState.update { it.copy(scheduledTasks = scheduledTasks) }
+            }
     }
 
     fun action(event: ScreenEvent.Input) {
         _uiState.update {
             when (event) {
                 is ScreenEvent.Input.PlanSelected -> onPlanSelected(it, event)
-                is ScreenEvent.Input.ScheduleChanged -> onScheduleChanged(it, event)
+                is ScreenEvent.Input.StatusChanged -> onStatusChanged(it, event)
             }
         }
     }
@@ -139,11 +107,46 @@ class MainScreenViewModel(
         )
     }
 
-    private fun onScheduleChanged(
+    private fun onStatusChanged(
         state: ScreenUiState,
-        event: ScreenEvent.Input.ScheduleChanged
+        event: ScreenEvent.Input.StatusChanged
     ): ScreenUiState {
-        return state
+        screenModelScope.launch(Dispatchers.IO) {
+            taskAndPlanRepository.update(
+                TaskAndPlan(
+                    planId = state.currentPlan!!.id,
+                    taskId = event.taskId,
+                    statuses = state
+                        .scheduledTasks
+                        .first { it.first.id == event.taskId }
+                        .second
+                        .mapIndexed { index, status ->
+                            if (index == event.day) {
+                                event.status
+                            } else {
+                                status
+                            }
+                        }
+                        .joinToString(",")
+                )
+            )
+        }
+
+        return state.copy(
+            scheduledTasks = state.scheduledTasks.map {
+                if (it.first.id == event.taskId) {
+                    it.first to it.second.mapIndexed { index, status ->
+                        if (index == event.day) {
+                            event.status
+                        } else {
+                            status
+                        }
+                    }.toImmutableList()
+                } else {
+                    it
+                }
+            }.toImmutableList()
+        )
     }
 
 }

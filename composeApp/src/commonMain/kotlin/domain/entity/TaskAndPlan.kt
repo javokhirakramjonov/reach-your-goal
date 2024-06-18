@@ -3,6 +3,9 @@ package domain.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import domain.enums.TaskStatus
+import domain.model.TaskAndPlanDto
+import utils.Transformable
 
 @Entity(
     tableName = "task_and_plan",
@@ -27,6 +30,14 @@ data class TaskAndPlan(
     val taskId: Int,
     @ColumnInfo(name = "plan_id")
     val planId: Int,
-    @ColumnInfo(name = "attached_days")
-    val attachedDays: Int
-)
+    @ColumnInfo(name = "statuses")
+    val statuses: String
+) : Transformable<TaskAndPlanDto> {
+    override fun transform(): TaskAndPlanDto {
+        return TaskAndPlanDto(
+            taskId = taskId,
+            planId = planId,
+            statuses = statuses.split(",").map(TaskStatus::valueOf)
+        )
+    }
+}

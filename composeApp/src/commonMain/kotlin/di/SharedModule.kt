@@ -10,6 +10,9 @@ import datastore.AppDatastore
 import datastore.SettingsDatastore
 import dialog.bottomSheet.taskSelectorForPlan.TaskSelectorForPlanViewModel
 import org.koin.dsl.module
+import repository.PlanRepository
+import repository.TaskAndPlanRepository
+import repository.TaskRepository
 import screen.main.MainScreenViewModel
 import screen.plan.PlanScreenViewModel
 import screen.plans.PlansScreenViewModel
@@ -24,7 +27,8 @@ fun sharedModules() = listOf(
     databaseModule,
     daoModule,
     viewModelModule,
-    dataStoreModule
+    dataStoreModule,
+    repositoryModule
 )
 
 private val databaseModule = module {
@@ -55,7 +59,7 @@ private val daoModule = module {
 }
 
 private val viewModelModule = module {
-    factory { MainScreenViewModel(get(), get()) }
+    factory { MainScreenViewModel(get(), get(), get(), get()) }
     factory { TasksScreenViewModel(get()) }
     factory { PlansScreenViewModel(get()) }
     factory { (uiState: TaskScreenUiState) -> TaskScreenViewModel(get(), uiState) }
@@ -66,4 +70,10 @@ private val viewModelModule = module {
 private val dataStoreModule = module {
     single<SettingsDatastore> { SettingsDatastore(get()) }
     single<AppDatastore> { AppDatastore(get()) }
+}
+
+private val repositoryModule = module {
+     single { TaskRepository(get()) }
+     single { PlanRepository(get()) }
+     single { TaskAndPlanRepository(get()) }
 }

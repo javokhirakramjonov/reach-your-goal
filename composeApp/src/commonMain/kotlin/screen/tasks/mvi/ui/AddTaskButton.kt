@@ -18,7 +18,7 @@ fun AddTaskButton(
     ) {
         Icon(
             imageVector = Icons.Default.Add,
-            contentDescription = "Add task"
+            contentDescription = null
         )
     }
 }

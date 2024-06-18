@@ -11,6 +11,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.stringResource
+import reach_your_goal.composeapp.generated.resources.Res
+import reach_your_goal.composeapp.generated.resources.select_plan
 import screen.main.mvi.event.ScreenEvent
 import screen.main.mvi.state.ScreenUiState
 
@@ -30,7 +33,7 @@ fun ScreenUi(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
-                currentPlanName = uiState.currentPlan?.name ?: "Select a plan",
+                currentPlanName = uiState.currentPlan?.name ?: stringResource(Res.string.select_plan),
                 plans = uiState.plans,
                 planSelected = { plan ->
                     action(ScreenEvent.Input.PlanSelected(plan))
@@ -45,8 +48,8 @@ fun ScreenUi(
                     .weight(1f)
                     .border(width = 2.dp, Color.Black),
                 scheduledTasks = uiState.scheduledTasks,
-                onScheduleChanged = { day, status ->
-                    action(ScreenEvent.Input.ScheduleChanged(day, status))
+                onStatusChanged = { taskId, day, status ->
+                    action(ScreenEvent.Input.StatusChanged(taskId, day, status))
                 }
             )
         }

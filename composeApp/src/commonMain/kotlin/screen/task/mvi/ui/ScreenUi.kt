@@ -13,7 +13,6 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -28,6 +27,11 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.currentOrThrow
+import org.jetbrains.compose.resources.stringResource
+import reach_your_goal.composeapp.generated.resources.Res
+import reach_your_goal.composeapp.generated.resources.task_screen_task_description
+import reach_your_goal.composeapp.generated.resources.task_screen_task_name
+import reach_your_goal.composeapp.generated.resources.task_screen_update_task
 import screen.task.mvi.event.ScreenEvent
 import screen.task.mvi.state.ScreenUiState
 
@@ -47,19 +51,11 @@ fun ScreenUi(
         modifier = modifier,
         topBar = {
             Box(modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .padding(horizontal = 40.dp),
-                    text = "TaskScreen",
-                    style = MaterialTheme.typography.headlineMedium
-                )
-
                 IconButton(
                     modifier = Modifier.align(Alignment.CenterEnd),
                     onClick = { action(ScreenEvent.Input.DeleteTask) }
                 ) {
-                    Icon(Icons.Default.Delete, contentDescription = "Delete task")
+                    Icon(Icons.Default.Delete, contentDescription = null)
                 }
             }
         }
@@ -75,7 +71,7 @@ fun ScreenUi(
                 modifier = Modifier.fillMaxWidth(),
                 value = name,
                 onValueChange = { name = it },
-                label = { Text(text = "Task name") },
+                label = { Text(text = stringResource(Res.string.task_screen_task_name)) },
                 maxLines = 2,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
             )
@@ -83,7 +79,7 @@ fun ScreenUi(
                 modifier = Modifier.fillMaxWidth(),
                 value = description,
                 onValueChange = { description = it },
-                label = { Text(text = "Task description") },
+                label = { Text(text = stringResource(Res.string.task_screen_task_description)) },
                 maxLines = 4,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(onDone = {
@@ -101,7 +97,7 @@ fun ScreenUi(
                     action(ScreenEvent.Input.TaskChanged(name, description.ifEmpty { null }))
                 }
             ) {
-                Text(text = "Save")
+                Text(text = stringResource(Res.string.task_screen_update_task))
             }
         }
     }

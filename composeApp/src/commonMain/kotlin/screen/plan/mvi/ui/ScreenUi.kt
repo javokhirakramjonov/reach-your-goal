@@ -25,7 +25,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.stringResource
+import reach_your_goal.composeapp.generated.resources.Res
+import reach_your_goal.composeapp.generated.resources.plan_screen_plan_description
+import reach_your_goal.composeapp.generated.resources.plan_screen_plan_name
+import reach_your_goal.composeapp.generated.resources.plan_screen_update_plan
+import reach_your_goal.composeapp.generated.resources.plan_screen_update_tasks
 import screen.plan.mvi.event.ScreenEvent
 import screen.plan.mvi.state.ScreenUiState
 
@@ -43,19 +48,11 @@ fun ScreenUi(
         modifier = modifier,
         topBar = {
             Box(modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .padding(horizontal = 40.dp),
-                    text = "PlanScreen",
-                    style = MaterialTheme.typography.headlineMedium
-                )
-
                 IconButton(
                     modifier = Modifier.align(Alignment.CenterEnd),
                     onClick = { action(ScreenEvent.Input.DeletePlan) }
                 ) {
-                    Icon(Icons.Default.Delete, contentDescription = "Delete plan")
+                    Icon(Icons.Default.Delete, contentDescription = null)
                 }
             }
         },
@@ -73,19 +70,19 @@ fun ScreenUi(
             TextField(
                 value = name,
                 onValueChange = { name = it },
-                label = { Text(text = "Name") },
+                label = { Text(text = stringResource(Res.string.plan_screen_plan_name)) },
                 modifier = Modifier.fillMaxWidth()
             )
 
             TextField(
                 value = description,
                 onValueChange = { description = it },
-                label = { Text(text = "Description") },
+                label = { Text(text = stringResource(Res.string.plan_screen_plan_description)) },
                 modifier = Modifier.fillMaxWidth()
             )
 
             Button(onClick = { action(ScreenEvent.Input.UpdateTasksClicked) }) {
-                Text(text = "Update tasks")
+                Text(text = stringResource(Res.string.plan_screen_update_tasks))
             }
 
             LazyColumn(modifier = Modifier.weight(1f)) {
@@ -95,7 +92,7 @@ fun ScreenUi(
             }
 
             Button(onClick = { action(ScreenEvent.Input.PlanChanged(name, description)) }) {
-                Text(text = "Update plan")
+                Text(text = stringResource(Res.string.plan_screen_update_plan))
             }
         }
     }

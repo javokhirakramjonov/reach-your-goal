@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
@@ -26,24 +27,29 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import domain.entity.Task
 import domain.enums.TaskStatus
+import domain.model.WeekDays
 import kotlinx.collections.immutable.ImmutableList
-
-private val weekNames = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
+import org.jetbrains.compose.resources.stringResource
+import reach_your_goal.composeapp.generated.resources.Res
+import reach_your_goal.composeapp.generated.resources.main_screen_task_name
+import utils.name
 
 @Composable
 fun WeeklySchedule(
     modifier: Modifier = Modifier,
     scheduledTasks: ImmutableList<Pair<Task, ImmutableList<TaskStatus>>>,
-    onScheduleChanged: (day: Int, status: TaskStatus) -> Unit
+    onStatusChanged: (taskId: Int, day: Int, status: TaskStatus) -> Unit
 ) {
     LazyColumn(modifier = modifier) {
         header(modifier = Modifier.background(Color.White))
 
-        items(scheduledTasks) {
+        items(scheduledTasks) {(task, statuses) ->
             TaskRow(
-                task = it.first,
-                statuses = it.second,
-                onScheduleChanged = onScheduleChanged
+                task = task,
+                statuses = statuses,
+                onStatusChanged = { day, status->
+                    onStatusChanged(task.id, day, status)
+                }
             )
         }
     }
@@ -70,12 +76,13 @@ private fun LazyListScope.header(
                         maxHeight = max(maxHeight, height)
                     }
                     .weight(1f)
-                    .heightIn(min = maxHeight),
+                    .heightIn(min = maxHeight)
+                    .padding(4.dp),
                 contentAlignment = Alignment.CenterStart
             ) {
-                Text(text = "Task name")
+                Text(text = stringResource(Res.string.main_screen_task_name))
             }
-            weekNames.forEach {
+            WeekDays.entries.forEach {
                 Box(
                     modifier = Modifier
                         .height(maxHeight)
@@ -93,7 +100,7 @@ private fun LazyListScope.header(
                         .heightIn(min = maxHeight),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(text = it)
+                    Text(text = it.name())
                 }
             }
         }

@@ -2,9 +2,6 @@ package screen.plan
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import dao.PlanDao
-import dao.TaskAndPlanDao
-import dao.TaskDao
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -17,13 +14,17 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import repository.PlanRepository
+import repository.TaskAndPlanRepository
+import repository.TaskRepository
+import screen.plan.domain.ScreenError
 import screen.plan.mvi.event.ScreenEvent
 import screen.plan.mvi.state.ScreenUiState
 
 class PlanScreenViewModel(
-    private val taskDao: TaskDao,
-    private val planDao: PlanDao,
-    private val taskAndPlanDao: TaskAndPlanDao,
+    private val taskRepository: TaskRepository,
+    private val planRepository: PlanRepository,
+    private val taskAndPlanRepository: TaskAndPlanRepository,
     uiState: ScreenUiState
 ) : ScreenModel {
 
@@ -36,10 +37,10 @@ class PlanScreenViewModel(
     init {
         screenModelScope.launch(Dispatchers.IO) {
             launch {
-                taskAndPlanDao
+                taskAndPlanRepository
                     .getAllByPlanId(uiState.plan.id)
                     .map { taskAndPlans ->
-                        taskAndPlans.map { taskDao.getById(it.taskId) }
+                        taskAndPlans.map { taskRepository.getById(it.taskId) }
                     }
                     .collect { tasks ->
                         _uiState.update { it.copy(tasks = tasks.toImmutableList()) }
@@ -60,8 +61,8 @@ class PlanScreenViewModel(
 
     private fun onUpdateTasksClicked(uiState: ScreenUiState): ScreenUiState {
         screenModelScope.launch {
-            if(taskDao.count() == 0) {
-                _commands.emit(ScreenEvent.Command.ShowErrorSnackbar("No tasks available"))
+            if(taskRepository.count() == 0) {
+                _commands.emit(ScreenEvent.Command.ShowErrorSnackbar(ScreenError.NO_TASKS_AVAILABLE))
             } else {
                 _commands.emit(ScreenEvent.Command.ShowTaskSelector)
             }
@@ -71,7 +72,7 @@ class PlanScreenViewModel(
 
     private fun onPlanDeleteClicked(uiState: ScreenUiState): ScreenUiState {
         screenModelScope.launch {
-            planDao.delete(uiState.plan)
+            planRepository.delete(uiState.plan)
             _commands.emit(ScreenEvent.Command.Exit)
         }
         return uiState
@@ -84,7 +85,7 @@ class PlanScreenViewModel(
         )
 
         screenModelScope.launch(Dispatchers.IO) {
-            planDao.update(updatedPlan)
+            planRepository.update(updatedPlan)
         }
 
         return uiState.copy(plan = updatedPlan)

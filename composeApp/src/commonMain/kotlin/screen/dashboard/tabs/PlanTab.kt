@@ -6,8 +6,10 @@ import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import reach_your_goal.composeapp.generated.resources.Res
 import reach_your_goal.composeapp.generated.resources.ic_calendar
+import reach_your_goal.composeapp.generated.resources.plan_tab
 import screen.plans.PlansScreen
 
 object PlanTab : Tab {
@@ -15,7 +17,7 @@ object PlanTab : Tab {
     override val options: TabOptions
         @Composable
         get() {
-            val title = "Plan"
+            val title = stringResource(Res.string.plan_tab)
             val icon = painterResource(Res.drawable.ic_calendar)
 
             return remember {

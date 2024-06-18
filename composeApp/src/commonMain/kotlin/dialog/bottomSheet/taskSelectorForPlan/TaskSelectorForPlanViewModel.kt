@@ -2,12 +2,10 @@ package dialog.bottomSheet.taskSelectorForPlan
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import dao.TaskAndPlanDao
-import dao.TaskDao
 import dialog.bottomSheet.taskSelectorForPlan.mvi.event.ScreenEvent
 import dialog.bottomSheet.taskSelectorForPlan.mvi.state.ScreenUiState
 import domain.model.SelectableTask
-import domain.entity.TaskAndPlan
+import domain.model.TaskAndPlanDto
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -17,10 +15,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import repository.TaskAndPlanRepository
+import repository.TaskRepository
 
 class TaskSelectorForPlanViewModel(
-    private val taskDao: TaskDao,
-    private val taskAndPlanDao: TaskAndPlanDao,
+    private val taskRepository: TaskRepository,
+    private val taskAndPlanRepository: TaskAndPlanRepository,
     uiState: ScreenUiState
 ) : ScreenModel {
 
@@ -29,9 +29,9 @@ class TaskSelectorForPlanViewModel(
 
     init {
         screenModelScope.launch(Dispatchers.IO) {
-            taskAndPlanDao
+            taskAndPlanRepository
                 .getAllByPlanId(uiState.planId)
-                .combine(taskDao.getAll()) { taskAndPlan, allTasks ->
+                .combine(taskRepository.getAll()) { taskAndPlan, allTasks ->
                     val selectedTaskIds = taskAndPlan
                         .map { it.taskId }
                         .toHashSet()
@@ -78,9 +78,9 @@ class TaskSelectorForPlanViewModel(
         screenModelScope.launch(Dispatchers.IO) {
             uiState.selectableTasks.forEach {
                 if (it.isSelected) {
-                    taskAndPlanDao.insert(TaskAndPlan(it.task.id, uiState.planId, 0))
+                    taskAndPlanRepository.insert(TaskAndPlanDto(it.task.id, uiState.planId).transform())
                 } else {
-                    taskAndPlanDao.delete(uiState.planId, it.task.id)
+                    taskAndPlanRepository.delete(uiState.planId, it.task.id)
                 }
             }
         }
