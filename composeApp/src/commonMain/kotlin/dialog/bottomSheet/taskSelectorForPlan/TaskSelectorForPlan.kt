@@ -1,6 +1,6 @@
 package dialog.bottomSheet.taskSelectorForPlan
 
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -26,7 +26,7 @@ class TaskSelectorForPlan(
         ScreenUi(
             modifier = Modifier
                 .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
-                .heightIn(min = 400.dp),
+                .height(400.dp),
             uiState = uiState,
             action = viewModel::action
         )
