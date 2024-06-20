@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 interface PlanDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(plan: Plan) : Long
+    suspend fun insert(plan: Plan)
 
     @Update
     suspend fun update(plan: Plan)
@@ -21,7 +21,7 @@ interface PlanDao {
     @Delete
     suspend fun delete(plan: Plan)
 
-    @Query("SELECT * FROM plans")
+    @Query("SELECT * FROM plans ORDER BY created_at")
     fun getAll(): Flow<List<Plan>>
 
     @Query("SELECT * FROM plans WHERE id = :id")
