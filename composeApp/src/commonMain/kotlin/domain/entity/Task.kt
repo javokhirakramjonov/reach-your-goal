@@ -3,6 +3,7 @@ package domain.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.datetime.Clock
 
 @Entity(tableName = "tasks")
 data class Task(
@@ -11,5 +12,7 @@ data class Task(
     @ColumnInfo(name = "name")
     val name: String,
     @ColumnInfo(name = "description")
-    val description: String? = null
+    val description: String? = null,
+    @ColumnInfo(name = "created_at")
+    val createdAt: Long = Clock.System.now().toEpochMilliseconds(),
 )

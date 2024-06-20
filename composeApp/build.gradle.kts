@@ -69,6 +69,8 @@ kotlin {
             implementation(libs.datastore.core)
             // compose navigation
             implementation(libs.navigation.compose)
+            // kotlin date-time
+            implementation(libs.kotlin.date.time)
         }
 
         iosMain.dependencies {

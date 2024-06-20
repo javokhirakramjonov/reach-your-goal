@@ -22,6 +22,7 @@ koin = "3.5.6"
 kotlin-coroutine = "1.9.0-RC"
 kotlin-immutable-collection = "0.3.7"
 datastore = "1.1.1"
+kotlin-date-time = "0.6.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -61,6 +62,8 @@ datastore-preferences-core = { module = "androidx.datastore:datastore-preference
 datastore-core = { module = "androidx.datastore:datastore-core", version.ref = "datastore" }
 #compose-navigation
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version = "2.7.0-alpha07" }
+#kotlin date time
+kotlin-date-time = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlin-date-time" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

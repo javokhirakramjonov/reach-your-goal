@@ -7,6 +7,8 @@
     <string name="current_plan">Current plan</string>
     <string name="save">Save</string>
     <string name="select_plan">Select plan</string>
+    <string name="no_plans">No plans</string>
+    <string name="no_tasks">No tasks</string>
 
     <!-- week days -->
     <string name="monday">Mon</string>
@@ -23,27 +25,29 @@
     <string name="task_status_done">Done</string>
     <string name="task_status_not_completed">Not Completed</string>
 
-    <!--  main screen  -->
+    <!--  main presentation.screen  -->
     <string name="main_screen_task_name">Task name</string>
 
-    <!--  plan screen  -->
+    <!--  plan presentation.screen  -->
     <string name="plan_screen_plan_name">Name</string>
     <string name="plan_screen_plan_description">Description</string>
     <string name="plan_screen_update_plan">Update plan</string>
-    <string name="plan_screen_update_tasks">Update tasks</string>
+    <string name="plan_screen_update_tasks">Add/Remove tasks</string>
+    <string name="plan_screen_tasks">Tasks</string>
 
-    <!--  create plan dialog  -->
+
+    <!--  create plan presentation.dialog  -->
     <string name="create_plan_dialog_title">Create a New Plan</string>
     <string name="create_plan_dialog_name">Plan Name</string>
     <string name="create_plan_dialog_description">Plan Description</string>
     <string name="create_plan_dialog_positive_button">Create</string>
 
-    <!--  task screen  -->
+    <!--  task presentation.screen  -->
     <string name="task_screen_task_name">Name</string>
     <string name="task_screen_task_description">Description</string>
     <string name="task_screen_update_task">Update task</string>
 
-    <!--  create task dialog  -->
+    <!--  create task presentation.dialog  -->
     <string name="create_task_dialog_title">Create a New Task</string>
     <string name="create_task_dialog_name">Task Name</string>
     <string name="create_task_dialog_description">Task Description</string>

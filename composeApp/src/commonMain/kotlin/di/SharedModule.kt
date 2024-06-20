@@ -8,20 +8,20 @@ import dao.TaskDao
 import database.ReachYourGoalDatabase
 import datastore.AppDatastore
 import datastore.SettingsDatastore
-import dialog.bottomSheet.taskSelectorForPlan.TaskSelectorForPlanViewModel
+import presentation.bottomSheet.taskSelectorForPlan.TaskSelectorForPlanViewModel
 import org.koin.dsl.module
 import repository.PlanRepository
 import repository.TaskAndPlanRepository
 import repository.TaskRepository
-import screen.main.MainScreenViewModel
-import screen.plan.PlanScreenViewModel
-import screen.plans.PlansScreenViewModel
-import screen.task.TaskScreenViewModel
-import screen.tasks.TasksScreenViewModel
+import presentation.screen.main.MainScreenViewModel
+import presentation.screen.plan.PlanScreenViewModel
+import presentation.screen.plans.PlansScreenViewModel
+import presentation.screen.task.TaskScreenViewModel
+import presentation.screen.tasks.TasksScreenViewModel
 
-typealias TaskScreenUiState = screen.task.mvi.state.ScreenUiState
-typealias PlanScreenUiState = screen.plan.mvi.state.ScreenUiState
-typealias TaskSelectorForPlanUiState = dialog.bottomSheet.taskSelectorForPlan.mvi.state.ScreenUiState
+typealias TaskScreenUiState = presentation.screen.task.mvi.state.ScreenUiState
+typealias PlanScreenUiState = presentation.screen.plan.mvi.state.ScreenUiState
+typealias TaskSelectorForPlanUiState = presentation.bottomSheet.taskSelectorForPlan.mvi.state.ScreenUiState
 
 fun sharedModules() = listOf(
     databaseModule,
