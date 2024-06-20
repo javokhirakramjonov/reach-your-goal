@@ -10,15 +10,18 @@ androidx-core-ktx = "1.13.1"
 androidx-espresso-core = "3.5.1"
 androidx-material = "1.13.0-alpha03"
 androidx-test-junit = "1.1.5"
-compose = "1.6.8"
+composeUiTooling = "1.6.8"
+compose = "1.6.10"
 compose-plugin = "1.6.10"
 junit = "4.13.2"
 kotlin = "2.0.0"
+kotlinx-serialization = "1.6.3"
 room = "2.7.0-alpha04"
 ksp = "2.0.0-1.0.22"
 sqlite = "2.5.0-alpha04"
 voyager = "1.1.0-beta02"
 koin = "3.5.6"
+koinCompose = "1.1.2"
 kotlin-coroutine = "1.9.0-RC"
 kotlin-immutable-collection = "0.3.7"
 datastore = "1.1.1"
@@ -35,8 +38,8 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 androidx-material = { group = "com.google.android.material", name = "material", version.ref = "androidx-material" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraintlayout" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "composeUiTooling" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "composeUiTooling" }
 #room
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-runtime-android = { module = "androidx.room:room-runtime-android", version.ref = "room" }
@@ -53,6 +56,7 @@ voyager-navigator-tab =  { module = "cafe.adriel.voyager:voyager-tab-navigator",
 #koin
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinCompose" }
 #kotlin coroutines
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutine" }
 #kotlin immutable collection
@@ -64,6 +68,14 @@ datastore-core = { module = "androidx.datastore:datastore-core", version.ref = "
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version = "2.7.0-alpha07" }
 #kotlin date time
 kotlin-date-time = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlin-date-time" }
+#gradle
+androidGradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+composeGradle = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose" }
+kotlinGradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+#kotlinx-serilization
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+#material extended icons
+material-extended-icons = { module = "org.jetbrains.compose.material:material-icons-extended", version = "1.6.11" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
