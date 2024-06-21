@@ -6,6 +6,8 @@ sealed interface ScreenEvent {
     sealed interface Input : ScreenEvent {
         data object UpdateTasksClicked : Input
         data object DeletePlan : Input
+        data object Exit : Input
+
         data class PlanChanged(val name: String, val description: String?) : Input
     }
 

@@ -49,11 +49,12 @@ fun TaskRow(
                 }
                 .weight(1f)
                 .heightIn(min = maxHeight)
-                .padding(4.dp),
+                .padding(8.dp),
             contentAlignment = Alignment.CenterStart
         ) {
             Text(text = task.name)
         }
+
         statuses.forEachIndexed { day, status ->
             Box(
                 modifier = Modifier
@@ -68,7 +69,7 @@ fun TaskRow(
                         val height = with(density) { it.size.height.toDp() }
                         maxHeight = max(maxHeight, height)
                     }
-                    .weight(0.3f)
+                    .weight(0.4f)
                     .heightIn(min = maxHeight),
                 contentAlignment = Alignment.Center
             ) {

@@ -32,6 +32,7 @@ class TaskScreenViewModel(
             when (event) {
                 is ScreenEvent.Input.TaskChanged -> onTaskChanged(it, event)
                 ScreenEvent.Input.DeleteTask -> onTaskDeleted(it)
+                ScreenEvent.Input.Exit -> onExitClicked(it)
             }
         }
     }
@@ -47,6 +48,8 @@ class TaskScreenViewModel(
 
         screenModelScope.launch(Dispatchers.IO) {
             taskRepository.update(updatedTask)
+
+            _commands.emit(ScreenEvent.Command.Exit)
         }
 
         return state.copy(task = updatedTask)
@@ -58,6 +61,13 @@ class TaskScreenViewModel(
             _commands.emit(ScreenEvent.Command.Exit)
         }
 
+        return state
+    }
+
+    private fun onExitClicked(state: ScreenUiState): ScreenUiState {
+        screenModelScope.launch {
+            _commands.emit(ScreenEvent.Command.Exit)
+        }
         return state
     }
 

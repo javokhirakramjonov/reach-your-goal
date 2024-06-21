@@ -3,6 +3,7 @@ package com.javokhir.reachyourgoal.presentation.screen.task.mvi.event
 sealed interface ScreenEvent {
     sealed interface Input : ScreenEvent {
         data object DeleteTask : Input
+        data object Exit : Input
 
         data class TaskChanged(val name: String, val description: String?) : Input
     }

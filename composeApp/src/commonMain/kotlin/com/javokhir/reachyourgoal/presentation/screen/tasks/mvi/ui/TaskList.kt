@@ -4,7 +4,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -33,8 +32,7 @@ fun TaskList(
             TaskItem(
                 modifier = Modifier
                     .animateItemPlacement()
-                    .fillMaxWidth()
-                    .height(100.dp * columns),
+                    .fillMaxWidth(),
                 task = task,
                 onTaskClick = { onTaskClick(task) },
                 onDeleteClick = { onDeleteClick(task) }

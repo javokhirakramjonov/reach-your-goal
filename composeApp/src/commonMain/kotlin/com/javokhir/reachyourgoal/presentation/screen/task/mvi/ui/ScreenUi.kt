@@ -8,8 +8,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -23,10 +26,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.navigator.currentOrThrow
 import com.javokhir.reachyourgoal.presentation.screen.task.mvi.event.ScreenEvent
 import com.javokhir.reachyourgoal.presentation.screen.task.mvi.state.ScreenUiState
 import org.jetbrains.compose.resources.stringResource
@@ -35,19 +36,34 @@ import reach_your_goal.composeapp.generated.resources.task_screen_task_descripti
 import reach_your_goal.composeapp.generated.resources.task_screen_task_name
 import reach_your_goal.composeapp.generated.resources.task_screen_update_task
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScreenUi(
     modifier: Modifier = Modifier,
     uiState: ScreenUiState,
     action: (ScreenEvent.Input) -> Unit
 ) {
-
-    val keyboardController = LocalSoftwareKeyboardController.currentOrThrow
-
     var name by remember { mutableStateOf(uiState.task.name) }
     var description by remember { mutableStateOf(uiState.task.description.orEmpty()) }
 
-    Scaffold(modifier = modifier) {
+    Scaffold(
+        modifier = modifier,
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = { Text(text = uiState.task.name) },
+                navigationIcon = {
+                    IconButton(
+                        onClick = { action(ScreenEvent.Input.Exit) }
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                            contentDescription = null
+                        )
+                    }
+                }
+            )
+        },
+    ) {
         Column(
             modifier = Modifier
                 .padding(it)
@@ -61,7 +77,12 @@ fun ScreenUi(
                 onValueChange = { name = it },
                 label = { Text(text = stringResource(Res.string.task_screen_task_name)) },
                 maxLines = 2,
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        action(ScreenEvent.Input.TaskChanged(name, description.ifEmpty { null }))
+                    }
+                )
             )
 
             TextField(
@@ -70,11 +91,12 @@ fun ScreenUi(
                 onValueChange = { description = it },
                 label = { Text(text = stringResource(Res.string.task_screen_task_description)) },
                 maxLines = 4,
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                keyboardActions = KeyboardActions(onDone = {
-                    action(ScreenEvent.Input.TaskChanged(name, description.ifEmpty { null }))
-                    keyboardController.hide()
-                })
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        action(ScreenEvent.Input.TaskChanged(name, description.ifEmpty { null }))
+                    }
+                )
             )
 
             Spacer(modifier = Modifier.weight(1f))
