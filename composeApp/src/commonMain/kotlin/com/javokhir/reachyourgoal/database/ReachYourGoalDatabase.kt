@@ -17,8 +17,19 @@ import com.javokhir.reachyourgoal.domain.entity.TaskAndPlan
     ],
     version = 1
 )
-abstract class ReachYourGoalDatabase : RoomDatabase() {
+abstract class ReachYourGoalDatabase : RoomDatabase(), DB {
     abstract fun getTaskDao(): TaskDao
     abstract fun getPlanDao(): PlanDao
     abstract fun getTaskAndPlanDao(): TaskAndPlanDao
+
+    override fun clearAllTables() {
+        super.clearAllTables()
+    }
+
+}
+
+// FIXME: Added a hack to resolve below issue:
+// Class 'AppDatabase_Impl' is not abstract and does not implement abstract base class member 'clearAllTables'.
+interface DB {
+    fun clearAllTables() {}
 }
