@@ -23,7 +23,9 @@ fun StatusSelector(
     var expanded by remember { mutableStateOf(false) }
 
     IconButton(
-        onClick = { expanded = true }
+        onClick = {
+            expanded = true
+        },
     ) {
         status.icon()
     }

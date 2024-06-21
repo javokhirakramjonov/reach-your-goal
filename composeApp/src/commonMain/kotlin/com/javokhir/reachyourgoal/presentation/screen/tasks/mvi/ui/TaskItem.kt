@@ -37,14 +37,13 @@ fun TaskItem(
     ) {
         Row(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(8.dp)
                 .fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 modifier = Modifier.weight(1f),
                 text = task.name,
-                style = MaterialTheme.typography.displayMedium,
                 overflow = TextOverflow.Ellipsis
             )
 

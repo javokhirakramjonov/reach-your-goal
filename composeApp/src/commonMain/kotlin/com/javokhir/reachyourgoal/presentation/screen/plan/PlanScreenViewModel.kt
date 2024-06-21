@@ -55,6 +55,7 @@ class PlanScreenViewModel(
                 ScreenEvent.Input.UpdateTasksClicked -> onUpdateTasksClicked(it)
                 ScreenEvent.Input.DeletePlan -> onPlanDeleteClicked(it)
                 is ScreenEvent.Input.PlanChanged -> onPlanChanged(it, event)
+                ScreenEvent.Input.Exit -> onExitClicked(it)
             }
         }
     }
@@ -89,9 +90,18 @@ class PlanScreenViewModel(
 
         screenModelScope.launch(Dispatchers.IO) {
             planRepository.update(updatedPlan)
+
+            _commands.emit(ScreenEvent.Command.Exit)
         }
 
         return uiState.copy(plan = updatedPlan)
+    }
+
+    private fun onExitClicked(state: ScreenUiState): ScreenUiState {
+        screenModelScope.launch {
+            _commands.emit(ScreenEvent.Command.Exit)
+        }
+        return state
     }
 
 }

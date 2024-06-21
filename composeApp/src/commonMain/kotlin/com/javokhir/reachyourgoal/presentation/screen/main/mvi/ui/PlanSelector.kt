@@ -14,8 +14,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.dp
 import com.javokhir.reachyourgoal.domain.entity.Plan
 import kotlinx.collections.immutable.ImmutableList
 import org.jetbrains.compose.resources.stringResource
@@ -30,10 +28,7 @@ fun PlanSelector(
     plans: ImmutableList<Plan>,
     planSelected: (plan: Plan) -> Unit
 ) {
-    val density = LocalDensity.current
-
     var expanded by remember { mutableStateOf(false) }
-    var boxWidth by remember { mutableStateOf(0.dp) }
 
     ExposedDropdownMenuBox(
         modifier = modifier,
