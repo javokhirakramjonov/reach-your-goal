@@ -8,9 +8,10 @@ import screen.template.mvi.state.ScreenUiState
 
 @Composable
 fun ScreenUi(
-    modifier: Modifier = Modifier,
     uiState: ScreenUiState,
     action: (ScreenEvent.Input) -> Unit
 ) {
-    Text("Template Screen")
+    Scaffold(modifier = Modifier.fillMaxSize()) {
+
+    }
 }

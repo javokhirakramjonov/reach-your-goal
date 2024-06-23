@@ -4,8 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import com.javokhir.reachyourgoal.domain.enums.TaskStatus
-import com.javokhir.reachyourgoal.domain.model.TaskAndPlanDto
-import com.javokhir.reachyourgoal.utils.Transformable
+import com.javokhir.reachyourgoal.utils.weeklyStatusTemplate
 
 @Entity(
     tableName = "task_and_plan",
@@ -31,13 +30,5 @@ data class TaskAndPlan(
     @ColumnInfo(name = "plan_id")
     val planId: Int,
     @ColumnInfo(name = "statuses")
-    val statuses: String
-) : Transformable<TaskAndPlanDto> {
-    override fun transform(): TaskAndPlanDto {
-        return TaskAndPlanDto(
-            taskId = taskId,
-            planId = planId,
-            statuses = statuses.split(",").map(TaskStatus::valueOf)
-        )
-    }
-}
+    val statuses: List<TaskStatus> = weeklyStatusTemplate()
+)

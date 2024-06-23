@@ -13,6 +13,9 @@ class TemplateScreenViewModel : ScreenModel {
     private val _uiState = MutableStateFlow(ScreenUiState())
     val uiState : StateFlow<ScreenUiState> = _uiState.asStateFlow()
 
+    private val _commands = MutableSharedFlow<ScreenEvent.Command>()
+    val commands: SharedFlow<ScreenEvent.Command> = _commands.asSharedFlow()
+
     fun action(event: ScreenEvent.Input) {
         _uiState.update {
             when (event) {

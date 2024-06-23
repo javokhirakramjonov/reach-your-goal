@@ -19,26 +19,31 @@ import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import com.javokhir.reachyourgoal.presentation.screen.dashboard.tabs.MainTab
 import com.javokhir.reachyourgoal.presentation.screen.dashboard.tabs.PlanTab
+import com.javokhir.reachyourgoal.presentation.screen.dashboard.tabs.SettingsTab
 import com.javokhir.reachyourgoal.presentation.screen.dashboard.tabs.TaskTab
+import com.javokhir.reachyourgoal.theme.MainAppTheme
 
 class DashboardScreen : Screen {
     @Composable
     override fun Content() {
         TabNavigator(MainTab) {
-            Scaffold(
-                content = {
-                    Box(modifier = Modifier.padding(it)) {
-                        CurrentTab()
+            MainAppTheme {
+                Scaffold(
+                    content = {
+                        Box(modifier = Modifier.padding(it)) {
+                            CurrentTab()
+                        }
+                    },
+                    bottomBar = {
+                        NavigationBar {
+                            TabNavigationItem(MainTab)
+                            TabNavigationItem(PlanTab)
+                            TabNavigationItem(TaskTab)
+                            TabNavigationItem(SettingsTab)
+                        }
                     }
-                },
-                bottomBar = {
-                    NavigationBar {
-                        TabNavigationItem(MainTab)
-                        TabNavigationItem(PlanTab)
-                        TabNavigationItem(TaskTab)
-                    }
-                }
-            )
+                )
+            }
         }
     }
 

@@ -18,6 +18,7 @@ import com.javokhir.reachyourgoal.presentation.screen.plan.domain.ScreenError
 import com.javokhir.reachyourgoal.presentation.screen.plan.mvi.event.ScreenEvent
 import com.javokhir.reachyourgoal.presentation.screen.plan.mvi.state.ScreenUiState
 import com.javokhir.reachyourgoal.presentation.screen.plan.mvi.ui.ScreenUi
+import com.javokhir.reachyourgoal.theme.MainAppTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -60,11 +61,13 @@ class PlanScreen(
             }
         }
 
-        ScreenUi(
-            snackbarHostState = snackbarHostState,
-            uiState = uiState,
-            action = viewModel::action
-        )
+        MainAppTheme {
+            ScreenUi(
+                snackbarHostState = snackbarHostState,
+                uiState = uiState,
+                action = viewModel::action
+            )
+        }
     }
 }
 

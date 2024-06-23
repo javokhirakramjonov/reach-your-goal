@@ -7,9 +7,11 @@ import com.javokhir.reachyourgoal.database.ReachYourGoalDatabase
 import com.javokhir.reachyourgoal.datastore.AppDatastore
 import com.javokhir.reachyourgoal.datastore.SettingsDatastore
 import com.javokhir.reachyourgoal.presentation.bottomSheet.taskSelectorForPlan.TaskSelectorForPlanViewModel
+import com.javokhir.reachyourgoal.presentation.bottomSheet.taskSelectorForPlan.ThemeSelectorViewModel
 import com.javokhir.reachyourgoal.presentation.screen.main.MainScreenViewModel
 import com.javokhir.reachyourgoal.presentation.screen.plan.PlanScreenViewModel
 import com.javokhir.reachyourgoal.presentation.screen.plans.PlansScreenViewModel
+import com.javokhir.reachyourgoal.presentation.screen.settings.SettingsScreenViewModel
 import com.javokhir.reachyourgoal.presentation.screen.task.TaskScreenViewModel
 import com.javokhir.reachyourgoal.presentation.screen.tasks.TasksScreenViewModel
 import com.javokhir.reachyourgoal.repository.PlanRepository
@@ -71,6 +73,8 @@ private val viewModelModule = module {
             uiState
         )
     }
+    factory<ThemeSelectorViewModel> { ThemeSelectorViewModel(get()) }
+    factory<SettingsScreenViewModel> { SettingsScreenViewModel() }
 }
 
 private val dataStoreModule = module {

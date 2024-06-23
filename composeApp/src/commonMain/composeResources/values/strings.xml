@@ -4,11 +4,20 @@
     <string name="main_tab">Main</string>
     <string name="plan_tab">Plan</string>
     <string name="task_tab">Task</string>
+    <string name="settings_tab">Settings</string>
     <string name="current_plan">Current plan</string>
     <string name="save">Save</string>
     <string name="select_plan">Select plan</string>
     <string name="no_plans">No plans</string>
     <string name="no_tasks">No tasks</string>
+    <string name="theme_types">Theme types</string>
+    <string name="select_theme">Select theme</string>
+    <string name="select_language">Select language</string>
+
+    <!-- theme types -->
+    <string name="theme_type_light">Light</string>
+    <string name="theme_type_dark">Dark</string>
+    <string name="theme_type_system">System</string>
 
     <!-- week days -->
     <string name="monday">Monday</string>
