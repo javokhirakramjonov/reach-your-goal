@@ -2,6 +2,7 @@ package com.javokhir.reachyourgoal.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.javokhir.reachyourgoal.dao.PlanDao
 import com.javokhir.reachyourgoal.dao.TaskAndPlanDao
 import com.javokhir.reachyourgoal.dao.TaskDao
@@ -17,6 +18,7 @@ import com.javokhir.reachyourgoal.domain.entity.TaskAndPlan
     ],
     version = 1
 )
+@TypeConverters(Converters::class)
 abstract class ReachYourGoalDatabase : RoomDatabase(), DB {
     abstract fun getTaskDao(): TaskDao
     abstract fun getPlanDao(): PlanDao

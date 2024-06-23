@@ -11,6 +11,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.javokhir.reachyourgoal.presentation.screen.task.TaskScreen
 import com.javokhir.reachyourgoal.presentation.screen.tasks.mvi.event.ScreenEvent
 import com.javokhir.reachyourgoal.presentation.screen.tasks.mvi.ui.ScreenUi
+import com.javokhir.reachyourgoal.theme.MainAppTheme
 import kotlinx.coroutines.flow.collectLatest
 
 class TasksScreen : Screen {
@@ -30,10 +31,12 @@ class TasksScreen : Screen {
             }
         }
 
-        ScreenUi(
-            uiState = uiState,
-            action = viewModel::action
-        )
+        MainAppTheme {
+            ScreenUi(
+                uiState = uiState,
+                action = viewModel::action
+            )
+        }
     }
 
 }

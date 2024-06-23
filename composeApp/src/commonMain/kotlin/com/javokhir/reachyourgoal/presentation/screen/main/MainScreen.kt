@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import com.javokhir.reachyourgoal.presentation.screen.main.mvi.ui.ScreenUi
+import com.javokhir.reachyourgoal.theme.MainAppTheme
 
 class MainScreen : Screen {
     @Composable
@@ -13,6 +14,8 @@ class MainScreen : Screen {
         val viewModel = koinScreenModel<MainScreenViewModel>()
         val uiState by viewModel.uiState.collectAsState()
 
-        ScreenUi(uiState = uiState, action = viewModel::action)
+        MainAppTheme {
+            ScreenUi(uiState = uiState, action = viewModel::action)
+        }
     }
 }

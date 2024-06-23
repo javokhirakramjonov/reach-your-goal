@@ -8,12 +8,11 @@ import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import cafe.adriel.voyager.transitions.SlideTransition
 import com.javokhir.reachyourgoal.presentation.screen.dashboard.DashboardScreen
 import com.javokhir.reachyourgoal.theme.MainAppTheme
-import com.javokhir.reachyourgoal.theme.ThemeType
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun App() {
-    MainAppTheme(themeType = ThemeType.SYSTEM_DEFAULT) {
+    MainAppTheme {
         BottomSheetNavigator(
             sheetBackgroundColor = Color.Transparent
         ) {

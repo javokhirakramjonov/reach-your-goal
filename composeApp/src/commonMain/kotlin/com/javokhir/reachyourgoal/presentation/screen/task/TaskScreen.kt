@@ -12,6 +12,7 @@ import com.javokhir.reachyourgoal.domain.entity.Task
 import com.javokhir.reachyourgoal.presentation.screen.task.mvi.event.ScreenEvent
 import com.javokhir.reachyourgoal.presentation.screen.task.mvi.state.ScreenUiState
 import com.javokhir.reachyourgoal.presentation.screen.task.mvi.ui.ScreenUi
+import com.javokhir.reachyourgoal.theme.MainAppTheme
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.core.parameter.parametersOf
 
@@ -34,6 +35,8 @@ class TaskScreen(
             }
         }
 
-        ScreenUi(uiState = uiState, action = viewModel::action)
+        MainAppTheme {
+            ScreenUi(uiState = uiState, action = viewModel::action)
+        }
     }
 }

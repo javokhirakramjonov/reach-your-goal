@@ -4,11 +4,20 @@
     <string name="main_tab">Asosiy</string>
     <string name="plan_tab">Reja</string>
     <string name="task_tab">Vazifa</string>
+    <string name="settings_tab">Sozlamalar</string>
     <string name="current_plan">Joriy reja</string>
     <string name="save">Saqlash</string>
     <string name="select_plan">Rejani tanlash</string>
     <string name="no_plans">Rejalar yo'q</string>
     <string name="no_tasks">Vazifalar yo'q</string>
+    <string name="theme_types">Mavzu turlari</string>
+    <string name="select_theme">Mavzuni tanlash</string>
+    <string name="select_language">Tilni tanlash</string>
+
+    <!-- mavzular -->
+    <string name="theme_type_light">Yorqin</string>
+    <string name="theme_type_dark">Qorong'u</string>
+    <string name="theme_type_system">Tizim</string>
 
     <!-- hafta kunlari -->
     <string name="monday">Dushanba</string>

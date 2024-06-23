@@ -2,12 +2,13 @@ package com.javokhir.reachyourgoal.presentation.bottomSheet.taskSelectorForPlan
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.javokhir.reachyourgoal.domain.entity.TaskAndPlan
 import com.javokhir.reachyourgoal.domain.model.SelectableTask
-import com.javokhir.reachyourgoal.domain.model.TaskAndPlanDto
 import com.javokhir.reachyourgoal.presentation.bottomSheet.taskSelectorForPlan.mvi.event.ScreenEvent
 import com.javokhir.reachyourgoal.presentation.bottomSheet.taskSelectorForPlan.mvi.state.ScreenUiState
 import com.javokhir.reachyourgoal.repository.TaskAndPlanRepository
 import com.javokhir.reachyourgoal.repository.TaskRepository
+import com.javokhir.reachyourgoal.utils.weeklyStatusTemplate
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -38,14 +39,14 @@ class TaskSelectorForPlanViewModel(
             taskAndPlanRepository
                 .getAllByPlanId(uiState.planId)
                 .combine(taskRepository.getAll()) { taskAndPlan, allTasks ->
-                    val selectedTaskIds = taskAndPlan
-                        .map { it.taskId }
-                        .toHashSet()
+                    val selectedTasks = taskAndPlan.associateBy { it.taskId }
 
                     val selectableTasks = allTasks.map {
-                        val isSelected = selectedTaskIds.contains(it.id)
+                        val isSelected = it.id in selectedTasks
 
-                        SelectableTask(it, isSelected)
+                        val statuses = selectedTasks[it.id]?.statuses ?: weeklyStatusTemplate()
+
+                        SelectableTask(it, isSelected, statuses)
                     }
 
                     selectableTasks
@@ -85,10 +86,11 @@ class TaskSelectorForPlanViewModel(
             uiState.selectableTasks.forEach {
                 if (it.isSelected) {
                     taskAndPlanRepository.insert(
-                        TaskAndPlanDto(
+                        TaskAndPlan(
                             it.task.id,
-                            uiState.planId
-                        ).transform()
+                            uiState.planId,
+                            it.statuses
+                        )
                     )
                 } else {
                     taskAndPlanRepository.delete(uiState.planId, it.task.id)
