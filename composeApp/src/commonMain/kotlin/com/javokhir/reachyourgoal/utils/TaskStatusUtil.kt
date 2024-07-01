@@ -75,7 +75,7 @@ fun TaskStatus.icon(
 }
 
 @Composable
-fun TaskStatus.name(): String {
+fun TaskStatus.composableName(): String {
     val resourceName = when (this) {
         TaskStatus.NOT_STARTED -> Res.string.task_status_not_started
         TaskStatus.NOT_MANDATORY -> Res.string.task_status_not_mandatory
@@ -86,3 +86,12 @@ fun TaskStatus.name(): String {
     return stringResource(resourceName)
 }
 
+@Composable
+fun TaskStatus.progressColor(): Color {
+    return when (this) {
+        TaskStatus.NOT_STARTED -> Color(0xFFfacc15)
+        TaskStatus.DONE -> Color(0xFF4ade80)
+        TaskStatus.NOT_COMPLETED -> Color(0xFFf87171)
+        else -> Color.Transparent
+    }
+}

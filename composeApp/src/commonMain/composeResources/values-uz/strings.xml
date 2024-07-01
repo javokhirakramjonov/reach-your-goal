@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--  ilova  -->
-    <string name="main_tab">Asosiy</string>
-    <string name="plan_tab">Reja</string>
-    <string name="task_tab">Vazifa</string>
-    <string name="settings_tab">Sozlamalar</string>
     <string name="current_plan">Joriy reja</string>
     <string name="save">Saqlash</string>
     <string name="select_plan">Rejani tanlash</string>
@@ -13,6 +9,13 @@
     <string name="theme_types">Mavzu turlari</string>
     <string name="select_theme">Mavzuni tanlash</string>
     <string name="select_language">Tilni tanlash</string>
+
+    <!-- tab names -->
+    <string name="main_tab">Asosiy</string>
+    <string name="plan_tab">Reja</string>
+    <string name="task_tab">Vazifa</string>
+    <string name="settings_tab">Sozlamalar</string>
+    <string name="statistics_tab">Statistika</string>
 
     <!-- mavzular -->
     <string name="theme_type_light">Yorqin</string>

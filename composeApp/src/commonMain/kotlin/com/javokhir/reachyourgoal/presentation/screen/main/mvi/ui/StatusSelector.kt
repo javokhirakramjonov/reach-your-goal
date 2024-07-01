@@ -11,8 +11,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.javokhir.reachyourgoal.domain.enums.TaskStatus
+import com.javokhir.reachyourgoal.utils.composableName
 import com.javokhir.reachyourgoal.utils.icon
-import com.javokhir.reachyourgoal.utils.name
 
 @Composable
 fun StatusSelector(
@@ -37,7 +37,7 @@ fun StatusSelector(
     ) {
         TaskStatus.entries.forEach { newStatus ->
             DropdownMenuItem(
-                text = { Text(newStatus.name()) },
+                text = { Text(newStatus.composableName()) },
                 onClick = {
                     onStatusChanged(newStatus)
                     expanded = false

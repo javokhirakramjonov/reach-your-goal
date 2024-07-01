@@ -1,6 +1,6 @@
 package com.javokhir.reachyourgoal.domain.model
 
-enum class WeekDays {
+enum class WeekDay {
     MONDAY,
     TUESDAY,
     WEDNESDAY,

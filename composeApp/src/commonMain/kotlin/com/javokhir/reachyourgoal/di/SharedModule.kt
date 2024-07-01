@@ -12,6 +12,7 @@ import com.javokhir.reachyourgoal.presentation.screen.main.MainScreenViewModel
 import com.javokhir.reachyourgoal.presentation.screen.plan.PlanScreenViewModel
 import com.javokhir.reachyourgoal.presentation.screen.plans.PlansScreenViewModel
 import com.javokhir.reachyourgoal.presentation.screen.settings.SettingsScreenViewModel
+import com.javokhir.reachyourgoal.presentation.screen.statistics.StatisticsScreenViewModel
 import com.javokhir.reachyourgoal.presentation.screen.task.TaskScreenViewModel
 import com.javokhir.reachyourgoal.presentation.screen.tasks.TasksScreenViewModel
 import com.javokhir.reachyourgoal.repository.PlanRepository
@@ -73,6 +74,7 @@ private val viewModelModule = module {
             uiState
         )
     }
+    factory<StatisticsScreenViewModel> { StatisticsScreenViewModel(get(), get(), get()) }
     factory<ThemeSelectorViewModel> { ThemeSelectorViewModel(get()) }
     factory<SettingsScreenViewModel> { SettingsScreenViewModel() }
 }

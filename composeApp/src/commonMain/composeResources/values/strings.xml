@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--  app  -->
-    <string name="main_tab">Main</string>
-    <string name="plan_tab">Plan</string>
-    <string name="task_tab">Task</string>
-    <string name="settings_tab">Settings</string>
     <string name="current_plan">Current plan</string>
     <string name="save">Save</string>
     <string name="select_plan">Select plan</string>
@@ -13,6 +9,13 @@
     <string name="theme_types">Theme types</string>
     <string name="select_theme">Select theme</string>
     <string name="select_language">Select language</string>
+
+    <!-- tab names -->
+    <string name="main_tab">Main</string>
+    <string name="plan_tab">Plan</string>
+    <string name="task_tab">Task</string>
+    <string name="settings_tab">Settings</string>
+    <string name="statistics_tab">Statistics</string>
 
     <!-- theme types -->
     <string name="theme_type_light">Light</string>

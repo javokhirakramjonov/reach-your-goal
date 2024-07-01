@@ -9,7 +9,7 @@ import reach_your_goal.composeapp.generated.resources.theme_type_light
 import reach_your_goal.composeapp.generated.resources.theme_type_system
 
 @Composable
-fun ThemeType.name(): String {
+fun ThemeType.composableName(): String {
     return when (this) {
         ThemeType.SYSTEM_DEFAULT -> stringResource(Res.string.theme_type_system)
         ThemeType.DARK -> stringResource(Res.string.theme_type_dark)
