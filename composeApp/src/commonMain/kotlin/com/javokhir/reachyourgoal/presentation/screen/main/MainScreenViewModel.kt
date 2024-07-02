@@ -2,20 +2,15 @@ package com.javokhir.reachyourgoal.presentation.screen.main
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import com.javokhir.reachyourgoal.datastore.AppDatastore
-import com.javokhir.reachyourgoal.domain.entity.Task
-import com.javokhir.reachyourgoal.domain.entity.TaskAndPlan
-import com.javokhir.reachyourgoal.domain.enums.TaskStatus
+import com.javokhir.reachyourgoal.domain.entity.TaskAndWeek
 import com.javokhir.reachyourgoal.presentation.screen.main.mvi.event.ScreenEvent
 import com.javokhir.reachyourgoal.presentation.screen.main.mvi.state.ScreenUiState
-import com.javokhir.reachyourgoal.repository.PlanRepository
-import com.javokhir.reachyourgoal.repository.TaskAndPlanRepository
+import com.javokhir.reachyourgoal.repository.TaskAndWeekRepository
 import com.javokhir.reachyourgoal.repository.TaskRepository
-import kotlinx.collections.immutable.ImmutableList
+import com.javokhir.reachyourgoal.repository.WeekRepository
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,62 +18,40 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MainScreenViewModel(
-    private val planRepository: PlanRepository,
+    private val weekRepository: WeekRepository,
     private val taskRepository: TaskRepository,
-    private val taskAndPlanRepository: TaskAndPlanRepository,
-    private val appDatastore: AppDatastore
+    private val taskAndWeekRepository: TaskAndWeekRepository,
 ) : ScreenModel {
 
     private val _uiState = MutableStateFlow(ScreenUiState())
     val uiState: StateFlow<ScreenUiState> = _uiState.asStateFlow()
 
-    private var planLoader: Job? = null
-    private var taskLoader: Job? = null
-
     init {
         screenModelScope.launch(Dispatchers.IO) {
-            launch { loadPlans() }
+            launch { loadWeeks() }
 
-            appDatastore
-                .getCurrentPlan()
-                .collect { currentPlanId ->
-                    planLoader?.cancel()
-                    taskLoader?.cancel()
-
-                    if (currentPlanId == null) {
-                        _uiState.update {
-                            it.copy(
-                                currentPlan = null,
-                                scheduledTasks = emptyList<Pair<Task, ImmutableList<TaskStatus>>>().toImmutableList()
-                            )
-                        }
-                    } else {
-                        planLoader = launch { loadCurrentPlan(currentPlanId) }
-                        taskLoader = launch { loadTasksForPlan(currentPlanId) }
-                    }
-                }
         }
     }
 
-    private suspend fun loadPlans() {
-        planRepository
+    private suspend fun loadWeeks() {
+        weekRepository
             .getAll()
-            .collect { plans ->
-                _uiState.update { it.copy(plans = plans.toImmutableList()) }
+            .collect { weeks ->
+                _uiState.update { it.copy(weeks = weeks.toImmutableList()) }
             }
     }
 
-    private suspend fun loadCurrentPlan(planId: Int) {
-        planRepository
-            .getById(planId)
-            .collect { plan ->
-                _uiState.update { it.copy(currentPlan = plan) }
+    private suspend fun loadCurrentWeek(weekId: Int) {
+        weekRepository
+            .getById(weekId)
+            .collect { week ->
+                _uiState.update { it.copy(currentWeek = week) }
             }
     }
 
-    private suspend fun loadTasksForPlan(planId: Int) {
-        taskAndPlanRepository
-            .getAllByPlanId(planId)
+    private suspend fun loadTasksForWeek(weekId: Int) {
+        taskAndWeekRepository
+            .getAllByWeekId(weekId)
             .collect { tasks ->
                 val scheduledTasks = tasks
                     .map {
@@ -95,23 +68,14 @@ class MainScreenViewModel(
     fun action(event: ScreenEvent.Input) {
         _uiState.update {
             when (event) {
-                is ScreenEvent.Input.PlanSelected -> onPlanSelected(it, event)
+                is ScreenEvent.Input.WeekSelected -> {
+                    //TODO
+                    it
+                }
+
                 is ScreenEvent.Input.StatusChanged -> onStatusChanged(it, event)
             }
         }
-    }
-
-    private fun onPlanSelected(
-        state: ScreenUiState,
-        event: ScreenEvent.Input.PlanSelected
-    ): ScreenUiState {
-        screenModelScope.launch(Dispatchers.IO) {
-            appDatastore.setCurrentPlan(event.plan.id)
-        }
-
-        return state.copy(
-            currentPlan = event.plan
-        )
     }
 
     private fun onStatusChanged(
@@ -119,9 +83,9 @@ class MainScreenViewModel(
         event: ScreenEvent.Input.StatusChanged
     ): ScreenUiState {
         screenModelScope.launch(Dispatchers.IO) {
-            taskAndPlanRepository.update(
-                TaskAndPlan(
-                    planId = state.currentPlan!!.id,
+            taskAndWeekRepository.update(
+                TaskAndWeek(
+                    weekId = state.currentWeek!!.id,
                     taskId = event.taskId,
                     statuses = state
                         .scheduledTasks

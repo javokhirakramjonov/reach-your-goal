@@ -7,7 +7,7 @@ import androidx.compose.runtime.getValue
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
-import com.javokhir.reachyourgoal.presentation.bottomSheet.taskSelectorForPlan.ThemeSelector
+import com.javokhir.reachyourgoal.presentation.bottomSheet.taskSelectorForWeek.ThemeSelector
 import com.javokhir.reachyourgoal.presentation.screen.settings.mvi.event.ScreenEvent
 import com.javokhir.reachyourgoal.presentation.screen.settings.mvi.ui.ScreenUi
 import com.javokhir.reachyourgoal.theme.MainAppTheme

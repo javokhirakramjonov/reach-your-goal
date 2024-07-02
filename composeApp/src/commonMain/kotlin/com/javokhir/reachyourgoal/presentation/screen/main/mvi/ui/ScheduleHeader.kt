@@ -21,7 +21,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.javokhir.reachyourgoal.domain.model.WeekDays
+import com.javokhir.reachyourgoal.domain.model.WeekDay
 import com.javokhir.reachyourgoal.utils.name
 import org.jetbrains.compose.resources.stringResource
 import reach_your_goal.composeapp.generated.resources.Res
@@ -52,7 +52,7 @@ fun LazyListScope.header(
             ) {
                 Text(text = stringResource(Res.string.main_screen_task_name))
             }
-            WeekDays.entries.forEach {
+            WeekDay.entries.forEach {
                 Box(
                     modifier = Modifier
                         .height(height)

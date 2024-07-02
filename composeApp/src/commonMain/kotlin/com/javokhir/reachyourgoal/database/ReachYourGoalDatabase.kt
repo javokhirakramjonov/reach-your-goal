@@ -3,26 +3,26 @@ package com.javokhir.reachyourgoal.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.javokhir.reachyourgoal.dao.PlanDao
-import com.javokhir.reachyourgoal.dao.TaskAndPlanDao
+import com.javokhir.reachyourgoal.dao.TaskAndWeekDao
 import com.javokhir.reachyourgoal.dao.TaskDao
-import com.javokhir.reachyourgoal.domain.entity.Plan
+import com.javokhir.reachyourgoal.dao.WeekDao
 import com.javokhir.reachyourgoal.domain.entity.Task
-import com.javokhir.reachyourgoal.domain.entity.TaskAndPlan
+import com.javokhir.reachyourgoal.domain.entity.TaskAndWeek
+import com.javokhir.reachyourgoal.domain.entity.Week
 
 @Database(
     entities = [
         Task::class,
-        Plan::class,
-        TaskAndPlan::class,
+        Week::class,
+        TaskAndWeek::class,
     ],
     version = 1
 )
 @TypeConverters(Converters::class)
 abstract class ReachYourGoalDatabase : RoomDatabase(), DB {
     abstract fun getTaskDao(): TaskDao
-    abstract fun getPlanDao(): PlanDao
-    abstract fun getTaskAndPlanDao(): TaskAndPlanDao
+    abstract fun getWeekDao(): WeekDao
+    abstract fun getTaskAndWeekDao(): TaskAndWeekDao
 
     override fun clearAllTables() {
         super.clearAllTables()

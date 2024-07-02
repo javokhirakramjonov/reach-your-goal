@@ -15,7 +15,7 @@ import com.javokhir.reachyourgoal.presentation.screen.main.mvi.event.ScreenEvent
 import com.javokhir.reachyourgoal.presentation.screen.main.mvi.state.ScreenUiState
 import org.jetbrains.compose.resources.stringResource
 import reach_your_goal.composeapp.generated.resources.Res
-import reach_your_goal.composeapp.generated.resources.select_plan
+import reach_your_goal.composeapp.generated.resources.select_week
 
 @Composable
 fun ScreenUi(
@@ -29,15 +29,15 @@ fun ScreenUi(
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            PlanSelector(
+            WeekSelector(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
-                currentPlanName = uiState.currentPlan?.name
-                    ?: stringResource(Res.string.select_plan),
-                plans = uiState.plans,
-                planSelected = { plan ->
-                    action(ScreenEvent.Input.PlanSelected(plan))
+                currentWeekName = uiState.currentWeek?.getName()
+                    ?: stringResource(Res.string.select_week),
+                weeks = uiState.weeks,
+                weekSelected = { week ->
+                    action(ScreenEvent.Input.WeekSelected(week))
                 }
             )
 
