@@ -1,4 +1,4 @@
-package com.javokhir.reachyourgoal.presentation.bottomSheet.taskSelectorForPlan
+package com.javokhir.reachyourgoal.presentation.bottomSheet.taskSelectorForWeek
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope

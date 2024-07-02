@@ -1,28 +1,27 @@
 package com.javokhir.reachyourgoal.di
 
-import com.javokhir.reachyourgoal.dao.PlanDao
-import com.javokhir.reachyourgoal.dao.TaskAndPlanDao
+import com.javokhir.reachyourgoal.dao.TaskAndWeekDao
 import com.javokhir.reachyourgoal.dao.TaskDao
+import com.javokhir.reachyourgoal.dao.WeekDao
 import com.javokhir.reachyourgoal.database.ReachYourGoalDatabase
-import com.javokhir.reachyourgoal.datastore.AppDatastore
 import com.javokhir.reachyourgoal.datastore.SettingsDatastore
-import com.javokhir.reachyourgoal.presentation.bottomSheet.taskSelectorForPlan.TaskSelectorForPlanViewModel
-import com.javokhir.reachyourgoal.presentation.bottomSheet.taskSelectorForPlan.ThemeSelectorViewModel
+import com.javokhir.reachyourgoal.presentation.bottomSheet.taskSelectorForWeek.TaskSelectorForWeekViewModel
+import com.javokhir.reachyourgoal.presentation.bottomSheet.taskSelectorForWeek.ThemeSelectorViewModel
 import com.javokhir.reachyourgoal.presentation.screen.main.MainScreenViewModel
-import com.javokhir.reachyourgoal.presentation.screen.plan.PlanScreenViewModel
-import com.javokhir.reachyourgoal.presentation.screen.plans.PlansScreenViewModel
 import com.javokhir.reachyourgoal.presentation.screen.settings.SettingsScreenViewModel
 import com.javokhir.reachyourgoal.presentation.screen.statistics.StatisticsScreenViewModel
 import com.javokhir.reachyourgoal.presentation.screen.task.TaskScreenViewModel
 import com.javokhir.reachyourgoal.presentation.screen.tasks.TasksScreenViewModel
-import com.javokhir.reachyourgoal.repository.PlanRepository
-import com.javokhir.reachyourgoal.repository.TaskAndPlanRepository
+import com.javokhir.reachyourgoal.presentation.screen.week.WeekScreenViewModel
+import com.javokhir.reachyourgoal.presentation.screen.weeks.WeeksScreenViewModel
+import com.javokhir.reachyourgoal.repository.TaskAndWeekRepository
 import com.javokhir.reachyourgoal.repository.TaskRepository
+import com.javokhir.reachyourgoal.repository.WeekRepository
 import org.koin.dsl.module
 
 typealias TaskScreenUiState = com.javokhir.reachyourgoal.presentation.screen.task.mvi.state.ScreenUiState
-typealias PlanScreenUiState = com.javokhir.reachyourgoal.presentation.screen.plan.mvi.state.ScreenUiState
-typealias TaskSelectorForPlanUiState = com.javokhir.reachyourgoal.presentation.bottomSheet.taskSelectorForPlan.mvi.state.ScreenUiState
+typealias WeekScreenUiState = com.javokhir.reachyourgoal.presentation.screen.week.mvi.state.ScreenUiState
+typealias TaskSelectorForWeekUiState = com.javokhir.reachyourgoal.presentation.bottomSheet.taskSelectorForWeek.mvi.state.ScreenUiState
 
 fun appModules() = listOf(
     daoModule,
@@ -38,37 +37,36 @@ private val daoModule = module {
         database.getTaskDao()
     }
 
-    single<PlanDao> {
+    single<WeekDao> {
         val database = get<ReachYourGoalDatabase>()
-        database.getPlanDao()
+        database.getWeekDao()
     }
 
-    single<TaskAndPlanDao> {
+    single<TaskAndWeekDao> {
         val database = get<ReachYourGoalDatabase>()
-        database.getTaskAndPlanDao()
+        database.getTaskAndWeekDao()
     }
 }
 
 private val viewModelModule = module {
-    factory<MainScreenViewModel> { MainScreenViewModel(get(), get(), get(), get()) }
+    factory<MainScreenViewModel> { MainScreenViewModel(get(), get(), get()) }
     factory<TasksScreenViewModel> { TasksScreenViewModel(get()) }
-    factory<PlansScreenViewModel> { PlansScreenViewModel(get()) }
+    factory<WeeksScreenViewModel> { WeeksScreenViewModel(get()) }
     factory<TaskScreenViewModel> { (uiState: TaskScreenUiState) ->
         TaskScreenViewModel(
             get(),
             uiState
         )
     }
-    factory<PlanScreenViewModel> { (uiState: PlanScreenUiState) ->
-        PlanScreenViewModel(
-            get(),
+    factory<WeekScreenViewModel> { (uiState: WeekScreenUiState) ->
+        WeekScreenViewModel(
             get(),
             get(),
             uiState
         )
     }
-    factory<TaskSelectorForPlanViewModel> { (uiState: TaskSelectorForPlanUiState) ->
-        TaskSelectorForPlanViewModel(
+    factory<TaskSelectorForWeekViewModel> { (uiState: TaskSelectorForWeekUiState) ->
+        TaskSelectorForWeekViewModel(
             get(),
             get(),
             uiState
@@ -81,11 +79,10 @@ private val viewModelModule = module {
 
 private val dataStoreModule = module {
     single<SettingsDatastore> { SettingsDatastore(get()) }
-    single<AppDatastore> { AppDatastore(get()) }
 }
 
 private val repositoryModule = module {
     single<TaskRepository> { TaskRepository(get()) }
-    single<PlanRepository> { PlanRepository(get()) }
-    single<TaskAndPlanRepository> { TaskAndPlanRepository(get()) }
+    single<WeekRepository> { WeekRepository(get()) }
+    single<TaskAndWeekRepository> { TaskAndWeekRepository(get()) }
 }
