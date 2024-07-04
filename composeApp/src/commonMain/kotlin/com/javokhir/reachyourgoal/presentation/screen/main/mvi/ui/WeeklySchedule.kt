@@ -9,8 +9,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.javokhir.reachyourgoal.domain.entity.Task
-import com.javokhir.reachyourgoal.domain.enums.TaskStatus
+import com.javokhir.reachyourgoal.domain.entity.TaskState
+import com.javokhir.reachyourgoal.presentation.screen.main.model.TaskAndStates
 import kotlinx.collections.immutable.ImmutableList
 import org.jetbrains.compose.resources.stringResource
 import reach_your_goal.composeapp.generated.resources.Res
@@ -19,8 +19,8 @@ import reach_your_goal.composeapp.generated.resources.no_tasks
 @Composable
 fun WeeklySchedule(
     modifier: Modifier = Modifier,
-    scheduledTasks: ImmutableList<Pair<Task, ImmutableList<TaskStatus>>>,
-    onStatusChanged: (taskId: Int, day: Int, status: TaskStatus) -> Unit
+    scheduledTasks: ImmutableList<TaskAndStates>,
+    onStatusChanged: (taskState: TaskState) -> Unit
 ) {
     val headerBackground = MaterialTheme.colorScheme.background
 
@@ -40,13 +40,10 @@ fun WeeklySchedule(
             }
         }
 
-        items(scheduledTasks) { (task, statuses) ->
+        items(scheduledTasks) {
             TaskRow(
-                task = task,
-                statuses = statuses,
-                onStatusChanged = { day, status ->
-                    onStatusChanged(task.id, day, status)
-                },
+                taskAndStates = it,
+                onStatusChanged = onStatusChanged,
             )
         }
     }

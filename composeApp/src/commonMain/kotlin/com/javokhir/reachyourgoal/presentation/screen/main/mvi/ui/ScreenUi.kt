@@ -49,8 +49,8 @@ fun ScreenUi(
                     .weight(1f)
                     .border(width = 2.dp, MaterialTheme.colorScheme.primary),
                 scheduledTasks = uiState.scheduledTasks,
-                onStatusChanged = { taskId, day, status ->
-                    action(ScreenEvent.Input.StatusChanged(taskId, day, status))
+                onStatusChanged = {
+                    action(ScreenEvent.Input.StatusChanged(it))
                 }
             )
         }

@@ -25,9 +25,12 @@ interface TaskDao {
     fun getAll(): Flow<List<Task>>
 
     @Query("SELECT * FROM tasks WHERE id = :taskId")
-    suspend fun getById(taskId: Int): Task
+    fun getByIdAsFlow(taskId: Int): Flow<Task>
 
     @Query("SELECT COUNT(*) FROM tasks ORDER BY created_at")
     suspend fun count(): Int
+
+    @Query("SELECT * FROM tasks WHERE id IN (SELECT task_id FROM task_and_week WHERE week_id = :weekId)")
+    fun getAllByWeekId(weekId: Int): Flow<List<Task>>
 
 }

@@ -2,6 +2,7 @@ package com.javokhir.reachyourgoal.presentation.screen.weeks
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.javokhir.reachyourgoal.domain.entity.Week
 import com.javokhir.reachyourgoal.presentation.screen.weeks.mvi.event.ScreenEvent
 import com.javokhir.reachyourgoal.presentation.screen.weeks.mvi.state.ScreenUiState
 import com.javokhir.reachyourgoal.repository.WeekRepository
@@ -17,6 +18,8 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.plus
 
 class WeeksScreenViewModel(
     private val weekRepository: WeekRepository
@@ -39,18 +42,32 @@ class WeeksScreenViewModel(
     fun action(event: ScreenEvent.Input) {
         _uiState.update {
             when (event) {
+                ScreenEvent.Input.CreateNextWeek -> onCreateNextWeek(it)
                 else -> doCommand(it, event)
             }
         }
     }
 
+    private fun onCreateNextWeek(state: ScreenUiState): ScreenUiState {
+        screenModelScope.launch(Dispatchers.IO) {
+            val nextWeek = weekRepository
+                .getLastWeekStartDate()
+                .plus(1, DateTimeUnit.WEEK)
+
+            weekRepository.insert(Week(startDate = nextWeek))
+        }
+
+        return state
+    }
+
     private fun doCommand(state: ScreenUiState, event: ScreenEvent.Input): ScreenUiState {
-        val command: ScreenEvent.Command = when (event) {
+        val command: ScreenEvent.Command? = when (event) {
             is ScreenEvent.Input.OpenWeek -> ScreenEvent.Command.OpenWeek(event.week)
+            else -> null
         }
 
         screenModelScope.launch {
-            command.letCoroutine(_commands::emit)
+            command?.letCoroutine(_commands::emit)
         }
 
         return state
