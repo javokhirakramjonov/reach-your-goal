@@ -41,7 +41,7 @@
     <string name="week_screen_week_name">Name</string>
     <string name="week_screen_week_description">Description</string>
     <string name="week_screen_update_week">Update week</string>
-    <string name="week_screen_update_tasks">Add/Remove tasks</string>
+    <string name="week_screen_update_tasks">Update selected tasks</string>
     <string name="week_screen_tasks">Tasks</string>
 
 

@@ -1,5 +1,6 @@
 package com.javokhir.reachyourgoal.presentation.screen.weeks.mvi.ui
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,10 +29,12 @@ fun WeekItem(
                     .clip(MaterialTheme.shapes.large)
                     .clickable(onClick = onTaskClick)
             ),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
+        shape = MaterialTheme.shapes.large
     ) {
         Row(
             modifier = Modifier
-                .padding(8.dp)
+                .padding(16.dp)
                 .fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically
         ) {

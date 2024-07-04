@@ -135,8 +135,8 @@ dependencies {
 //    add("kspIosSimulatorArm64", libs.room.compiler)
 }
 
-//tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>().configureEach {
-//    if (name != "kspCommonMainKotlinMetadata" ) {
-//        dependsOn("kspCommonMainKotlinMetadata")
-//    }
-//}
+tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>().configureEach {
+    if (name != "kspCommonMainKotlinMetadata") {
+        dependsOn("kspCommonMainKotlinMetadata")
+    }
+}

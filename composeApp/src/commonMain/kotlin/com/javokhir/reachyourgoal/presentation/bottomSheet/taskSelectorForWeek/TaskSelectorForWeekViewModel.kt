@@ -3,12 +3,14 @@ package com.javokhir.reachyourgoal.presentation.bottomSheet.taskSelectorForWeek
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.javokhir.reachyourgoal.domain.entity.TaskAndWeek
+import com.javokhir.reachyourgoal.domain.entity.TaskState
+import com.javokhir.reachyourgoal.domain.enums.TaskStatus
 import com.javokhir.reachyourgoal.domain.model.SelectableTask
 import com.javokhir.reachyourgoal.presentation.bottomSheet.taskSelectorForWeek.mvi.event.ScreenEvent
 import com.javokhir.reachyourgoal.presentation.bottomSheet.taskSelectorForWeek.mvi.state.ScreenUiState
 import com.javokhir.reachyourgoal.repository.TaskAndWeekRepository
 import com.javokhir.reachyourgoal.repository.TaskRepository
-import com.javokhir.reachyourgoal.utils.weeklyStatusTemplate
+import com.javokhir.reachyourgoal.repository.TaskStateRepository
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -21,10 +23,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.datetime.DayOfWeek
 
 class TaskSelectorForWeekViewModel(
     private val taskRepository: TaskRepository,
     private val taskAndWeekRepository: TaskAndWeekRepository,
+    private val taskStateRepository: TaskStateRepository,
     uiState: ScreenUiState
 ) : ScreenModel {
 
@@ -34,19 +38,22 @@ class TaskSelectorForWeekViewModel(
     private val _commands = MutableSharedFlow<ScreenEvent.Command>()
     val commands: SharedFlow<ScreenEvent.Command> = _commands.asSharedFlow()
 
+    private var initialSelectedTaskIds: Set<Int> = emptySet()
+
     init {
         screenModelScope.launch(Dispatchers.IO) {
             taskAndWeekRepository
                 .getAllByWeekId(uiState.weekId)
                 .combine(taskRepository.getAll()) { taskAndWeek, allTasks ->
                     val selectedTasks = taskAndWeek.associateBy { it.taskId }
+                    if (initialSelectedTaskIds.isEmpty()) {
+                        initialSelectedTaskIds = selectedTasks.keys
+                    }
 
                     val selectableTasks = allTasks.map {
                         val isSelected = it.id in selectedTasks
 
-                        val statuses = selectedTasks[it.id]?.statuses ?: weeklyStatusTemplate()
-
-                        SelectableTask(it, isSelected, statuses)
+                        SelectableTask(it, isSelected)
                     }
 
                     selectableTasks
@@ -83,17 +90,35 @@ class TaskSelectorForWeekViewModel(
 
     private fun onSaveClicked(uiState: ScreenUiState): ScreenUiState {
         screenModelScope.launch(Dispatchers.IO) {
-            uiState.selectableTasks.forEach {
-                if (it.isSelected) {
+            uiState.selectableTasks.forEach { selectableTask ->
+                if (selectableTask.isSelected) {
+                    if (selectableTask.task.id !in initialSelectedTaskIds) {
+                        DayOfWeek
+                            .entries
+                            .map {
+                                TaskState(
+                                    taskId = selectableTask.task.id,
+                                    weekId = uiState.weekId,
+                                    day = it,
+                                    status = TaskStatus.NOT_STARTED
+                                )
+                            }.forEach {
+                                taskStateRepository.insert(it)
+                            }
+                    }
+
                     taskAndWeekRepository.insert(
                         TaskAndWeek(
-                            it.task.id,
+                            selectableTask.task.id,
                             uiState.weekId,
-                            it.statuses
                         )
                     )
                 } else {
-                    taskAndWeekRepository.delete(uiState.weekId, it.task.id)
+                    taskStateRepository.deleteAllByTaskIdAndWeekId(
+                        selectableTask.task.id,
+                        uiState.weekId
+                    )
+                    taskAndWeekRepository.delete(uiState.weekId, selectableTask.task.id)
                 }
             }
         }

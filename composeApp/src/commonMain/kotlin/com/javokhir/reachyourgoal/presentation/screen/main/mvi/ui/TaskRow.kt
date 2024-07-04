@@ -21,16 +21,14 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
-import com.javokhir.reachyourgoal.domain.entity.Task
-import com.javokhir.reachyourgoal.domain.enums.TaskStatus
-import kotlinx.collections.immutable.ImmutableList
+import com.javokhir.reachyourgoal.domain.entity.TaskState
+import com.javokhir.reachyourgoal.presentation.screen.main.model.TaskAndStates
 
 @Composable
 fun TaskRow(
     modifier: Modifier = Modifier,
-    task: Task,
-    statuses: ImmutableList<TaskStatus>,
-    onStatusChanged: (day: Int, status: TaskStatus) -> Unit,
+    taskAndStates: TaskAndStates,
+    onStatusChanged: (taskState: TaskState) -> Unit,
 ) {
     val density = LocalDensity.current
 
@@ -52,10 +50,10 @@ fun TaskRow(
                 .padding(8.dp),
             contentAlignment = Alignment.CenterStart
         ) {
-            Text(text = task.name)
+            Text(text = taskAndStates.task.name)
         }
 
-        statuses.forEachIndexed { day, status ->
+        taskAndStates.states.forEach { state ->
             Box(
                 modifier = Modifier
                     .height(maxHeight)
@@ -74,8 +72,12 @@ fun TaskRow(
                 contentAlignment = Alignment.Center
             ) {
                 StatusSelector(
-                    status = status,
-                    onStatusChanged = { onStatusChanged(day, it) }
+                    status = state.status,
+                    onStatusChanged = {
+                        onStatusChanged(
+                            state.copy(status = it)
+                        )
+                    }
                 )
             }
         }

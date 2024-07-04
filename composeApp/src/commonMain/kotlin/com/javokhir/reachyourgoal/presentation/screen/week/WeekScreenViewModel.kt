@@ -5,9 +5,7 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import com.javokhir.reachyourgoal.presentation.screen.week.domain.ScreenError
 import com.javokhir.reachyourgoal.presentation.screen.week.mvi.event.ScreenEvent
 import com.javokhir.reachyourgoal.presentation.screen.week.mvi.state.ScreenUiState
-import com.javokhir.reachyourgoal.repository.TaskAndWeekRepository
 import com.javokhir.reachyourgoal.repository.TaskRepository
-import com.javokhir.reachyourgoal.repository.WeekRepository
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -17,14 +15,11 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class WeekScreenViewModel(
     private val taskRepository: TaskRepository,
-    private val weekRepository: WeekRepository,
-    private val taskAndWeekRepository: TaskAndWeekRepository,
     uiState: ScreenUiState
 ) : ScreenModel {
 
@@ -37,11 +32,8 @@ class WeekScreenViewModel(
     init {
         screenModelScope.launch(Dispatchers.IO) {
             launch {
-                taskAndWeekRepository
+                taskRepository
                     .getAllByWeekId(uiState.week.id)
-                    .map { taskAndWeeks ->
-                        taskAndWeeks.map { taskRepository.getById(it.taskId) }
-                    }
                     .collect { tasks ->
                         _uiState.update { it.copy(tasks = tasks.toImmutableList()) }
                     }

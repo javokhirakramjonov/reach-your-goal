@@ -5,9 +5,11 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.javokhir.reachyourgoal.dao.TaskAndWeekDao
 import com.javokhir.reachyourgoal.dao.TaskDao
+import com.javokhir.reachyourgoal.dao.TaskStateDao
 import com.javokhir.reachyourgoal.dao.WeekDao
 import com.javokhir.reachyourgoal.domain.entity.Task
 import com.javokhir.reachyourgoal.domain.entity.TaskAndWeek
+import com.javokhir.reachyourgoal.domain.entity.TaskState
 import com.javokhir.reachyourgoal.domain.entity.Week
 
 @Database(
@@ -15,6 +17,7 @@ import com.javokhir.reachyourgoal.domain.entity.Week
         Task::class,
         Week::class,
         TaskAndWeek::class,
+        TaskState::class
     ],
     version = 1
 )
@@ -23,6 +26,7 @@ abstract class ReachYourGoalDatabase : RoomDatabase(), DB {
     abstract fun getTaskDao(): TaskDao
     abstract fun getWeekDao(): WeekDao
     abstract fun getTaskAndWeekDao(): TaskAndWeekDao
+    abstract fun getTaskStateDao(): TaskStateDao
 
     override fun clearAllTables() {
         super.clearAllTables()

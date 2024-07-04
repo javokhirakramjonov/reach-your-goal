@@ -2,8 +2,10 @@ package com.javokhir.reachyourgoal.di
 
 import com.javokhir.reachyourgoal.dao.TaskAndWeekDao
 import com.javokhir.reachyourgoal.dao.TaskDao
+import com.javokhir.reachyourgoal.dao.TaskStateDao
 import com.javokhir.reachyourgoal.dao.WeekDao
 import com.javokhir.reachyourgoal.database.ReachYourGoalDatabase
+import com.javokhir.reachyourgoal.datastore.AppDatastore
 import com.javokhir.reachyourgoal.datastore.SettingsDatastore
 import com.javokhir.reachyourgoal.presentation.bottomSheet.taskSelectorForWeek.TaskSelectorForWeekViewModel
 import com.javokhir.reachyourgoal.presentation.bottomSheet.taskSelectorForWeek.ThemeSelectorViewModel
@@ -15,6 +17,7 @@ import com.javokhir.reachyourgoal.presentation.screen.week.WeekScreenViewModel
 import com.javokhir.reachyourgoal.presentation.screen.weeks.WeeksScreenViewModel
 import com.javokhir.reachyourgoal.repository.TaskAndWeekRepository
 import com.javokhir.reachyourgoal.repository.TaskRepository
+import com.javokhir.reachyourgoal.repository.TaskStateRepository
 import com.javokhir.reachyourgoal.repository.WeekRepository
 import org.koin.dsl.module
 
@@ -45,6 +48,11 @@ private val daoModule = module {
         val database = get<ReachYourGoalDatabase>()
         database.getTaskAndWeekDao()
     }
+
+    single<TaskStateDao> {
+        val database = get<ReachYourGoalDatabase>()
+        database.getTaskStateDao()
+    }
 }
 
 private val viewModelModule = module {
@@ -60,13 +68,12 @@ private val viewModelModule = module {
     factory<WeekScreenViewModel> { (uiState: WeekScreenUiState) ->
         WeekScreenViewModel(
             get(),
-            get(),
-            get(),
             uiState
         )
     }
     factory<TaskSelectorForWeekViewModel> { (uiState: TaskSelectorForWeekUiState) ->
         TaskSelectorForWeekViewModel(
+            get(),
             get(),
             get(),
             uiState
@@ -77,6 +84,7 @@ private val viewModelModule = module {
 }
 
 private val dataStoreModule = module {
+    single<AppDatastore> { AppDatastore(get()) }
     single<SettingsDatastore> { SettingsDatastore(get()) }
 }
 
@@ -84,4 +92,5 @@ private val repositoryModule = module {
     single<TaskRepository> { TaskRepository(get()) }
     single<WeekRepository> { WeekRepository(get()) }
     single<TaskAndWeekRepository> { TaskAndWeekRepository(get()) }
+    single<TaskStateRepository> { TaskStateRepository(get()) }
 }

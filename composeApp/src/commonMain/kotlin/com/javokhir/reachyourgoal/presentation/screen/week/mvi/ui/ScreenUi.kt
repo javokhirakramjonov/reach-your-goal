@@ -23,6 +23,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.javokhir.reachyourgoal.presentation.screen.week.mvi.event.ScreenEvent
@@ -71,10 +72,12 @@ fun ScreenUi(
             modifier = Modifier
                 .padding(it)
                 .padding(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = uiState.week.getName())
-
-            Text(text = stringResource(Res.string.week_screen_tasks))
+            Text(
+                text = stringResource(Res.string.week_screen_tasks),
+                style = MaterialTheme.typography.titleMedium
+            )
 
             LazyColumn(modifier = Modifier.weight(1f)) {
                 items(uiState.tasks, key = { it.id }) { task ->
