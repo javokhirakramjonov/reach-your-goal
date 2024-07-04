@@ -2,157 +2,132 @@ package com.javokhir.reachyourgoal.presentation.screen.main
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import com.javokhir.reachyourgoal.datastore.AppDatastore
-import com.javokhir.reachyourgoal.domain.entity.Task
-import com.javokhir.reachyourgoal.domain.entity.TaskAndPlan
-import com.javokhir.reachyourgoal.domain.enums.TaskStatus
+import com.javokhir.reachyourgoal.presentation.screen.main.model.TaskAndStates
 import com.javokhir.reachyourgoal.presentation.screen.main.mvi.event.ScreenEvent
 import com.javokhir.reachyourgoal.presentation.screen.main.mvi.state.ScreenUiState
-import com.javokhir.reachyourgoal.repository.PlanRepository
-import com.javokhir.reachyourgoal.repository.TaskAndPlanRepository
 import com.javokhir.reachyourgoal.repository.TaskRepository
-import kotlinx.collections.immutable.ImmutableList
+import com.javokhir.reachyourgoal.repository.TaskStateRepository
+import com.javokhir.reachyourgoal.repository.WeekRepository
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.datetime.isoDayNumber
 
 class MainScreenViewModel(
-    private val planRepository: PlanRepository,
+    private val weekRepository: WeekRepository,
     private val taskRepository: TaskRepository,
-    private val taskAndPlanRepository: TaskAndPlanRepository,
-    private val appDatastore: AppDatastore
+    private val taskStateRepository: TaskStateRepository,
 ) : ScreenModel {
 
     private val _uiState = MutableStateFlow(ScreenUiState())
     val uiState: StateFlow<ScreenUiState> = _uiState.asStateFlow()
 
-    private var planLoader: Job? = null
-    private var taskLoader: Job? = null
+    private var weekLoader: Job? = null
 
     init {
         screenModelScope.launch(Dispatchers.IO) {
-            launch { loadPlans() }
-
-            appDatastore
-                .getCurrentPlan()
-                .collect { currentPlanId ->
-                    planLoader?.cancel()
-                    taskLoader?.cancel()
-
-                    if (currentPlanId == null) {
-                        _uiState.update {
-                            it.copy(
-                                currentPlan = null,
-                                scheduledTasks = emptyList<Pair<Task, ImmutableList<TaskStatus>>>().toImmutableList()
-                            )
-                        }
-                    } else {
-                        planLoader = launch { loadCurrentPlan(currentPlanId) }
-                        taskLoader = launch { loadTasksForPlan(currentPlanId) }
-                    }
-                }
+            launch { loadWeeks() }
         }
     }
 
-    private suspend fun loadPlans() {
-        planRepository
+    private suspend fun loadWeeks() {
+        weekRepository
             .getAll()
-            .collect { plans ->
-                _uiState.update { it.copy(plans = plans.toImmutableList()) }
+            .collect { weeks ->
+                _uiState.update { it.copy(weeks = weeks.toImmutableList()) }
             }
     }
 
-    private suspend fun loadCurrentPlan(planId: Int) {
-        planRepository
-            .getById(planId)
-            .collect { plan ->
-                _uiState.update { it.copy(currentPlan = plan) }
-            }
+    private fun loadWeekById(weekId: Int) {
+        if (weekId == uiState.value.currentWeek?.id) return
+
+        _uiState.update {
+            it.copy(
+                currentWeek = null,
+                scheduledTasks = emptyList<TaskAndStates>().toImmutableList()
+            )
+        }
+
+        weekLoader?.cancel()
+
+        weekLoader = screenModelScope.launch(Dispatchers.IO) {
+            val week = weekRepository.getById(weekId)
+
+            _uiState.update { it.copy(currentWeek = week) }
+
+            loadTasksForWeek(weekId)
+        }
     }
 
-    private suspend fun loadTasksForPlan(planId: Int) {
-        taskAndPlanRepository
-            .getAllByPlanId(planId)
-            .collect { tasks ->
-                val scheduledTasks = tasks
-                    .map {
-                        val task = taskRepository.getById(it.taskId)
-
-                        task to it.statuses.toImmutableList()
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private suspend fun loadTasksForWeek(weekId: Int) {
+        taskRepository
+            .getAllByWeekId(weekId)
+            .flatMapMerge {
+                combine(
+                    it.map { task ->
+                        taskStateRepository
+                            .getAllByTaskIdAndWeekId(task.id, weekId)
+                            .map {
+                                TaskAndStates(
+                                    task = task,
+                                    states = it
+                                        .sortedBy { it.day.isoDayNumber }
+                                        .toImmutableList()
+                                )
+                            }
                     }
-                    .toImmutableList()
-
-                _uiState.update { it.copy(scheduledTasks = scheduledTasks) }
+                ) {
+                    it.toList().toImmutableList()
+                }
+            }.collect { scheduledTasks ->
+                _uiState.update {
+                    it.copy(scheduledTasks = scheduledTasks)
+                }
             }
     }
 
     fun action(event: ScreenEvent.Input) {
-        _uiState.update {
-            when (event) {
-                is ScreenEvent.Input.PlanSelected -> onPlanSelected(it, event)
-                is ScreenEvent.Input.StatusChanged -> onStatusChanged(it, event)
+        val newState: ScreenUiState? = when (event) {
+            is ScreenEvent.Input.WeekSelected -> {
+                onWeekSelected(event)
+                null
             }
+
+            is ScreenEvent.Input.StatusChanged -> {
+                onStatusChanged(event)
+                null
+            }
+        }
+
+
+        if (newState != null) {
+            _uiState.update { newState }
         }
     }
 
-    private fun onPlanSelected(
-        state: ScreenUiState,
-        event: ScreenEvent.Input.PlanSelected
-    ): ScreenUiState {
-        screenModelScope.launch(Dispatchers.IO) {
-            appDatastore.setCurrentPlan(event.plan.id)
-        }
-
-        return state.copy(
-            currentPlan = event.plan
-        )
+    private fun onWeekSelected(
+        event: ScreenEvent.Input.WeekSelected
+    ) {
+        loadWeekById(event.week.id)
     }
 
     private fun onStatusChanged(
-        state: ScreenUiState,
         event: ScreenEvent.Input.StatusChanged
-    ): ScreenUiState {
+    ) {
         screenModelScope.launch(Dispatchers.IO) {
-            taskAndPlanRepository.update(
-                TaskAndPlan(
-                    planId = state.currentPlan!!.id,
-                    taskId = event.taskId,
-                    statuses = state
-                        .scheduledTasks
-                        .first { it.first.id == event.taskId }
-                        .second
-                        .mapIndexed { index, status ->
-                            if (index == event.day) {
-                                event.status
-                            } else {
-                                status
-                            }
-                        }
-                )
-            )
+            taskStateRepository.update(event.taskState)
         }
-
-        return state.copy(
-            scheduledTasks = state.scheduledTasks.map {
-                if (it.first.id == event.taskId) {
-                    it.first to it.second.mapIndexed { index, status ->
-                        if (index == event.day) {
-                            event.status
-                        } else {
-                            status
-                        }
-                    }.toImmutableList()
-                } else {
-                    it
-                }
-            }.toImmutableList()
-        )
     }
 
 }

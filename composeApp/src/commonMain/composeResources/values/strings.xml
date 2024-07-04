@@ -2,13 +2,13 @@
 <resources>
     <!--  app  -->
     <string name="main_tab">Main</string>
-    <string name="plan_tab">Plan</string>
+    <string name="week_tab">Weeks</string>
     <string name="task_tab">Task</string>
     <string name="settings_tab">Settings</string>
-    <string name="current_plan">Current plan</string>
+    <string name="current_week">Current week</string>
     <string name="save">Save</string>
-    <string name="select_plan">Select plan</string>
-    <string name="no_plans">No plans</string>
+    <string name="select_week">Select week</string>
+    <string name="no_weeks">No weeks</string>
     <string name="no_tasks">No tasks</string>
     <string name="theme_types">Theme types</string>
     <string name="select_theme">Select theme</string>
@@ -37,19 +37,19 @@
     <!--  main presentation.screen  -->
     <string name="main_screen_task_name">Task name</string>
 
-    <!--  plan presentation.screen  -->
-    <string name="plan_screen_plan_name">Name</string>
-    <string name="plan_screen_plan_description">Description</string>
-    <string name="plan_screen_update_plan">Update plan</string>
-    <string name="plan_screen_update_tasks">Add/Remove tasks</string>
-    <string name="plan_screen_tasks">Tasks</string>
+    <!--  week presentation.screen  -->
+    <string name="week_screen_week_name">Name</string>
+    <string name="week_screen_week_description">Description</string>
+    <string name="week_screen_update_week">Update week</string>
+    <string name="week_screen_update_tasks">Update selected tasks</string>
+    <string name="week_screen_tasks">Tasks</string>
 
 
-    <!--  create plan presentation.dialog  -->
-    <string name="create_plan_dialog_title">Create a New Plan</string>
-    <string name="create_plan_dialog_name">Plan Name</string>
-    <string name="create_plan_dialog_description">Plan Description</string>
-    <string name="create_plan_dialog_positive_button">Create</string>
+    <!--  create week presentation.dialog  -->
+    <string name="create_week_dialog_title">Create a New Plan</string>
+    <string name="create_week_dialog_name">Plan Name</string>
+    <string name="create_week_dialog_description">Plan Description</string>
+    <string name="create_week_dialog_positive_button">Create</string>
 
     <!--  task presentation.screen  -->
     <string name="task_screen_task_name">Name</string>

@@ -2,13 +2,13 @@
 <resources>
     <!--  ilova  -->
     <string name="main_tab">Asosiy</string>
-    <string name="plan_tab">Reja</string>
+    <string name="week_tab">Reja</string>
     <string name="task_tab">Vazifa</string>
     <string name="settings_tab">Sozlamalar</string>
-    <string name="current_plan">Joriy reja</string>
+    <string name="current_week">Joriy reja</string>
     <string name="save">Saqlash</string>
-    <string name="select_plan">Rejani tanlash</string>
-    <string name="no_plans">Rejalar yo'q</string>
+    <string name="select_week">Rejani tanlash</string>
+    <string name="no_weeks">Rejalar yo'q</string>
     <string name="no_tasks">Vazifalar yo'q</string>
     <string name="theme_types">Mavzu turlari</string>
     <string name="select_theme">Mavzuni tanlash</string>
@@ -38,17 +38,17 @@
     <string name="main_screen_task_name">Vazifa nomi</string>
 
     <!--  reja taqdimot ekrani  -->
-    <string name="plan_screen_plan_name">Nomi</string>
-    <string name="plan_screen_plan_description">Tavsifi</string>
-    <string name="plan_screen_update_plan">Rejani yangilash</string>
-    <string name="plan_screen_update_tasks">Vazifalarni qo'shish/o'chirish</string>
-    <string name="plan_screen_tasks">Vazifalar</string>
+    <string name="week_screen_week_name">Nomi</string>
+    <string name="week_screen_week_description">Tavsifi</string>
+    <string name="week_screen_update_week">Rejani yangilash</string>
+    <string name="week_screen_update_tasks">Vazifalarni qo'shish/o'chirish</string>
+    <string name="week_screen_tasks">Vazifalar</string>
 
     <!--  yangi reja yaratish dialogi  -->
-    <string name="create_plan_dialog_title">Yangi reja yaratish</string>
-    <string name="create_plan_dialog_name">Reja nomi</string>
-    <string name="create_plan_dialog_description">Reja tavsifi</string>
-    <string name="create_plan_dialog_positive_button">Yaratish</string>
+    <string name="create_week_dialog_title">Yangi reja yaratish</string>
+    <string name="create_week_dialog_name">Reja nomi</string>
+    <string name="create_week_dialog_description">Reja tavsifi</string>
+    <string name="create_week_dialog_positive_button">Yaratish</string>
 
     <!--  vazifa taqdimot ekrani  -->
     <string name="task_screen_task_name">Nomi</string>
