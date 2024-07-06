@@ -22,4 +22,7 @@ interface WeekDao {
 
     @Query("SELECT start_date FROM weeks ORDER BY start_date DESC LIMIT 1")
     suspend fun getLastWeekStartDate(): LocalDate?
+
+    @Query("SELECT * FROM weeks WHERE start_date = :date")
+    suspend fun getWeekByStartDate(date: LocalDate): Week?
 }

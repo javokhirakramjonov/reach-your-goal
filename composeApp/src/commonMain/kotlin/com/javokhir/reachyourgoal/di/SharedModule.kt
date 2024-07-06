@@ -11,6 +11,7 @@ import com.javokhir.reachyourgoal.presentation.bottomSheet.taskSelectorForWeek.T
 import com.javokhir.reachyourgoal.presentation.bottomSheet.taskSelectorForWeek.ThemeSelectorViewModel
 import com.javokhir.reachyourgoal.presentation.screen.main.MainScreenViewModel
 import com.javokhir.reachyourgoal.presentation.screen.settings.SettingsScreenViewModel
+import com.javokhir.reachyourgoal.presentation.screen.statistics.StatisticsScreenViewModel
 import com.javokhir.reachyourgoal.presentation.screen.task.TaskScreenViewModel
 import com.javokhir.reachyourgoal.presentation.screen.tasks.TasksScreenViewModel
 import com.javokhir.reachyourgoal.presentation.screen.week.WeekScreenViewModel
@@ -79,6 +80,7 @@ private val viewModelModule = module {
             uiState
         )
     }
+    factory<StatisticsScreenViewModel> { StatisticsScreenViewModel(get(), get()) }
     factory<ThemeSelectorViewModel> { ThemeSelectorViewModel(get()) }
     factory<SettingsScreenViewModel> { SettingsScreenViewModel() }
 }

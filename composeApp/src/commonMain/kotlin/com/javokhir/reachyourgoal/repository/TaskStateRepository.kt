@@ -2,6 +2,7 @@ package com.javokhir.reachyourgoal.repository
 
 import com.javokhir.reachyourgoal.dao.TaskStateDao
 import com.javokhir.reachyourgoal.domain.entity.TaskState
+import kotlinx.datetime.DayOfWeek
 
 class TaskStateRepository(
     private val taskStateDao: TaskStateDao
@@ -14,4 +15,12 @@ class TaskStateRepository(
         taskStateDao.deleteAllByTaskIdAndWeekId(taskId, weekId)
 
     suspend fun update(taskState: TaskState) = taskStateDao.update(taskState)
+
+    fun getTaskCountsForEachWeek() = taskStateDao.getTaskCountsForEachWeek()
+
+    fun getTaskCountsForEachDayInWeek(weekId: Int) =
+        taskStateDao.getTaskCountsForEachDayInWeek(weekId)
+
+    fun getTaskStatusCountsForWeekDay(weekId: Int, dayOfWeek: DayOfWeek) =
+        taskStateDao.getTaskStatusCountsForWeekDay(weekId, dayOfWeek)
 }

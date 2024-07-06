@@ -53,7 +53,7 @@ fun TaskRow(
             Text(text = taskAndStates.task.name)
         }
 
-        taskAndStates.states.forEach { state ->
+        taskAndStates.states.forEach { taskState ->
             Box(
                 modifier = Modifier
                     .height(maxHeight)
@@ -72,10 +72,10 @@ fun TaskRow(
                 contentAlignment = Alignment.Center
             ) {
                 StatusSelector(
-                    status = state.status,
+                    status = taskState.status,
                     onStatusChanged = {
                         onStatusChanged(
-                            state.copy(status = it)
+                            taskState.copy(status = it)
                         )
                     }
                 )

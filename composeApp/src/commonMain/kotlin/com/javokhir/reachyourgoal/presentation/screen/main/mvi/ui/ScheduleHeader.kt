@@ -21,7 +21,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.javokhir.reachyourgoal.utils.name
+import com.javokhir.reachyourgoal.utils.composableName
 import kotlinx.datetime.DayOfWeek
 import org.jetbrains.compose.resources.stringResource
 import reach_your_goal.composeapp.generated.resources.Res
@@ -68,7 +68,7 @@ fun LazyListScope.header(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = it.name().first().toString(),
+                        text = it.composableName().first().toString(),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.titleSmall,
                     )

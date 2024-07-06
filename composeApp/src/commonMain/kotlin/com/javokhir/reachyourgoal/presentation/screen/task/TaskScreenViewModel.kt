@@ -28,20 +28,29 @@ class TaskScreenViewModel(
     val commands: SharedFlow<ScreenEvent.Command> = _commands.asSharedFlow()
 
     fun action(event: ScreenEvent.Input) {
-        _uiState.update {
-            when (event) {
-                is ScreenEvent.Input.TaskChanged -> onTaskChanged(it, event)
-                ScreenEvent.Input.DeleteTask -> onTaskDeleted(it)
-                ScreenEvent.Input.Exit -> onExitClicked(it)
+        val newUiState: ScreenUiState? = when (event) {
+            is ScreenEvent.Input.TaskChanged -> onTaskChanged(uiState.value, event)
+            ScreenEvent.Input.DeleteTask -> {
+                onTaskDeleted(uiState.value)
+                null
             }
+
+            ScreenEvent.Input.Exit -> {
+                onExitClicked()
+                null
+            }
+        }
+
+        if (newUiState != null) {
+            _uiState.update { newUiState }
         }
     }
 
     private fun onTaskChanged(
-        state: ScreenUiState,
+        uiState: ScreenUiState,
         event: ScreenEvent.Input.TaskChanged
     ): ScreenUiState {
-        val updatedTask = state.task.copy(
+        val updatedTask = uiState.task.copy(
             name = event.name,
             description = event.description
         )
@@ -52,23 +61,20 @@ class TaskScreenViewModel(
             _commands.emit(ScreenEvent.Command.Exit)
         }
 
-        return state.copy(task = updatedTask)
+        return uiState.copy(task = updatedTask)
     }
 
-    private fun onTaskDeleted(state: ScreenUiState): ScreenUiState {
+    private fun onTaskDeleted(uiState: ScreenUiState) {
         screenModelScope.launch(Dispatchers.IO) {
-            taskRepository.delete(state.task)
+            taskRepository.delete(uiState.task)
             _commands.emit(ScreenEvent.Command.Exit)
         }
-
-        return state
     }
 
-    private fun onExitClicked(state: ScreenUiState): ScreenUiState {
+    private fun onExitClicked() {
         screenModelScope.launch {
             _commands.emit(ScreenEvent.Command.Exit)
         }
-        return state
     }
 
 }

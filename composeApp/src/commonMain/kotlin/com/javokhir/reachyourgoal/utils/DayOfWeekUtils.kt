@@ -13,7 +13,7 @@ import reach_your_goal.composeapp.generated.resources.tuesday
 import reach_your_goal.composeapp.generated.resources.wednesday
 
 @Composable
-fun DayOfWeek.name(): String {
+fun DayOfWeek.composableName(): String {
     val resourceName = when (this) {
         DayOfWeek.MONDAY -> Res.string.monday
         DayOfWeek.TUESDAY -> Res.string.tuesday
