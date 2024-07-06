@@ -1,4 +1,4 @@
-package com.javokhir.reachyourgoal.presentation.component
+package com.javokhir.reachyourgoal.presentation.screen.statistics.mvi.ui.component
 
 import androidx.compose.animation.core.TweenSpec
 import androidx.compose.animation.core.animateFloatAsState
@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.javokhir.reachyourgoal.domain.enums.TaskStatus
+import com.javokhir.reachyourgoal.domain.model.WeekDayTaskProgress
 import com.javokhir.reachyourgoal.utils.progressColor
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.delay
@@ -23,14 +24,9 @@ import kotlinx.coroutines.delay
 @Composable
 fun CircularTaskProgress(
     modifier: Modifier = Modifier,
-    statusAndCounts: ImmutableList<Pair<TaskStatus, Int>>
+    statusAndCounts: ImmutableList<WeekDayTaskProgress>
 ) {
-    val filteredStatusAndCounts = statusAndCounts
-        .filter { it.second > 0 }
-
-    if (filteredStatusAndCounts.isEmpty()) return
-
-    var animationStarted by remember(filteredStatusAndCounts) { mutableStateOf(false) }
+    var animationStarted by remember(statusAndCounts) { mutableStateOf(false) }
 
     LaunchedEffect(statusAndCounts) {
         animationStarted = false
@@ -42,17 +38,17 @@ fun CircularTaskProgress(
     val borderWidth = with(density) { 8.dp.toPx() }
     val gap = 8f
 
-    val maxAngle = 360f - gap * filteredStatusAndCounts.size
+    val maxAngle = 360f - gap * statusAndCounts.size
 
-    val countAllTasks by remember(filteredStatusAndCounts) { mutableStateOf(filteredStatusAndCounts.sumOf { it.second }) }
+    val countAllTasks by remember(statusAndCounts) { mutableStateOf(statusAndCounts.sumOf { it.taskCount }) }
 
     val percent by animateFloatAsState(
         targetValue = if (animationStarted) 1f else 0f,
         animationSpec = TweenSpec(durationMillis = if (animationStarted) 1000 else 300)
     )
 
-    val statusAndAngles by remember(filteredStatusAndCounts) {
-        mutableStateOf(filteredStatusAndCounts.map { it.first to (maxAngle * it.second / countAllTasks) })
+    val statusAndAngles by remember(statusAndCounts) {
+        mutableStateOf(statusAndCounts.map { it.taskStatus to (maxAngle * it.taskCount / countAllTasks) })
     }
 
     val statusProgressColors = TaskStatus.entries.associateWith { it.progressColor() }

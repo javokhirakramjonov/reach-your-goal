@@ -42,15 +42,24 @@ class WeekScreenViewModel(
     }
 
     fun action(event: ScreenEvent.Input) {
-        _uiState.update {
-            when (event) {
-                ScreenEvent.Input.UpdateTasksClicked -> onUpdateTasksClicked(it)
-                ScreenEvent.Input.Exit -> onExitClicked(it)
+        val newUiState: ScreenUiState? = when (event) {
+            ScreenEvent.Input.UpdateTasksClicked -> {
+                onUpdateTasksClicked()
+                null
             }
+
+            ScreenEvent.Input.Exit -> {
+                onExitClicked()
+                null
+            }
+        }
+
+        if (newUiState != null) {
+            _uiState.update { newUiState }
         }
     }
 
-    private fun onUpdateTasksClicked(uiState: ScreenUiState): ScreenUiState {
+    private fun onUpdateTasksClicked() {
         screenModelScope.launch {
             if (taskRepository.count() == 0) {
                 _commands.emit(ScreenEvent.Command.ShowErrorSnackbar(ScreenError.NO_TASKS_AVAILABLE))
@@ -58,14 +67,12 @@ class WeekScreenViewModel(
                 _commands.emit(ScreenEvent.Command.ShowTaskSelector)
             }
         }
-        return uiState
     }
 
-    private fun onExitClicked(state: ScreenUiState): ScreenUiState {
+    private fun onExitClicked() {
         screenModelScope.launch {
             _commands.emit(ScreenEvent.Command.Exit)
         }
-        return state
     }
 
 }

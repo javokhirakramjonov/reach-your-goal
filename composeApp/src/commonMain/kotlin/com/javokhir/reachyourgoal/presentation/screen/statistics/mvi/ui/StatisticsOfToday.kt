@@ -9,8 +9,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.javokhir.reachyourgoal.domain.enums.TaskStatus
-import com.javokhir.reachyourgoal.presentation.component.CircularTaskProgress
+import com.javokhir.reachyourgoal.domain.model.WeekDayTaskProgress
+import com.javokhir.reachyourgoal.presentation.screen.statistics.mvi.ui.component.CircularTaskProgress
 import com.javokhir.reachyourgoal.utils.composableName
 import com.javokhir.reachyourgoal.utils.progressColor
 import kotlinx.collections.immutable.ImmutableList
@@ -18,11 +18,9 @@ import kotlinx.collections.immutable.ImmutableList
 @Composable
 fun StatisticsOfToday(
     modifier: Modifier = Modifier,
-    taskStatuses: ImmutableList<Pair<TaskStatus, Int>>,
+    taskStatuses: ImmutableList<WeekDayTaskProgress>,
 ) {
-    val filteredStatusAndCounts = taskStatuses.filter { it.second > 0 }
-
-    if (filteredStatusAndCounts.isEmpty()) return
+    if (taskStatuses.isEmpty()) return
 
     Box(
         modifier = modifier,

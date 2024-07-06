@@ -13,6 +13,6 @@ class StatisticsScreen : Screen {
         val viewModel = koinScreenModel<StatisticsScreenViewModel>()
         val uiState by viewModel.uiState.collectAsState()
 
-        ScreenUi(uiState = uiState, action = viewModel::action)
+        ScreenUi(uiState = uiState)
     }
 }

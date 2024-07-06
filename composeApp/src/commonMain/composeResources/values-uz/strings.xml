@@ -12,7 +12,7 @@
 
     <!-- tab names -->
     <string name="main_tab">Asosiy</string>
-    <string name="plan_tab">Reja</string>
+    <string name="week_tab">Hafta</string>
     <string name="task_tab">Vazifa</string>
     <string name="settings_tab">Sozlamalar</string>
     <string name="statistics_tab">Statistika</string>

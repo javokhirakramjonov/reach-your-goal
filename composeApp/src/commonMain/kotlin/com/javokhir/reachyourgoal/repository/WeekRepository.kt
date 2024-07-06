@@ -33,4 +33,6 @@ class WeekRepository(
             lastWeekMonday
         }
     }
+
+    suspend fun getWeekByStartDate(date: LocalDate) = weekDao.getWeekByStartDate(date)
 }

@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -73,7 +73,7 @@ class MainScreenViewModel(
     private suspend fun loadTasksForWeek(weekId: Int) {
         taskRepository
             .getAllByWeekId(weekId)
-            .flatMapMerge {
+            .flatMapLatest {
                 combine(
                     it.map { task ->
                         taskStateRepository

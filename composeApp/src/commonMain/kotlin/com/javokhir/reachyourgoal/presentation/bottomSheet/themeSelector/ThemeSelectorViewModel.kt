@@ -47,12 +47,12 @@ class ThemeSelectorViewModel(
     }
 
     private fun onThemeTypeSelected(
-        state: ScreenUiState,
+        uiState: ScreenUiState,
         event: ScreenEvent.Input.ThemeTypeSelected
     ): ScreenUiState {
         screenModelScope.launch(Dispatchers.IO) {
             settingsDatastore.setCurrentTheme(event.themeType)
         }
-        return state.copy(currentTheme = event.themeType)
+        return uiState.copy(currentTheme = event.themeType)
     }
 }

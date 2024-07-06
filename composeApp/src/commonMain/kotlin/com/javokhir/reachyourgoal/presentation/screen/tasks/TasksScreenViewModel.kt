@@ -38,33 +38,43 @@ class TasksScreenViewModel(
     }
 
     fun action(event: ScreenEvent.Input) {
-        _uiState.update {
-            when (event) {
-                is ScreenEvent.Input.AddTask -> onTaskAdded(it, event)
-                is ScreenEvent.Input.DeleteTaskClicked -> onDeleteTaskClicked(it, event)
-                else -> doCommand(it, event)
+        val newUiState: ScreenUiState? = when (event) {
+            is ScreenEvent.Input.AddTask -> {
+                onTaskAdded(event)
+                null
             }
+
+            is ScreenEvent.Input.DeleteTaskClicked -> {
+                onDeleteTaskClicked(event)
+                null
+            }
+
+            else -> {
+                doCommand(event)
+                null
+            }
+        }
+
+        if (newUiState != null) {
+            _uiState.update { newUiState }
         }
     }
 
-    private fun onTaskAdded(state: ScreenUiState, event: ScreenEvent.Input.AddTask): ScreenUiState {
+    private fun onTaskAdded(event: ScreenEvent.Input.AddTask) {
         screenModelScope.launch(Dispatchers.IO) {
             taskRepository.insert(Task(name = event.name, description = event.description))
         }
-        return state
     }
 
     private fun onDeleteTaskClicked(
-        state: ScreenUiState,
         event: ScreenEvent.Input.DeleteTaskClicked
-    ): ScreenUiState {
+    ) {
         screenModelScope.launch(Dispatchers.IO) {
             taskRepository.delete(event.task)
         }
-        return state
     }
 
-    private fun doCommand(state: ScreenUiState, event: ScreenEvent.Input): ScreenUiState {
+    private fun doCommand(event: ScreenEvent.Input) {
         val command: ScreenEvent.Command? = when (event) {
             is ScreenEvent.Input.OpenTask -> ScreenEvent.Command.OpenTask(event.task)
             else -> null
@@ -73,8 +83,6 @@ class TasksScreenViewModel(
         screenModelScope.launch {
             command?.letCoroutine(_commands::emit)
         }
-
-        return state
     }
 
 }

@@ -80,7 +80,7 @@ private val viewModelModule = module {
             uiState
         )
     }
-    factory<StatisticsScreenViewModel> { StatisticsScreenViewModel(get(), get(), get()) }
+    factory<StatisticsScreenViewModel> { StatisticsScreenViewModel(get(), get()) }
     factory<ThemeSelectorViewModel> { ThemeSelectorViewModel(get()) }
     factory<SettingsScreenViewModel> { SettingsScreenViewModel() }
 }

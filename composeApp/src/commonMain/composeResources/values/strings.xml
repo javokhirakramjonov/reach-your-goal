@@ -12,7 +12,7 @@
 
     <!-- tab names -->
     <string name="main_tab">Main</string>
-    <string name="plan_tab">Plan</string>
+    <string name="week_tab">Week</string>
     <string name="task_tab">Task</string>
     <string name="settings_tab">Settings</string>
     <string name="statistics_tab">Statistics</string>

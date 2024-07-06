@@ -11,9 +11,12 @@ import com.javokhir.reachyourgoal.presentation.bottomSheet.taskSelectorForWeek.m
 import com.javokhir.reachyourgoal.repository.TaskAndWeekRepository
 import com.javokhir.reachyourgoal.repository.TaskRepository
 import com.javokhir.reachyourgoal.repository.TaskStateRepository
+import com.javokhir.reachyourgoal.utils.runInTransaction
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -21,6 +24,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DayOfWeek
@@ -38,7 +42,7 @@ class TaskSelectorForWeekViewModel(
     private val _commands = MutableSharedFlow<ScreenEvent.Command>()
     val commands: SharedFlow<ScreenEvent.Command> = _commands.asSharedFlow()
 
-    private var initialSelectedTaskIds: Set<Int> = emptySet()
+    private var job: Job? = null
 
     init {
         screenModelScope.launch(Dispatchers.IO) {
@@ -46,9 +50,6 @@ class TaskSelectorForWeekViewModel(
                 .getAllByWeekId(uiState.weekId)
                 .combine(taskRepository.getAll()) { taskAndWeek, allTasks ->
                     val selectedTasks = taskAndWeek.associateBy { it.taskId }
-                    if (initialSelectedTaskIds.isEmpty()) {
-                        initialSelectedTaskIds = selectedTasks.keys
-                    }
 
                     val selectableTasks = allTasks.map {
                         val isSelected = it.id in selectedTasks
@@ -65,11 +66,20 @@ class TaskSelectorForWeekViewModel(
     }
 
     fun action(event: ScreenEvent.Input) {
-        _uiState.update {
-            when (event) {
-                is ScreenEvent.Input.TaskSelectionChanged -> onTaskSelectionChanged(it, event)
-                ScreenEvent.Input.SaveClicked -> onSaveClicked(it)
+        val newUiState: ScreenUiState? = when (event) {
+            is ScreenEvent.Input.TaskSelectionChanged -> onTaskSelectionChanged(
+                uiState.value,
+                event
+            )
+
+            ScreenEvent.Input.SaveClicked -> {
+                onSaveClicked(uiState.value)
+                null
             }
+        }
+
+        if (newUiState != null) {
+            _uiState.update { newUiState }
         }
     }
 
@@ -88,44 +98,50 @@ class TaskSelectorForWeekViewModel(
             )
     }
 
-    private fun onSaveClicked(uiState: ScreenUiState): ScreenUiState {
-        screenModelScope.launch(Dispatchers.IO) {
-            uiState.selectableTasks.forEach { selectableTask ->
-                if (selectableTask.isSelected) {
-                    if (selectableTask.task.id !in initialSelectedTaskIds) {
-                        DayOfWeek
-                            .entries
-                            .map {
-                                TaskState(
-                                    taskId = selectableTask.task.id,
-                                    weekId = uiState.weekId,
-                                    day = it,
-                                    status = TaskStatus.NOT_STARTED
-                                )
-                            }.forEach {
-                                taskStateRepository.insert(it)
-                            }
-                    }
+    private fun onSaveClicked(uiState: ScreenUiState) {
+        job = CoroutineScope(Dispatchers.IO).launch {
+            runInTransaction {
+                uiState.selectableTasks.forEach { selectableTask ->
+                    if (selectableTask.isSelected) {
+                        val isSelectedBefore = taskAndWeekRepository
+                            .getAllByWeekId(uiState.weekId)
+                            .first()
+                            .any { it.taskId == selectableTask.task.id }
 
-                    taskAndWeekRepository.insert(
-                        TaskAndWeek(
+                        if (!isSelectedBefore) {
+                            taskAndWeekRepository.insert(
+                                TaskAndWeek(
+                                    selectableTask.task.id,
+                                    uiState.weekId,
+                                )
+                            )
+
+                            DayOfWeek
+                                .entries
+                                .map {
+                                    TaskState(
+                                        taskId = selectableTask.task.id,
+                                        weekId = uiState.weekId,
+                                        day = it,
+                                        status = TaskStatus.NOT_STARTED
+                                    )
+                                }.forEach {
+                                    taskStateRepository.insert(it)
+                                }
+                        }
+                    } else {
+                        taskStateRepository.deleteAllByTaskIdAndWeekId(
                             selectableTask.task.id,
-                            uiState.weekId,
+                            uiState.weekId
                         )
-                    )
-                } else {
-                    taskStateRepository.deleteAllByTaskIdAndWeekId(
-                        selectableTask.task.id,
-                        uiState.weekId
-                    )
-                    taskAndWeekRepository.delete(uiState.weekId, selectableTask.task.id)
+                        taskAndWeekRepository.delete(uiState.weekId, selectableTask.task.id)
+                    }
                 }
             }
         }
         screenModelScope.launch {
             _commands.emit(ScreenEvent.Command.Exit)
         }
-        return uiState
     }
 
 }

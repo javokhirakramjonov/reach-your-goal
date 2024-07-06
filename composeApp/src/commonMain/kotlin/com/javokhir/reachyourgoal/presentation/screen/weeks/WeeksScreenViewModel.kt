@@ -40,15 +40,24 @@ class WeeksScreenViewModel(
     }
 
     fun action(event: ScreenEvent.Input) {
-        _uiState.update {
-            when (event) {
-                ScreenEvent.Input.CreateNextWeek -> onCreateNextWeek(it)
-                else -> doCommand(it, event)
+        val newUiState: ScreenUiState? = when (event) {
+            ScreenEvent.Input.CreateNextWeek -> {
+                onCreateNextWeek()
+                null
             }
+
+            else -> {
+                doCommand(event)
+                null
+            }
+        }
+
+        if (newUiState != null) {
+            _uiState.update { newUiState }
         }
     }
 
-    private fun onCreateNextWeek(state: ScreenUiState): ScreenUiState {
+    private fun onCreateNextWeek() {
         screenModelScope.launch(Dispatchers.IO) {
             val nextWeek = weekRepository
                 .getLastWeekStartDate()
@@ -56,11 +65,9 @@ class WeeksScreenViewModel(
 
             weekRepository.insert(Week(startDate = nextWeek))
         }
-
-        return state
     }
 
-    private fun doCommand(state: ScreenUiState, event: ScreenEvent.Input): ScreenUiState {
+    private fun doCommand(event: ScreenEvent.Input) {
         val command: ScreenEvent.Command? = when (event) {
             is ScreenEvent.Input.OpenWeek -> ScreenEvent.Command.OpenWeek(event.week)
             else -> null
@@ -69,7 +76,5 @@ class WeeksScreenViewModel(
         screenModelScope.launch {
             command?.letCoroutine(_commands::emit)
         }
-
-        return state
     }
 }
