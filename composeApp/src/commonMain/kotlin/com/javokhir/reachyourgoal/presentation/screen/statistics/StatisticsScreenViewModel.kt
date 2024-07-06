@@ -94,15 +94,20 @@ class StatisticsScreenViewModel(
 
     private fun loadStatusesOfAllWeek() {
         screenModelScope.launch(Dispatchers.IO) {
+            val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+            val startDayOfWeek = today.minusDays(today.dayOfWeek.isoDayNumber - 1)
+
             taskStateRepository
                 .getTaskCountsForEachWeek()
                 .filter(List<*>::isNotEmpty)
                 .map {
-                    it.map {
-                        val weekName = weekRepository.getById(it.weekId).getName()
+                    it.mapNotNull {
+                        val week = weekRepository.getById(it.weekId)
+
+                        if (week.startDate > startDayOfWeek) return@mapNotNull null
 
                         it.apply {
-                            this.weekName = weekName
+                            weekName = week.getName()
                         }
                     }
                 }

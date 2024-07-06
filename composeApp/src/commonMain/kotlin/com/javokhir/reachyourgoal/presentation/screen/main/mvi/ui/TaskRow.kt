@@ -28,6 +28,7 @@ import com.javokhir.reachyourgoal.presentation.screen.main.model.TaskAndStates
 fun TaskRow(
     modifier: Modifier = Modifier,
     taskAndStates: TaskAndStates,
+    isTaskInFuture: Boolean,
     onStatusChanged: (taskState: TaskState) -> Unit,
 ) {
     val density = LocalDensity.current
@@ -53,7 +54,7 @@ fun TaskRow(
             Text(text = taskAndStates.task.name)
         }
 
-        taskAndStates.states.forEach { uiState ->
+        taskAndStates.states.forEach { taskState ->
             Box(
                 modifier = Modifier
                     .height(maxHeight)
@@ -72,10 +73,11 @@ fun TaskRow(
                 contentAlignment = Alignment.Center
             ) {
                 StatusSelector(
-                    status = uiState.status,
+                    status = taskState.status,
+                    enabled = !isTaskInFuture,
                     onStatusChanged = {
                         onStatusChanged(
-                            uiState.copy(status = it)
+                            taskState.copy(status = it)
                         )
                     }
                 )

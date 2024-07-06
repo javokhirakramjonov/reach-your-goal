@@ -49,6 +49,7 @@ fun ScreenUi(
                     .weight(1f)
                     .border(width = 2.dp, MaterialTheme.colorScheme.primary),
                 scheduledTasks = uiState.scheduledTasks,
+                isWeekInFuture = uiState.isWeekInFuture,
                 onStatusChanged = {
                     action(ScreenEvent.Input.StatusChanged(it))
                 }

@@ -18,11 +18,13 @@ import com.javokhir.reachyourgoal.utils.icon
 fun StatusSelector(
     modifier: Modifier = Modifier,
     status: TaskStatus,
+    enabled: Boolean = true,
     onStatusChanged: (TaskStatus) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
 
     IconButton(
+        enabled = enabled,
         onClick = {
             expanded = true
         },
