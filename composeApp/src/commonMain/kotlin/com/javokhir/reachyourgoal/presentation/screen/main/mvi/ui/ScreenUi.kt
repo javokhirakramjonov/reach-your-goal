@@ -33,7 +33,7 @@ fun ScreenUi(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
-                currentWeekName = uiState.currentWeek?.getName()
+                currentWeekName = uiState.currentWeek?.getNameComposable()
                     ?: stringResource(Res.string.select_week),
                 weeks = uiState.weeks,
                 weekSelected = { week ->

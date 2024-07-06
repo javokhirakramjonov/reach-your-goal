@@ -40,7 +40,7 @@ fun WeekItem(
         ) {
             Text(
                 modifier = Modifier.weight(1f),
-                text = week.getName(),
+                text = week.getNameComposable(),
                 overflow = TextOverflow.Ellipsis
             )
         }

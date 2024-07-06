@@ -59,7 +59,7 @@ fun WeekSelector(
                 DropdownMenuItem(
                     text = {
                         Text(
-                            text = week.getName(),
+                            text = week.getNameComposable(),
                             style = MaterialTheme.typography.bodyLarge
                         )
                     },

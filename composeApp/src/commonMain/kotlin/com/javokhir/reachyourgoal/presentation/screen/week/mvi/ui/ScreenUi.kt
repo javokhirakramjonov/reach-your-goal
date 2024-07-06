@@ -45,7 +45,7 @@ fun ScreenUi(
         modifier = modifier,
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(text = uiState.week.getName()) },
+                title = { Text(text = uiState.week.getNameComposable()) },
                 navigationIcon = {
                     IconButton(
                         onClick = { action(ScreenEvent.Input.Exit) }

@@ -8,6 +8,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.isoDayNumber
 import kotlinx.datetime.minus
+import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 
 class WeekRepository(
@@ -15,9 +16,16 @@ class WeekRepository(
 ) {
     fun getAll() = weekDao.getAll()
     suspend fun getById(id: Int) = weekDao.getById(id)
-    suspend fun insert(week: Week) = weekDao.insert(week)
 
-    suspend fun getLastWeekStartDate(): LocalDate {
+    suspend fun getWeekByStartDate(date: LocalDate) = weekDao.getWeekByStartDate(date)
+
+    suspend fun createNewWeek() {
+        val nextWeekStartDate = getLastWeekStartDate().plus(1, DateTimeUnit.WEEK)
+
+        weekDao.insert(Week(startDate = nextWeekStartDate))
+    }
+
+    private suspend fun getLastWeekStartDate(): LocalDate {
         val lastWeekFromDate = weekDao.getLastWeekStartDate()
 
         return if (lastWeekFromDate != null) {
@@ -33,6 +41,4 @@ class WeekRepository(
             lastWeekMonday
         }
     }
-
-    suspend fun getWeekByStartDate(date: LocalDate) = weekDao.getWeekByStartDate(date)
 }

@@ -63,6 +63,9 @@ class MainScreenViewModel(
 
             if (currentWeek != null) {
                 loadWeekById(currentWeek.id)
+            } else {
+                weekRepository.createNewWeek()
+                loadCurrentWeek()
             }
         }
     }

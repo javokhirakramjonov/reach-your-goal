@@ -2,7 +2,6 @@ package com.javokhir.reachyourgoal.presentation.screen.weeks
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import com.javokhir.reachyourgoal.domain.entity.Week
 import com.javokhir.reachyourgoal.presentation.screen.weeks.mvi.event.ScreenEvent
 import com.javokhir.reachyourgoal.presentation.screen.weeks.mvi.state.ScreenUiState
 import com.javokhir.reachyourgoal.repository.WeekRepository
@@ -18,8 +17,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.plus
 
 class WeeksScreenViewModel(
     private val weekRepository: WeekRepository
@@ -59,11 +56,7 @@ class WeeksScreenViewModel(
 
     private fun onCreateNextWeek() {
         screenModelScope.launch(Dispatchers.IO) {
-            val nextWeek = weekRepository
-                .getLastWeekStartDate()
-                .plus(1, DateTimeUnit.WEEK)
-
-            weekRepository.insert(Week(startDate = nextWeek))
+            weekRepository.createNewWeek()
         }
     }
 
