@@ -28,7 +28,6 @@ import com.javokhir.reachyourgoal.presentation.screen.main.model.TaskAndStates
 fun TaskRow(
     modifier: Modifier = Modifier,
     taskAndStates: TaskAndStates,
-    isTaskInFuture: Boolean,
     onStatusChanged: (taskState: TaskState) -> Unit,
 ) {
     val density = LocalDensity.current
@@ -74,7 +73,6 @@ fun TaskRow(
             ) {
                 StatusSelector(
                     status = taskState.status,
-                    enabled = !isTaskInFuture,
                     onStatusChanged = {
                         onStatusChanged(
                             taskState.copy(status = it)

@@ -104,7 +104,7 @@ class StatisticsScreenViewModel(
                     it.mapNotNull {
                         val week = weekRepository.getById(it.weekId)
 
-                        if (week.startDate > startDayOfWeek) return@mapNotNull null
+                        if (week.startDate >= startDayOfWeek) return@mapNotNull null
 
                         it.apply {
                             weekName = week.getName()

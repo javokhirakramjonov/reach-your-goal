@@ -20,7 +20,6 @@ import reach_your_goal.composeapp.generated.resources.no_tasks
 fun WeeklySchedule(
     modifier: Modifier = Modifier,
     scheduledTasks: ImmutableList<TaskAndStates>,
-    isWeekInFuture: Boolean,
     onStatusChanged: (taskState: TaskState) -> Unit
 ) {
     val headerBackground = MaterialTheme.colorScheme.background
@@ -44,7 +43,6 @@ fun WeeklySchedule(
         items(scheduledTasks) {
             TaskRow(
                 taskAndStates = it,
-                isTaskInFuture = isWeekInFuture,
                 onStatusChanged = onStatusChanged,
             )
         }

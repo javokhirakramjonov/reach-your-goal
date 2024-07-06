@@ -21,9 +21,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
 import kotlinx.datetime.isoDayNumber
-import kotlinx.datetime.toLocalDateTime
 
 class MainScreenViewModel(
     private val weekRepository: WeekRepository,
@@ -63,15 +61,12 @@ class MainScreenViewModel(
         weekLoader?.cancel()
 
         weekLoader = screenModelScope.launch(Dispatchers.IO) {
-            val today = Clock.System.now()
-                .toLocalDateTime(kotlinx.datetime.TimeZone.currentSystemDefault()).date
 
             val week = weekRepository.getById(weekId)
 
             _uiState.update {
                 it.copy(
-                    currentWeek = week,
-                    isWeekInFuture = week.startDate > today
+                    currentWeek = week
                 )
             }
 

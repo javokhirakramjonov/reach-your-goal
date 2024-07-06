@@ -31,7 +31,7 @@ interface TaskStateDao {
     @Query(
         "SELECT week_id as weekId, " +
                 "SUM(CASE WHEN status = 'DONE' THEN 1 ELSE 0 END) as completedTaskCount, " +
-                "SUM(CASE WHEN status = 'NOT_COMPLETED' THEN 1 ELSE 0 END) as notCompletedTaskCount " +
+                "SUM(CASE WHEN status = 'NOT_COMPLETED' OR status = 'NOT_STARTED' THEN 1 ELSE 0 END) as notCompletedTaskCount " +
                 "FROM task_states GROUP BY week_id"
     )
     fun getTaskCountsForEachWeek(): Flow<List<WeeklyTaskProgress>>
@@ -39,7 +39,7 @@ interface TaskStateDao {
     @Query(
         "SELECT day as dayOfWeek, " +
                 "SUM(CASE WHEN status = 'DONE' THEN 1 ELSE 0 END) as completedTaskCount, " +
-                "SUM(CASE WHEN status = 'NOT_COMPLETED' THEN 1 ELSE 0 END) as notCompletedTaskCount " +
+                "SUM(CASE WHEN status = 'NOT_COMPLETED' OR status = 'NOT_STARTED' THEN 1 ELSE 0 END) as notCompletedTaskCount " +
                 "FROM task_states WHERE week_id = :weekId GROUP BY day"
     )
     fun getTaskCountsForEachDayInWeek(weekId: Int): Flow<List<DailyTaskProgress>>
