@@ -21,7 +21,12 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.TimeZone
 import kotlinx.datetime.isoDayNumber
+import kotlinx.datetime.minus
+import kotlinx.datetime.toLocalDateTime
 
 class MainScreenViewModel(
     private val weekRepository: WeekRepository,
@@ -37,6 +42,7 @@ class MainScreenViewModel(
     init {
         screenModelScope.launch(Dispatchers.IO) {
             launch { loadWeeks() }
+            launch { loadCurrentWeek() }
         }
     }
 
@@ -46,6 +52,19 @@ class MainScreenViewModel(
             .collect { weeks ->
                 _uiState.update { it.copy(weeks = weeks.toImmutableList()) }
             }
+    }
+
+    private fun loadCurrentWeek() {
+        screenModelScope.launch(Dispatchers.IO) {
+            val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+            val startOfWeek = today.minus(today.dayOfWeek.isoDayNumber - 1, DateTimeUnit.DAY)
+
+            val currentWeek = weekRepository.getWeekByStartDate(startOfWeek)
+
+            if (currentWeek != null) {
+                loadWeekById(currentWeek.id)
+            }
+        }
     }
 
     private fun loadWeekById(weekId: Int) {
