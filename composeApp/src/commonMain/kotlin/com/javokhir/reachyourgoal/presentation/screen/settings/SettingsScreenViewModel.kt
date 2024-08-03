@@ -37,11 +37,11 @@ class SettingsScreenViewModel : ScreenModel {
                             _commands.emit(ScreenEvent.Command.OpenThemeSettings)
                         }
                     },
-//                    SettingsItem.Clickable(Res.string.select_language) {
-//                        screenModelScope.launch {
-//                            _commands.emit(ScreenEvent.Command.OpenLanguageSettings)
-//                        }
-//                    }
+                    SettingsItem.Clickable.SelectLanguage {
+                        screenModelScope.launch {
+                            _commands.emit(ScreenEvent.Command.OpenLanguageSettings)
+                        }
+                    }
                 ).toImmutableList()
             )
         }

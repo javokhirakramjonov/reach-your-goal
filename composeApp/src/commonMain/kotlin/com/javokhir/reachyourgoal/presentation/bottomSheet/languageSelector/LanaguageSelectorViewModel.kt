@@ -1,10 +1,10 @@
-package com.javokhir.reachyourgoal.presentation.bottomSheet.themeSelector
+package com.javokhir.reachyourgoal.presentation.bottomSheet.languageSelector
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.javokhir.reachyourgoal.datastore.SettingsDatastore
-import com.javokhir.reachyourgoal.presentation.bottomSheet.themeSelector.mvi.event.ScreenEvent
-import com.javokhir.reachyourgoal.presentation.bottomSheet.themeSelector.mvi.state.ScreenUiState
+import com.javokhir.reachyourgoal.presentation.bottomSheet.languageSelector.mvi.event.ScreenEvent
+import com.javokhir.reachyourgoal.presentation.bottomSheet.languageSelector.mvi.state.ScreenUiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class ThemeSelectorViewModel(
+class LanguageSelectorViewModel(
     private val settingsDatastore: SettingsDatastore,
 ) : ScreenModel {
 
@@ -29,10 +29,10 @@ class ThemeSelectorViewModel(
     init {
         screenModelScope.launch(Dispatchers.IO) {
             settingsDatastore
-                .getCurrentTheme()
-                .collect { currentTheme ->
+                .getLanguage()
+                .collect { currentLanguage ->
                     _uiState.update {
-                        it.copy(currentTheme = currentTheme)
+                        it.copy(currentLanguage = currentLanguage)
                     }
                 }
         }
@@ -41,18 +41,18 @@ class ThemeSelectorViewModel(
     fun action(event: ScreenEvent.Input) {
         _uiState.update {
             when (event) {
-                is ScreenEvent.Input.ThemeTypeSelected -> onThemeTypeSelected(it, event)
+                is ScreenEvent.Input.LanguageSelected -> onLanguageSelected(it, event)
             }
         }
     }
 
-    private fun onThemeTypeSelected(
+    private fun onLanguageSelected(
         uiState: ScreenUiState,
-        event: ScreenEvent.Input.ThemeTypeSelected
+        event: ScreenEvent.Input.LanguageSelected
     ): ScreenUiState {
         screenModelScope.launch(Dispatchers.IO) {
-            settingsDatastore.setCurrentTheme(event.themeType)
+            settingsDatastore.setLanguage(event.language)
         }
-        return uiState.copy(currentTheme = event.themeType)
+        return uiState.copy(currentLanguage = event.language)
     }
 }

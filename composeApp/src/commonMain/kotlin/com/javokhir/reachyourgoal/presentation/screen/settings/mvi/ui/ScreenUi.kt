@@ -37,6 +37,16 @@ fun ScreenUi(
                             text = AppLocale.current.settingsScreen.selectTheme
                         )
                     }
+
+                    is SettingsItem.Clickable.SelectLanguage -> {
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable(onClick = it::onClick)
+                                .padding(16.dp),
+                            text = AppLocale.current.settingsScreen.selectLanguage
+                        )
+                    }
                 }
 
                 HorizontalDivider()

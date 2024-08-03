@@ -3,6 +3,8 @@ package com.javokhir.reachyourgoal.locale
 import com.javokhir.reachyourgoal.locale.components.CommonWords
 import com.javokhir.reachyourgoal.locale.components.CreateTaskDialog
 import com.javokhir.reachyourgoal.locale.components.ErrorMessages
+import com.javokhir.reachyourgoal.locale.components.LanguageNames
+import com.javokhir.reachyourgoal.locale.components.LanguageSelectorDialog
 import com.javokhir.reachyourgoal.locale.components.MainScreen
 import com.javokhir.reachyourgoal.locale.components.MonthNames
 import com.javokhir.reachyourgoal.locale.components.SettingsScreen
@@ -25,6 +27,7 @@ data class LocaleStrings(
     val mainScreen: MainScreen,
     val taskSelectorForWeekDialog: TaskSelectorForWeekDialog,
     val themeSelectorDialog: ThemeSelectorDialog,
+    val languageSelectorDialog: LanguageSelectorDialog,
     val createTaskDialog: CreateTaskDialog,
     val tabs: Tabs,
     val themeNames: ThemeNames,
@@ -35,5 +38,6 @@ data class LocaleStrings(
     val weekScreen: WeekScreen,
     val errorMessages: ErrorMessages,
     val statisticsScreen: StatisticsScreen,
-    val settingsScreen: SettingsScreen
+    val settingsScreen: SettingsScreen,
+    val languageNames: LanguageNames
 )

@@ -10,12 +10,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
-import com.javokhir.reachyourgoal.presentation.bottomSheet.themeSelector.mvi.ui.ScreenUi
+import com.javokhir.reachyourgoal.presentation.bottomSheet.languageSelector.LanguageSelectorViewModel
+import com.javokhir.reachyourgoal.presentation.bottomSheet.languageSelector.mvi.ui.ScreenUi
 
-class ThemeSelector : Screen {
+class LanguageSelector : Screen {
     @Composable
     override fun Content() {
-        val viewModel = koinScreenModel<ThemeSelectorViewModel>()
+        val viewModel = koinScreenModel<LanguageSelectorViewModel>()
         val uiState by viewModel.uiState.collectAsState()
 
         ScreenUi(

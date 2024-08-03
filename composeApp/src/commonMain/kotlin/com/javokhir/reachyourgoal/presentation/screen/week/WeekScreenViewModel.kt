@@ -2,7 +2,7 @@ package com.javokhir.reachyourgoal.presentation.screen.week
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import com.javokhir.reachyourgoal.datastore.AppDatastore
+import com.javokhir.reachyourgoal.datastore.SettingsDatastore
 import com.javokhir.reachyourgoal.presentation.screen.week.domain.ScreenError
 import com.javokhir.reachyourgoal.presentation.screen.week.mvi.event.ScreenEvent
 import com.javokhir.reachyourgoal.presentation.screen.week.mvi.state.ScreenUiState
@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 
 class WeekScreenViewModel(
     private val taskRepository: TaskRepository,
-    private val appDatastore: AppDatastore,
+    private val settingsDatastore: SettingsDatastore,
     uiState: ScreenUiState
 ) : ScreenModel {
 
@@ -65,7 +65,7 @@ class WeekScreenViewModel(
     private fun onUpdateTasksClicked() {
         screenModelScope.launch {
             if (taskRepository.count() == 0) {
-                val errorMessage = appDatastore
+                val errorMessage = settingsDatastore
                     .getAppLocale()
                     .last()
                     .errorMessages

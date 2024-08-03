@@ -6,6 +6,8 @@ import com.javokhir.reachyourgoal.locale.LocaleStrings
 import com.javokhir.reachyourgoal.locale.components.CommonWords
 import com.javokhir.reachyourgoal.locale.components.CreateTaskDialog
 import com.javokhir.reachyourgoal.locale.components.ErrorMessages
+import com.javokhir.reachyourgoal.locale.components.LanguageNames
+import com.javokhir.reachyourgoal.locale.components.LanguageSelectorDialog
 import com.javokhir.reachyourgoal.locale.components.MainScreen
 import com.javokhir.reachyourgoal.locale.components.MonthNames
 import com.javokhir.reachyourgoal.locale.components.SettingsScreen
@@ -90,7 +92,6 @@ val UzbekLocale = LocaleStrings(
             TaskStatus.NOT_COMPLETED -> "Bajarilmadi"
         }
     },
-    //add other parameters names of LocaleStrings
     weekScreen = WeekScreen(
         tasks = "Vazifalar",
         updateTasks = "Vazifalarni yangilash",
@@ -104,10 +105,20 @@ val UzbekLocale = LocaleStrings(
     },
     settingsScreen = SettingsScreen(
         selectTheme = "Mavzuni tanlash",
+        selectLanguage = "Tilni tanlash",
     ),
     statisticsScreen = StatisticsScreen(
         dailyStatistics = "Kunlik statistika",
         weeklyStatistics = "Haftalik statistika",
         allWeeksStatistics = "Barcha haftalar statistikasi",
+    ),
+    languageNames = LanguageNames {
+        when (it) {
+            Language.ENGLISH -> "Ingliz tili"
+            Language.UZBEK -> "O'zbek tili"
+        }
+    },
+    languageSelectorDialog = LanguageSelectorDialog(
+        title = "Tilni tanlash",
     )
 )

@@ -6,6 +6,8 @@ import com.javokhir.reachyourgoal.locale.LocaleStrings
 import com.javokhir.reachyourgoal.locale.components.CommonWords
 import com.javokhir.reachyourgoal.locale.components.CreateTaskDialog
 import com.javokhir.reachyourgoal.locale.components.ErrorMessages
+import com.javokhir.reachyourgoal.locale.components.LanguageNames
+import com.javokhir.reachyourgoal.locale.components.LanguageSelectorDialog
 import com.javokhir.reachyourgoal.locale.components.MainScreen
 import com.javokhir.reachyourgoal.locale.components.MonthNames
 import com.javokhir.reachyourgoal.locale.components.SettingsScreen
@@ -103,10 +105,20 @@ val EnglishLocale = LocaleStrings(
     },
     settingsScreen = SettingsScreen(
         selectTheme = "Select theme",
+        selectLanguage = "Select language",
     ),
     statisticsScreen = StatisticsScreen(
         dailyStatistics = "Daily statistics",
         weeklyStatistics = "Weekly statistics",
         allWeeksStatistics = "All weeks statistics",
+    ),
+    languageNames = LanguageNames {
+        when (it) {
+            Language.ENGLISH -> "English"
+            Language.UZBEK -> "Uzbek"
+        }
+    },
+    languageSelectorDialog = LanguageSelectorDialog(
+        title = "Select language",
     )
 )
