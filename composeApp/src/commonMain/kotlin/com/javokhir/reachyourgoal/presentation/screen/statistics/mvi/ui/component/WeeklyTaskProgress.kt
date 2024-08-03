@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.javokhir.reachyourgoal.AppLocale
 import com.javokhir.reachyourgoal.domain.model.DailyTaskProgress
-import com.javokhir.reachyourgoal.utils.composableName
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
@@ -38,7 +38,7 @@ fun WeeklyTaskProgress(
                         completedTaskCount = it.completedTaskCount,
                         notCompletedTaskCount = it.notCompletedTaskCount,
                         height = height,
-                        title = it.dayOfWeek.composableName().substring(0, 3)
+                        title = AppLocale.current.weekNames.getName(it.dayOfWeek).substring(0, 3)
                     )
                 }
             }

@@ -28,13 +28,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import com.javokhir.reachyourgoal.AppLocale
 import com.javokhir.reachyourgoal.presentation.screen.task.mvi.event.ScreenEvent
 import com.javokhir.reachyourgoal.presentation.screen.task.mvi.state.ScreenUiState
-import org.jetbrains.compose.resources.stringResource
-import reach_your_goal.composeapp.generated.resources.Res
-import reach_your_goal.composeapp.generated.resources.task_screen_task_description
-import reach_your_goal.composeapp.generated.resources.task_screen_task_name
-import reach_your_goal.composeapp.generated.resources.task_screen_update_task
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -75,7 +71,7 @@ fun ScreenUi(
                 modifier = Modifier.fillMaxWidth(),
                 value = name,
                 onValueChange = { name = it },
-                label = { Text(text = stringResource(Res.string.task_screen_task_name)) },
+                label = { Text(text = AppLocale.current.createTaskDialog.taskName) },
                 maxLines = 2,
                 keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(
@@ -89,7 +85,7 @@ fun ScreenUi(
                 modifier = Modifier.fillMaxWidth(),
                 value = description,
                 onValueChange = { description = it },
-                label = { Text(text = stringResource(Res.string.task_screen_task_description)) },
+                label = { Text(text = AppLocale.current.createTaskDialog.taskDescription) },
                 maxLines = 4,
                 keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(
@@ -108,7 +104,7 @@ fun ScreenUi(
                     action(ScreenEvent.Input.TaskChanged(name, description.ifEmpty { null }))
                 }
             ) {
-                Text(text = stringResource(Res.string.task_screen_update_task))
+                Text(text = AppLocale.current.commonWords.save)
             }
 
             IconButton(

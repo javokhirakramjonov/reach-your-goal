@@ -20,7 +20,7 @@ object MainTab : Tab {
             val title = AppLocale.current.tabs.main
             val icon = painterResource(Res.drawable.ic_status)
 
-            return remember {
+            return remember(title, icon) {
                 TabOptions(
                     index = 0u,
                     title = title,

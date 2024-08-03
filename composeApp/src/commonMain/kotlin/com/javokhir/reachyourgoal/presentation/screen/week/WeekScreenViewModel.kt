@@ -2,6 +2,7 @@ package com.javokhir.reachyourgoal.presentation.screen.week
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.javokhir.reachyourgoal.datastore.AppDatastore
 import com.javokhir.reachyourgoal.presentation.screen.week.domain.ScreenError
 import com.javokhir.reachyourgoal.presentation.screen.week.mvi.event.ScreenEvent
 import com.javokhir.reachyourgoal.presentation.screen.week.mvi.state.ScreenUiState
@@ -15,11 +16,13 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class WeekScreenViewModel(
     private val taskRepository: TaskRepository,
+    private val appDatastore: AppDatastore,
     uiState: ScreenUiState
 ) : ScreenModel {
 
@@ -62,7 +65,19 @@ class WeekScreenViewModel(
     private fun onUpdateTasksClicked() {
         screenModelScope.launch {
             if (taskRepository.count() == 0) {
-                _commands.emit(ScreenEvent.Command.ShowErrorSnackbar(ScreenError.NO_TASKS_AVAILABLE))
+                val errorMessage = appDatastore
+                    .getAppLocale()
+                    .last()
+                    .errorMessages
+                    .noTasksAvailable
+
+                _commands.emit(
+                    ScreenEvent.Command.ShowErrorSnackbar(
+                        ScreenError.NoTasksAvailable(
+                            errorMessage
+                        )
+                    )
+                )
             } else {
                 _commands.emit(ScreenEvent.Command.ShowTaskSelector)
             }

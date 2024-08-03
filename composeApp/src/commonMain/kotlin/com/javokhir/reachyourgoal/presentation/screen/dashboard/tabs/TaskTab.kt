@@ -19,7 +19,7 @@ object TaskTab : Tab {
             val title = AppLocale.current.tabs.task
             val icon = painterResource(Res.drawable.ic_task)
 
-            return remember {
+            return remember(title, icon) {
                 TabOptions(
                     index = 2u,
                     title = title,

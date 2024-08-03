@@ -1,11 +1,23 @@
 package com.javokhir.reachyourgoal.locale.languages
 
+import com.javokhir.reachyourgoal.domain.enums.TaskStatus
 import com.javokhir.reachyourgoal.locale.Language
 import com.javokhir.reachyourgoal.locale.LocaleStrings
 import com.javokhir.reachyourgoal.locale.components.CommonWords
+import com.javokhir.reachyourgoal.locale.components.CreateTaskDialog
+import com.javokhir.reachyourgoal.locale.components.ErrorMessages
 import com.javokhir.reachyourgoal.locale.components.MainScreen
 import com.javokhir.reachyourgoal.locale.components.MonthNames
+import com.javokhir.reachyourgoal.locale.components.SettingsScreen
+import com.javokhir.reachyourgoal.locale.components.StatisticsScreen
+import com.javokhir.reachyourgoal.locale.components.Tabs
+import com.javokhir.reachyourgoal.locale.components.TaskSelectorForWeekDialog
+import com.javokhir.reachyourgoal.locale.components.TaskStatusNames
+import com.javokhir.reachyourgoal.locale.components.ThemeNames
+import com.javokhir.reachyourgoal.locale.components.ThemeSelectorDialog
 import com.javokhir.reachyourgoal.locale.components.WeekNames
+import com.javokhir.reachyourgoal.locale.components.WeekScreen
+import com.javokhir.reachyourgoal.theme.ThemeType
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.Month
 
@@ -14,7 +26,6 @@ val UzbekLocale = LocaleStrings(
     mainScreen = MainScreen(
         currentWeek = "Joriy hafta",
         taskName = "Vazifa nomi",
-        noTasks = "Vazifalar mavjud emas",
     ),
     weekNames = WeekNames {
         when (it) {
@@ -46,6 +57,57 @@ val UzbekLocale = LocaleStrings(
         }
     },
     commonWords = CommonWords(
-        loading = "Yuklanmoqda"
+        loading = "Yuklanmoqda",
+        save = "Saqlash",
+        create = "Yaratish"
+    ),
+    tabs = Tabs(
+        main = "Asosiy",
+        statistics = "Statistika",
+        week = "Hafta",
+        settings = "Sozlamalar",
+        task = "Vazifa"
+    ),
+    createTaskDialog = CreateTaskDialog(
+        title = "Vazifa yaratish",
+        taskName = "Vazifa nomi",
+        taskDescription = "Vazifa tavsifi",
+    ),
+    themeSelectorDialog = ThemeSelectorDialog(
+        title = "Mavzu tanlash",
+    ),
+    taskSelectorForWeekDialog = TaskSelectorForWeekDialog(
+        title = "Vazifalar",
+    ),
+    errorMessages = ErrorMessages(
+        noTasksAvailable = "Vazifa mavjud emas",
+    ),
+    taskStatusNames = TaskStatusNames {
+        when (it) {
+            TaskStatus.DONE -> "Bajarildi"
+            TaskStatus.NOT_MANDATORY -> "Majburiy emas"
+            TaskStatus.NOT_STARTED -> "Boshlanmadi"
+            TaskStatus.NOT_COMPLETED -> "Bajarilmadi"
+        }
+    },
+    //add other parameters names of LocaleStrings
+    weekScreen = WeekScreen(
+        tasks = "Vazifalar",
+        updateTasks = "Vazifalarni yangilash",
+    ),
+    themeNames = ThemeNames {
+        when (it) {
+            ThemeType.DARK -> "Tungi"
+            ThemeType.LIGHT -> "Kunduzgi"
+            ThemeType.SYSTEM_DEFAULT -> "Tizim mavzusi"
+        }
+    },
+    settingsScreen = SettingsScreen(
+        selectTheme = "Mavzuni tanlash",
+    ),
+    statisticsScreen = StatisticsScreen(
+        dailyStatistics = "Kunlik statistika",
+        weeklyStatistics = "Haftalik statistika",
+        allWeeksStatistics = "Barcha haftalar statistikasi",
     )
 )

@@ -9,9 +9,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.javokhir.reachyourgoal.AppLocale
 import com.javokhir.reachyourgoal.domain.model.WeekDayTaskProgress
 import com.javokhir.reachyourgoal.presentation.screen.statistics.mvi.ui.component.CircularTaskProgress
-import com.javokhir.reachyourgoal.utils.composableName
 import com.javokhir.reachyourgoal.utils.progressColor
 import kotlinx.collections.immutable.ImmutableList
 
@@ -40,7 +40,7 @@ fun StatisticsOfToday(
         Column {
             taskStatuses.forEach { (status, count) ->
                 Text(
-                    text = "${status.composableName()}: $count",
+                    text = "${AppLocale.current.taskStatusNames.getName(status)}: $count",
                     color = status.progressColor()
                 )
             }

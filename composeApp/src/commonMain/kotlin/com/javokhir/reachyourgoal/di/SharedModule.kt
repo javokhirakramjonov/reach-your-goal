@@ -70,6 +70,7 @@ private val viewModelModule = module {
     factory<WeekScreenViewModel> { (uiState: WeekScreenUiState) ->
         WeekScreenViewModel(
             get(),
+            get(),
             uiState
         )
     }

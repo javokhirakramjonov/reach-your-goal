@@ -18,12 +18,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.javokhir.reachyourgoal.domain.enums.TaskStatus
-import org.jetbrains.compose.resources.stringResource
-import reach_your_goal.composeapp.generated.resources.Res
-import reach_your_goal.composeapp.generated.resources.task_status_done
-import reach_your_goal.composeapp.generated.resources.task_status_not_completed
-import reach_your_goal.composeapp.generated.resources.task_status_not_mandatory
-import reach_your_goal.composeapp.generated.resources.task_status_not_started
 
 @Composable
 fun TaskStatus.icon(
@@ -72,18 +66,6 @@ fun TaskStatus.icon(
             )
         }
     }
-}
-
-@Composable
-fun TaskStatus.composableName(): String {
-    val resourceName = when (this) {
-        TaskStatus.NOT_STARTED -> Res.string.task_status_not_started
-        TaskStatus.NOT_MANDATORY -> Res.string.task_status_not_mandatory
-        TaskStatus.DONE -> Res.string.task_status_done
-        TaskStatus.NOT_COMPLETED -> Res.string.task_status_not_completed
-    }
-
-    return stringResource(resourceName)
 }
 
 @Composable

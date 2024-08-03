@@ -20,7 +20,7 @@ object SettingsTab : Tab {
             val title = AppLocale.current.tabs.settings
             val icon = rememberVectorPainter(Icons.Default.Settings)
 
-            return remember {
+            return remember(title, icon) {
                 TabOptions(
                     index = 0u,
                     title = title,

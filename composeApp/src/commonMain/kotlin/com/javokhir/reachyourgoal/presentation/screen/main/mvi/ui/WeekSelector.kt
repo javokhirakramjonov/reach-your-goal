@@ -16,11 +16,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.javokhir.reachyourgoal.AppLocale
 import com.javokhir.reachyourgoal.domain.entity.Week
 import kotlinx.collections.immutable.ImmutableList
-import org.jetbrains.compose.resources.stringResource
-import reach_your_goal.composeapp.generated.resources.Res
-import reach_your_goal.composeapp.generated.resources.current_week
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,7 +43,7 @@ fun WeekSelector(
             onValueChange = {},
             readOnly = true,
             singleLine = true,
-            label = { Text(text = stringResource(Res.string.current_week)) },
+            label = { Text(text = AppLocale.current.mainScreen.currentWeek) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
             colors = ExposedDropdownMenuDefaults.textFieldColors(),
         )

@@ -19,7 +19,7 @@ object StatisticsTab : Tab {
             val title = AppLocale.current.tabs.statistics
             val icon = rememberVectorPainter(Icons.Default.Analytics)
 
-            return remember {
+            return remember(title, icon) {
                 TabOptions(
                     index = 0u,
                     title = title,

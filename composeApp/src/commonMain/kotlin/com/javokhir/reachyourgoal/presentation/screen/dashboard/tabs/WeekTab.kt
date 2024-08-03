@@ -19,7 +19,7 @@ object WeekTab : Tab {
             val title = AppLocale.current.tabs.week
             val icon = painterResource(Res.drawable.ic_calendar)
 
-            return remember {
+            return remember(title, icon) {
                 TabOptions(
                     index = 1u,
                     title = title,
