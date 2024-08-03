@@ -13,12 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.javokhir.reachyourgoal.AppLocale
 import com.javokhir.reachyourgoal.presentation.bottomSheet.taskSelectorForWeek.mvi.event.ScreenEvent
 import com.javokhir.reachyourgoal.presentation.bottomSheet.taskSelectorForWeek.mvi.state.ScreenUiState
-import org.jetbrains.compose.resources.stringResource
-import reach_your_goal.composeapp.generated.resources.Res
-import reach_your_goal.composeapp.generated.resources.save
-import reach_your_goal.composeapp.generated.resources.week_screen_tasks
 
 @Composable
 fun ScreenUi(
@@ -32,7 +29,7 @@ fun ScreenUi(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                text = stringResource(Res.string.week_screen_tasks),
+                text = AppLocale.current.taskSelectorForWeekDialog.title,
                 style = MaterialTheme.typography.titleMedium
             )
 
@@ -51,7 +48,7 @@ fun ScreenUi(
                     .padding(16.dp),
                 onClick = { action(ScreenEvent.Input.SaveClicked) }
             ) {
-                Text(text = stringResource(Res.string.save))
+                Text(text = AppLocale.current.commonWords.save)
             }
         }
     }

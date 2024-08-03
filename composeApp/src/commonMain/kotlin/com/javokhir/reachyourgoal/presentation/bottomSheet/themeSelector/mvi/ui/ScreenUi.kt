@@ -13,11 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.javokhir.reachyourgoal.AppLocale
 import com.javokhir.reachyourgoal.presentation.bottomSheet.themeSelector.mvi.event.ScreenEvent
 import com.javokhir.reachyourgoal.presentation.bottomSheet.themeSelector.mvi.state.ScreenUiState
-import org.jetbrains.compose.resources.stringResource
-import reach_your_goal.composeapp.generated.resources.Res
-import reach_your_goal.composeapp.generated.resources.theme_types
 
 @Composable
 fun ScreenUi(
@@ -31,7 +29,7 @@ fun ScreenUi(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                text = stringResource(Res.string.theme_types),
+                text = AppLocale.current.themeSelectorDialog.title,
                 style = MaterialTheme.typography.titleMedium
             )
 

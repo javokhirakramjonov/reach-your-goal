@@ -25,6 +25,7 @@ import org.koin.dsl.module
 typealias TaskScreenUiState = com.javokhir.reachyourgoal.presentation.screen.task.mvi.state.ScreenUiState
 typealias WeekScreenUiState = com.javokhir.reachyourgoal.presentation.screen.week.mvi.state.ScreenUiState
 typealias TaskSelectorForWeekUiState = com.javokhir.reachyourgoal.presentation.bottomSheet.taskSelectorForWeek.mvi.state.ScreenUiState
+typealias MainScreenUiState = com.javokhir.reachyourgoal.presentation.screen.main.mvi.state.ScreenUiState
 
 fun appModules() = listOf(
     daoModule,
