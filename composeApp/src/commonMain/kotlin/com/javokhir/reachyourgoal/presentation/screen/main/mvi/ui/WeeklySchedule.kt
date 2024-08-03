@@ -9,12 +9,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.javokhir.reachyourgoal.AppLocale
 import com.javokhir.reachyourgoal.domain.entity.TaskState
 import com.javokhir.reachyourgoal.presentation.screen.main.model.TaskAndStates
 import kotlinx.collections.immutable.ImmutableList
-import org.jetbrains.compose.resources.stringResource
-import reach_your_goal.composeapp.generated.resources.Res
-import reach_your_goal.composeapp.generated.resources.no_tasks
 
 @Composable
 fun WeeklySchedule(
@@ -35,7 +33,7 @@ fun WeeklySchedule(
                     modifier = Modifier.fillParentMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(text = stringResource(Res.string.no_tasks))
+                    Text(text = AppLocale.current.errorMessages.noTasksAvailable)
                 }
             }
         }

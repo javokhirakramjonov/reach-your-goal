@@ -1,12 +1,21 @@
 package com.javokhir.reachyourgoal.presentation.screen.settings.domain
 
-import org.jetbrains.compose.resources.StringResource
-
 sealed interface SettingsItem {
 
-    data class Clickable(
-        val titleResource: StringResource,
-        val onClick: () -> Unit
-    ) : SettingsItem
+    sealed interface Clickable : SettingsItem {
+        fun onClick()
+
+        class SelectTheme(private val onClick: () -> Unit) : Clickable {
+            override fun onClick() {
+                onClick.invoke()
+            }
+        }
+
+        class SelectLanguage(private val onClick: () -> Unit) : Clickable {
+            override fun onClick() {
+                onClick.invoke()
+            }
+        }
+    }
 
 }

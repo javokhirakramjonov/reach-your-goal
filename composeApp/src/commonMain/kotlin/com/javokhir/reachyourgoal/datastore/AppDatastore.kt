@@ -5,5 +5,4 @@ import androidx.datastore.preferences.core.Preferences
 
 class AppDatastore(
     private val dataStore: DataStore<Preferences>
-) {
-}
+)

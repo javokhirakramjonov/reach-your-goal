@@ -12,10 +12,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.javokhir.reachyourgoal.AppLocale
 import com.javokhir.reachyourgoal.presentation.screen.settings.domain.SettingsItem
 import com.javokhir.reachyourgoal.presentation.screen.settings.mvi.event.ScreenEvent
 import com.javokhir.reachyourgoal.presentation.screen.settings.mvi.state.ScreenUiState
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ScreenUi(
@@ -28,13 +28,23 @@ fun ScreenUi(
         LazyColumn {
             items(uiState.settingsItems) {
                 when (it) {
-                    is SettingsItem.Clickable -> {
+                    is SettingsItem.Clickable.SelectTheme -> {
                         Text(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clickable(onClick = it.onClick)
+                                .clickable(onClick = it::onClick)
                                 .padding(16.dp),
-                            text = stringResource(it.titleResource)
+                            text = AppLocale.current.settingsScreen.selectTheme
+                        )
+                    }
+
+                    is SettingsItem.Clickable.SelectLanguage -> {
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable(onClick = it::onClick)
+                                .padding(16.dp),
+                            text = AppLocale.current.settingsScreen.selectLanguage
                         )
                     }
                 }

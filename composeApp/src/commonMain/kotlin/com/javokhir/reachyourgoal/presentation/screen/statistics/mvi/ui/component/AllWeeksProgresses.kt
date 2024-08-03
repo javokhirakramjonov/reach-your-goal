@@ -26,7 +26,7 @@ fun AllWeeksProgresses(
                 completedTaskCount = it.completedTaskCount,
                 notCompletedTaskCount = it.notCompletedTaskCount,
                 height = height,
-                title = it.weekName.orEmpty()
+                title = it.getWeekName()
             )
 
             Spacer(modifier = Modifier.width(8.dp))

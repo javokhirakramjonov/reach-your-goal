@@ -26,12 +26,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.javokhir.reachyourgoal.AppLocale
 import com.javokhir.reachyourgoal.presentation.screen.week.mvi.event.ScreenEvent
 import com.javokhir.reachyourgoal.presentation.screen.week.mvi.state.ScreenUiState
-import org.jetbrains.compose.resources.stringResource
-import reach_your_goal.composeapp.generated.resources.Res
-import reach_your_goal.composeapp.generated.resources.week_screen_tasks
-import reach_your_goal.composeapp.generated.resources.week_screen_update_tasks
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -75,7 +72,7 @@ fun ScreenUi(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = stringResource(Res.string.week_screen_tasks),
+                text = AppLocale.current.weekScreen.tasks,
                 style = MaterialTheme.typography.titleMedium
             )
 
@@ -98,7 +95,7 @@ fun ScreenUi(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = { action(ScreenEvent.Input.UpdateTasksClicked) }
             ) {
-                Text(text = stringResource(Res.string.week_screen_update_tasks))
+                Text(text = AppLocale.current.weekScreen.updateTasks)
             }
         }
     }

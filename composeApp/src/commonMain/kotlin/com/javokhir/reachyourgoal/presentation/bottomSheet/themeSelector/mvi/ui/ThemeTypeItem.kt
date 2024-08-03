@@ -13,8 +13,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import com.javokhir.reachyourgoal.AppLocale
 import com.javokhir.reachyourgoal.theme.ThemeType
-import com.javokhir.reachyourgoal.utils.composableName
 
 @Composable
 fun ThemeTypeItem(
@@ -37,7 +37,7 @@ fun ThemeTypeItem(
         ) {
             Text(
                 modifier = Modifier.padding(8.dp),
-                text = themeType.composableName()
+                text = AppLocale.current.themeNames.getName(themeType)
             )
         }
     }

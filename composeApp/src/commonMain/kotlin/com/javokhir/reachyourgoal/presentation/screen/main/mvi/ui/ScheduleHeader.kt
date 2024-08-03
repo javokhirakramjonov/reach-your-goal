@@ -21,11 +21,8 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.javokhir.reachyourgoal.utils.composableName
+import com.javokhir.reachyourgoal.AppLocale
 import kotlinx.datetime.DayOfWeek
-import org.jetbrains.compose.resources.stringResource
-import reach_your_goal.composeapp.generated.resources.Res
-import reach_your_goal.composeapp.generated.resources.main_screen_task_name
 
 @OptIn(ExperimentalFoundationApi::class)
 fun LazyListScope.header(
@@ -50,7 +47,7 @@ fun LazyListScope.header(
                     .padding(4.dp),
                 contentAlignment = Alignment.Center
             ) {
-                Text(text = stringResource(Res.string.main_screen_task_name))
+                Text(text = AppLocale.current.mainScreen.taskName)
             }
             DayOfWeek.entries.forEach {
                 Box(
@@ -68,7 +65,7 @@ fun LazyListScope.header(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = it.composableName().first().toString(),
+                        text = AppLocale.current.weekNames.getName(it).first().toString(),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.titleSmall,
                     )

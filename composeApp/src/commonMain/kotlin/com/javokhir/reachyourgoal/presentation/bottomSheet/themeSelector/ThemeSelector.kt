@@ -1,4 +1,4 @@
-package com.javokhir.reachyourgoal.presentation.bottomSheet.taskSelectorForWeek
+package com.javokhir.reachyourgoal.presentation.bottomSheet.themeSelector
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape

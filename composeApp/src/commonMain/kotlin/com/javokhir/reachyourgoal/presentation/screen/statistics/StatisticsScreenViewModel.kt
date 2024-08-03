@@ -107,7 +107,7 @@ class StatisticsScreenViewModel(
                         if (week.startDate >= startDayOfWeek) return@mapNotNull null
 
                         it.apply {
-                            weekName = week.getName()
+                            it.getWeekName = { week.getNameComposable() }
                         }
                     }
                 }

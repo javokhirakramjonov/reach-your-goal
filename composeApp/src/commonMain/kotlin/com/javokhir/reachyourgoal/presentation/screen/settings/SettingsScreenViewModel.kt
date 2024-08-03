@@ -14,8 +14,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import reach_your_goal.composeapp.generated.resources.Res
-import reach_your_goal.composeapp.generated.resources.select_theme
 
 class SettingsScreenViewModel : ScreenModel {
 
@@ -33,16 +31,17 @@ class SettingsScreenViewModel : ScreenModel {
         _uiState.update {
             it.copy(
                 settingsItems = listOf(
-                    SettingsItem.Clickable(Res.string.select_theme) {
+
+                    SettingsItem.Clickable.SelectTheme {
                         screenModelScope.launch {
                             _commands.emit(ScreenEvent.Command.OpenThemeSettings)
                         }
                     },
-//                    SettingsItem.Clickable(Res.string.select_language) {
-//                        screenModelScope.launch {
-//                            _commands.emit(ScreenEvent.Command.OpenLanguageSettings)
-//                        }
-//                    }
+                    SettingsItem.Clickable.SelectLanguage {
+                        screenModelScope.launch {
+                            _commands.emit(ScreenEvent.Command.OpenLanguageSettings)
+                        }
+                    }
                 ).toImmutableList()
             )
         }

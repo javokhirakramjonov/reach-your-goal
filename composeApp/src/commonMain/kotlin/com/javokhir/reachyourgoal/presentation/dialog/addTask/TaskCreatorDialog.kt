@@ -19,12 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import org.jetbrains.compose.resources.stringResource
-import reach_your_goal.composeapp.generated.resources.Res
-import reach_your_goal.composeapp.generated.resources.create_task_dialog_description
-import reach_your_goal.composeapp.generated.resources.create_task_dialog_name
-import reach_your_goal.composeapp.generated.resources.create_task_dialog_positive_button
-import reach_your_goal.composeapp.generated.resources.create_task_dialog_title
+import com.javokhir.reachyourgoal.AppLocale
 
 @Composable
 fun TaskCreatorDialog(
@@ -44,11 +39,11 @@ fun TaskCreatorDialog(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text(text = stringResource(Res.string.create_task_dialog_title))
+                Text(text = AppLocale.current.createTaskDialog.title)
                 TextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text(text = stringResource(Res.string.create_task_dialog_name)) },
+                    label = { Text(text = AppLocale.current.createTaskDialog.taskName) },
                     maxLines = 2,
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
                     keyboardActions = KeyboardActions(
@@ -61,7 +56,7 @@ fun TaskCreatorDialog(
                 TextField(
                     value = description,
                     onValueChange = { description = it },
-                    label = { Text(text = stringResource(Res.string.create_task_dialog_description)) },
+                    label = { Text(text = AppLocale.current.createTaskDialog.taskDescription) },
                     maxLines = 4,
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
                     keyboardActions = KeyboardActions(
@@ -77,7 +72,7 @@ fun TaskCreatorDialog(
                         onDismissRequest()
                     }
                 ) {
-                    Text(text = stringResource(Res.string.create_task_dialog_positive_button))
+                    Text(text = AppLocale.current.commonWords.create)
                 }
             }
         }

@@ -4,12 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.javokhir.reachyourgoal.utils.getMonthName
+import com.javokhir.reachyourgoal.AppLocale
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.plus
-import org.jetbrains.compose.resources.getString
-import org.jetbrains.compose.resources.stringResource
 
 @Entity(tableName = "weeks")
 data class Week(
@@ -22,17 +20,10 @@ data class Week(
     fun getNameComposable(): String {
         val endDate = getEndDate()
 
-        val startDatePart = "${startDate.dayOfMonth}, ${stringResource(getMonthName(startDate))}"
-        val endDatePart = "${endDate.dayOfMonth}, ${stringResource(getMonthName(endDate))}"
-
-        return "$startDatePart - $endDatePart"
-    }
-
-    suspend fun getName(): String {
-        val endDate = getEndDate()
-
-        val startDatePart = "${startDate.dayOfMonth}, ${getString(getMonthName(startDate))}"
-        val endDatePart = "${endDate.dayOfMonth}, ${getString(getMonthName(endDate))}"
+        val startDatePart =
+            "${startDate.dayOfMonth}, ${AppLocale.current.monthNames.getMonthName(startDate.month)}"
+        val endDatePart =
+            "${endDate.dayOfMonth}, ${AppLocale.current.monthNames.getMonthName(endDate.month)}"
 
         return "$startDatePart - $endDatePart"
     }

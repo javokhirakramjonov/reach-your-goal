@@ -15,14 +15,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.javokhir.reachyourgoal.AppLocale
 import com.javokhir.reachyourgoal.presentation.screen.statistics.mvi.state.ScreenUiState
 import com.javokhir.reachyourgoal.presentation.screen.statistics.mvi.ui.component.AllWeeksProgresses
 import com.javokhir.reachyourgoal.presentation.screen.statistics.mvi.ui.component.WeeklyTaskProgress
-import org.jetbrains.compose.resources.stringResource
-import reach_your_goal.composeapp.generated.resources.Res
-import reach_your_goal.composeapp.generated.resources.statistics_all
-import reach_your_goal.composeapp.generated.resources.statistics_today
-import reach_your_goal.composeapp.generated.resources.statistics_week
 
 @Composable
 fun ScreenUi(
@@ -37,7 +33,7 @@ fun ScreenUi(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = stringResource(Res.string.statistics_today),
+                text = AppLocale.current.statisticsScreen.dailyStatistics,
                 style = MaterialTheme.typography.titleMedium
             )
 
@@ -51,7 +47,7 @@ fun ScreenUi(
             Spacer(modifier = Modifier.height(20.dp))
 
             Text(
-                text = stringResource(Res.string.statistics_week),
+                text = AppLocale.current.statisticsScreen.weeklyStatistics,
                 style = MaterialTheme.typography.titleMedium
             )
 
@@ -65,7 +61,7 @@ fun ScreenUi(
             Spacer(modifier = Modifier.height(20.dp))
 
             Text(
-                text = stringResource(Res.string.statistics_all),
+                text = AppLocale.current.statisticsScreen.allWeeksStatistics,
                 style = MaterialTheme.typography.titleMedium
             )
 

@@ -12,12 +12,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.javokhir.reachyourgoal.AppLocale
 import com.javokhir.reachyourgoal.presentation.dialog.addTask.TaskCreatorDialog
 import com.javokhir.reachyourgoal.presentation.screen.tasks.mvi.event.ScreenEvent
 import com.javokhir.reachyourgoal.presentation.screen.tasks.mvi.state.ScreenUiState
-import org.jetbrains.compose.resources.stringResource
-import reach_your_goal.composeapp.generated.resources.Res
-import reach_your_goal.composeapp.generated.resources.no_tasks
 
 @Composable
 fun ScreenUi(
@@ -41,7 +39,7 @@ fun ScreenUi(
             contentAlignment = Alignment.Center
         ) {
             if (uiState.tasks.isEmpty()) {
-                Text(stringResource(Res.string.no_tasks))
+                Text(AppLocale.current.errorMessages.noTasksAvailable)
             } else {
                 TaskList(
                     modifier = Modifier.fillMaxSize(),

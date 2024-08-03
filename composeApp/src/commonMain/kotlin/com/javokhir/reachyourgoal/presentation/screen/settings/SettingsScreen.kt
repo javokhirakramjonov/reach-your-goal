@@ -7,7 +7,8 @@ import androidx.compose.runtime.getValue
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
-import com.javokhir.reachyourgoal.presentation.bottomSheet.taskSelectorForWeek.ThemeSelector
+import com.javokhir.reachyourgoal.presentation.bottomSheet.themeSelector.LanguageSelector
+import com.javokhir.reachyourgoal.presentation.bottomSheet.themeSelector.ThemeSelector
 import com.javokhir.reachyourgoal.presentation.screen.settings.mvi.event.ScreenEvent
 import com.javokhir.reachyourgoal.presentation.screen.settings.mvi.ui.ScreenUi
 import com.javokhir.reachyourgoal.theme.MainAppTheme
@@ -30,7 +31,7 @@ class SettingsScreen : Screen {
                         }
 
                         ScreenEvent.Command.OpenLanguageSettings -> {
-                            // Open language settings
+                            bottomSheetNavigator.show(LanguageSelector())
                         }
                     }
                 }
